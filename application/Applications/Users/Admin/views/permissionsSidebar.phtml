@@ -1,0 +1,15 @@
+<div class="sidebarItem float_1">
+            <button class="btn btn-primary fullControll">Full Controll </button>
+</div>
+
+<script>
+$(function(){
+
+
+$('.fullControll').live('click',function(){
+        $('select.perm option[value=1]').attr('selected',true);
+});
+
+});
+</script>
+

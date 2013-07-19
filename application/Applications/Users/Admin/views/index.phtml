@@ -1,0 +1,56 @@
+<?php
+if (sizeof($this->app['usergroupsList']) == 0) {
+
+    echo $this->appendMessage($this->translate('There is no Usergroups'), 'error');
+} else {
+    ?>
+
+
+    <div class="panel clearfix">
+        <div class="content no-pad clearfix">
+            <table class="table" width="100%">
+                <thead>
+                    <tr>
+                        <th width="1">#</th>
+                        <th width="1"><input type='checkbox' class="check_all" rel="usergroup"></th>
+                        <th><?php echo $this->translate('Usergroup name');?></th>
+                        <th width="190"><?php echo $this->translate('action');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->app['usergroupsList'] as $ug_k => $usergroup) { ?>
+                        <tr>
+                            <td><?php echo++$ug_k; ?></td>
+                            <td><input type="checkbox" class="usergroup"></td>
+                            <td><a href='<?php echo $this->app['url'] . 'window/users'; ?>/ugid/<?php echo $usergroup['usergroup_id']; ?>'><?php echo $usergroup['usergroup_name']; ?></a></td>
+                         
+                            <td>
+                                <a href="<?php echo $this->app['url'];?>window/user/do/add/ugid/<?php echo $usergroup['usergroup_id'];?>" title="<?php echo $this->translate('New user');?>">
+                                    
+                                <img src="contents/admin/themes/default/_layout/images/user.png" alt="<?php echo $this->translate('New user');?>"/>
+                                </a>
+                                
+                                <a href="<?php echo $this->app['url'] . 'window/usergroup/do/edit'; ?>/ugid/<?php echo $usergroup['usergroup_id']; ?>" title="<?php echo $this->translate('edit');?>">
+                                    <img src="contents/admin/themes/default/_layout/images/edit.png" alt="<?php echo $this->translate('edit');?>"/>
+                                </a>
+
+                                <a href="<?php echo $this->app['url'];?>window/permissions/ugid/<?php echo $usergroup['usergroup_id'];?>" title="<?php echo $this->translate('Permissions');?>">
+                                    <img src="contents/admin/themes/default/_layout/images/settings.png" alt="<?php echo $this->translate('Permissions');?>"/>
+                                </a>
+
+                                <a href="<?php echo $this->app['url'];?>window/fields/ugid/<?php echo $usergroup['usergroup_id'];?>" title="<?php echo $this->translate('Permissions');?>">
+                                    <?php echo $this->translate('fields');?>
+                                </a>
+
+
+
+                            </td>
+                        </tr>    
+                    <?php } ?>    
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+<?php } ?>

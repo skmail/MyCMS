@@ -1,0 +1,14 @@
+<div class="window abs activeWindow normalWindow"  id="appWindow_<?php echo $this->app['app_id']; ?>">
+    <div class="windowContent">
+        <div id="breadcrumb">
+            <?php  if(isset($this->app['nav'])) echo $this->app['nav']->render(); ?>
+        </div>
+        <div class="content-controlls clear" style="display:block;">
+            <?php echo $this->app['sidebar']; ?>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <?php echo $this->app['body']; ?>
+        </div>
+    </div>
+</div>

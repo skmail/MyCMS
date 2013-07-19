@@ -1,0 +1,5 @@
+mycms/contents/userdata/*
+nbproject/*
+readme.rtf
+.idea/*
+.DS_STORE

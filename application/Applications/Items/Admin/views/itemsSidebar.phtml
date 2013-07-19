@@ -1,0 +1,16 @@
+<div class="sidebarItem float_2">
+    <ul class="itemsStatus nav nav-pills">
+        
+        <?php foreach($this->app['itemsStatuesCats'] as $itemsStatuesCat_k=>$itemsStatuesCat){?>
+         <li <?php if($this->app['itemStatus'] == $itemsStatuesCat_k)  echo 'class="active"'; ?>>
+             <a href="<?php echo $this->app['url'].'window/items';?>/cat_id/<?php echo $this->app['catInfo']['cat_id'];?>/status/<?php echo $itemsStatuesCat_k;?>" 
+         ><?php  echo $this->translate($itemsStatuesCat);?></a></li>
+        <?php }?>
+        
+    </ul>
+</div>
+
+<div class="sidebarItem float_1">
+    <button href="<?php echo $this->app['url'] . 'window/item/do/add/cat_id/'.$this->app['catInfo']['cat_id'];?>" class="btn"><?php echo $this->translate('Add new item');?></button>
+</div>
+

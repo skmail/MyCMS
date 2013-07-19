@@ -1,0 +1,27 @@
+<?php echo $this->doctype();?>
+<html>
+    <head>
+        
+        <base href="<?php echo $this->baseUrl()."/admin/";?>"/>
+        
+        
+        <?php $content_url = $this->baseUrl()."/contents/admin/themes/default/"; ?>
+        <?php echo $this->headMeta();?>
+        <?php echo $this->headTitle();?>
+        <?php echo $this->headLink();?>
+        
+        
+        <link href="<?php echo $content_url; ?>/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $content_url; ?>css/login.css" rel="stylesheet" type="text/css"/>
+
+        
+        
+    </head>
+    <body>
+        
+           
+           <div id="container">
+                <?php echo $this->layout()->content;?>
+           </div>
+    </body>
+</html>

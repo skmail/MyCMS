@@ -1,0 +1,20 @@
+<h4 style="text-align: center;padding:50px 0;">
+    
+    
+    <?php
+        if(isset($this->app['error_messages']))
+            if(is_array($this->app['error_messages'])){
+                foreach($this->app['error_messages'] as $err)
+                    echo $err . "<br>";
+            }else
+                echo "Oops ! Invalid Request or Page Not Found !!";
+            else 
+                echo "Oops ! Invalid Request or Page Not Found !!";
+            
+            
+            
+    ?>
+    
+    
+    
+</h4>

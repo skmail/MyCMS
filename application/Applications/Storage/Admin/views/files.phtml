@@ -1,0 +1,38 @@
+<?php if (!$this->app['files']) { ?>
+    <?php echo $this->appendMessage('There is no Files Uploaded here', 'error'); ?>
+<?php } else { ?>
+<div class="panel clearfix">
+    <div class="content no-pad clearfix">
+        <table class="table" width="100%">
+            <thead>
+                <tr>
+                    <th width="1"><input type="checkbox" class="check_all" rel="files"></th>
+                    <th>Upload Date</th>
+                    <th>File Extension</th>
+                    <th>MIME Type</th>
+                    
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->app['files'] as $file) { ?>
+                    <tr>
+                        <td><input type="checkbox" class="files"></td>
+                        <td>
+                            <a href='<?php echo $this->app['url']; ?>window/files/fileid/<?php echo $file['storage_id']; ?>'>
+                                <?php echo date('Y-m-d h:i A',$file['upload_date']); ?>
+                            </a></td>
+                        <td><?php echo $file['file_ext']; ?></td>
+                        <td><?php //echo App_Storage_Admin_Storage::mime($file['file_ext']); ?></td>
+                        <td><a href="<?php echo $this->app['url']; ?>window/file/do/edit/fileid/<?php echo $file['storage_id']; ?>" >Edit</a>  | 
+                            <a href="<?php echo $this->app['url']; ?>window/file/do/delete/fileid/<?php echo $file['storage_id']; ?>" class="disState">Delete</a></td>
+                    </tr>    
+                <?php } ?>    
+            </tbody>
+            
+        </table>
+    </div>
+
+</div>
+
+<?php } ?>

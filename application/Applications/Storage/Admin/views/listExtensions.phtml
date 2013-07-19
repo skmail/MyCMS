@@ -1,0 +1,27 @@
+<div class="panel clearfix">
+    <div class="content no-pad clearfix">
+        <table class="table" width="100%">
+            <thead>
+                <tr>
+                    <th width="1"><input type="checkbox" class="check_all" rel="ext"></th>
+                    <th>Extension Name  </th>
+                    <th>Files Extensions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->app['extensions'] as $ext) { ?>
+                    <tr>
+                        <td><input type="checkbox" class="ext"></td>
+                        <td><a href='<?php echo $this->app['url']; ?>window/files/by/extension/extid/<?php echo $ext['ext_id']; ?>' class="name"><?php echo $ext['ext_name']; ?></a></td>
+                        <td><?php echo $ext['ext']; ?></td>
+                        <td><a href="<?php echo $this->app['url']; ?>window/extension/do/edit/extid/<?php echo $ext['ext_id']; ?>" >Edit</a>  | 
+                            <a href="<?php echo $this->app['url']; ?>window/extension/do/delete/extid/<?php echo $ext['ext_id']; ?>" class="disState">Delete</a></td>
+                    </tr>    
+                <?php } ?>    
+            </tbody>
+
+        </table>
+    </div>
+
+</div>

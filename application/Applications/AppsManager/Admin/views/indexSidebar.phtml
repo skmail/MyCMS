@@ -1,0 +1,28 @@
+<div class="sidebarItem float_2">
+    <ul class="itemsStatus nav nav-pills">
+        <li class="<?php echo ($this->isActivePage('index')? "active":"");?>">
+            <a href="<?php echo $this->app['url'];?>">
+                <?php echo $this->translate('applications');?>
+            </a>
+        </li>
+        <?php if ($this->isActivePage('index') || $this->isActivePage('uploadApp')){?>
+        <li class="<?php echo (($this->isActivePage('uploadApp'))?"active":"");?>">
+            <a href="<?php echo $this->app['url']."window/uploadApp";?>">
+                <?php echo $this->translate('upload_application');?>
+            </a>
+        </li>
+        <?php } ?>
+        <li class="<?php echo ($this->isActivePage('plugins')?"active":"");?>">
+            <a href="<?php echo $this->app['url']."window/plugins";?>">
+                <?php echo $this->translate('plugins');?>
+            </a>
+        </li>
+        <?php if($this->isActivePage('plugins') || $this->isActivePage('uploadPlugin')){?>
+            <li class="<?php echo ($this->isActivePage('uploadPlugin')?"active":"");?>">
+                <a href="<?php echo $this->app['url']."window/uploadPlugin";?>">
+                    <?php echo $this->translate('upload_plugin');?>
+                </a>
+            </li
+        <?php } ?>
+    </ul>
+</div>

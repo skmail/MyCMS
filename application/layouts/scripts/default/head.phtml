@@ -1,0 +1,29 @@
+<div class="logo"><a href="#"><img src="contents/admin/themes/default/_layout/images/logo.png"/></a></div>
+
+<div class="top_menu dropdown">
+    <a href="#" role="button"    class="disState user-menu dropdown-toggle" data-toggle="dropdown" ></a>
+    <div class="menu-container dropdown-menu" role="menu" aria-labelledby="drop3">
+        <div class="arrow"></div>
+        <ul class="menu-content">
+            <li><a href="#">Visit Website</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="admin/login/logout" class="disAjax">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="top_menu dropdown">
+    <a href="#" role="button"    class="disState language-menu dropdown-toggle" data-toggle="dropdown" ></a>
+    <div class="menu-container dropdown-menu" role="menu" aria-labelledby="drop3">
+        <div class="arrow"></div>
+        <ul class="menu-content">
+            <?php foreach ($this->langSwitcher() as $language){ ?>
+                <li>
+                    <a href="<?php echo $language['url']; ?>" class="disAjax" target="_self">
+                        <?php echo $language['language']; ?>
+                    </a>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+</div>

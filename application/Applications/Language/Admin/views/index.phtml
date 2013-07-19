@@ -1,0 +1,35 @@
+<?php if (!$this->app['languages'])
+{ ?>
+    <?php echo $this->appendMessage('There is no Languages added', 'error'); ?>
+<?php }
+else
+{ ?>
+    <div class="panel clearfix">
+        <div class="content no-pad clearfix">
+            <table class="table" width="100%">
+                <thead>
+                    <tr>
+                    <th width="1"><input type="checkbox" class="check_all" rel="langs"></th>
+                    <th>Language</th>
+                    <th>Shortcut</th>
+                    <th>Language Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <?php foreach ($this->app['languages'] as $lang)
+    { ?>
+                        <tr>
+                        <td><input type="checkbox" class="langs" name="lang_id[]" value="<?php echo $lang['lang_id']; ?>"></td>
+                        <td><a href='<?php echo $this->app['url']; ?>window/language/do/edit/lang_id/<?php echo $lang['lang_id']; ?>' class="name"><?php echo $lang['lang_name']; ?></a></td>
+                        <td><?php echo $lang['short_lang']; ?></td>
+                        <td><?php echo $lang['lang_status'];?></td>  
+    <?php } ?>    
+                </tbody>
+
+            </table>
+            <div class="margin-top-5px">
+                <input type="submit" value="Delete" name="deleteCats" class="btn btn-navbar">
+            </div>
+        </div>
+    </div>
+<?php } ?>

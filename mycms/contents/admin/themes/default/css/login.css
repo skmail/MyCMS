@@ -1,0 +1,54 @@
+#container{
+    position: relative;
+    z-index: 2;
+    width:250px;
+    padding:1em;
+    margin: 150px auto;
+    border:1px solid #e7e7e7;
+    box-shadow:0 0 4px 1px #f6f5f5;
+    background:#f6f5f5
+}
+
+input[type=text],input[type=password]{
+    padding:10px 5px;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+    width:240px;
+    margin-bottom: 15px;
+}
+
+input[type=text]:focus,input[type=password]:focus{
+    box-shadow:0 0 3px 1px #fff;   
+}
+input[type=submit]{
+    background: -moz-linear-gradient(center top , #008aff, #0075db) repeat scroll 0 0 transparent;
+    padding: 1em 1.5em;
+    display: block;
+    width: 40%;
+    color:#fff;
+    border:1px solid #0462b4;
+    box-shadow:0 0 4px 1px #aad4f7;
+    cursor: pointer;
+    border-radius: 2px;
+}
+input[type=submit]:hover{
+    background: -moz-linear-gradient(center top ,#0075db, #008aff) repeat scroll 0 0 transparent;
+}
+.loginForm dd{
+    position: relative;
+}
+
+.loginForm  ul.errors ,.hint{
+    background: none repeat scroll 0 0 #ffd0d0;
+    box-shadow:  0 0 3px 1px #ffd0d0;
+    border:1px solid #ff9c9c;
+    color: red;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-family: tahoma;
+    font-size: 12px;
+}
+
+p.hint{
+    
+}

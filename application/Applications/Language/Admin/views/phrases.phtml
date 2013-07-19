@@ -1,0 +1,54 @@
+<?php if (!$this->app['phrasesNames'])
+{
+
+    ?>
+    <?php echo $this->appendMessage('There is no phrases added to this language', 'error'); ?>
+<?php
+
+}
+else
+{
+
+    ?>
+    <div class="panel clearfix">
+        <div class="content no-pad clearfix">
+            <table class="table" width="100%">
+                <thead>
+                    <tr>
+                    <th width="1"><input type="checkbox" class="check_all" rel="phrase"></th>
+                    <th>Phrase name</th>
+                    <?php foreach($this->app['languages'] as $lang){?>
+                    <th><?php echo $lang['lang_name'];?></th>
+                    <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($this->app['phrasesNames'] as $phrase){?>
+                    <tr>
+                        <td><input type="checkbox" class="langs" name="phrase[]" value="<?php echo $phrase['lang_id']; ?>"></td>
+                        <td><a href='<?php echo $this->app['url']; ?>window/phrase/do/edit/lang_id/<?php echo $phrase['lang_id']; ?>/phrase_name/<?php echo $phrase['phrase_name']; ?>' class="name"><?php echo $phrase['phrase_name']; ?></a></td>
+                        <?php foreach($this->app['languages'] as $lang){?>
+                        <td>
+                            <?php
+                            if(isset($this->app['phrasesValues'][$phrase['phrase_name']][$lang['lang_id']]))
+                            {
+                                echo $this->app['phrasesValues'][$phrase['phrase_name']][$lang['lang_id']]['phrase_value'];
+                            }else
+                            {
+                                echo ' - ';
+                            }
+                            ?>
+                        </td>
+                        <?php } ?>    
+
+                    </tr>
+                    <?php } ?>
+                </tbody>
+
+            </table>
+            <div class="margin-top-5px">
+                <input type="submit" value="Delete" name="deleteCats" class="btn btn-navbar">
+            </div>
+        </div>
+    </div>
+<?php } ?>

@@ -1,0 +1,16 @@
+<div class="float_2">
+    <ul class="nav nav-pills">
+        <?php foreach($this->app['tabs'] as $tab){?>
+         <li  class="<?php echo $tab['active'];?>">
+             <a href="<?php echo $this->app['url'].$tab['url'];?>">
+                 <?php  echo $tab['label'];//$this->translate($itemsStatuesCat);?>
+             </a>
+         </li>
+        <?php }?>
+    </ul>
+</div>
+
+
+<div class="sidebarItem float_1">
+    <button href="<?php echo $this->app['url'] . 'window/phrase/do/add/lang_id/'.$this->app['language']['lang_id'];?>" class="btn">Add New Phrase</button>
+</div>

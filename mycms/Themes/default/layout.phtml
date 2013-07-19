@@ -1,0 +1,95 @@
+ <!DOCTYPE html>
+ <html lang="en" dir="ltr">
+  <head>
+    
+    <meta charset="utf-8">
+    <title>
+        <?php echo $this->translate('site_title');?></title>
+    
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <base href="<?php echo $this->baseUrl(); ?>/">
+        
+        
+        <link href="<?php echo $this->baseUrl(); ?>/themes/default/reset.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo $this->baseUrl(); ?>/contents/assets/grids/960g/960_12_col.css" rel="stylesheet" type="text/css">
+        
+         <link href="<?php echo $this->baseUrl(); ?>/Themes/default/style.css" rel="stylesheet" type="text/css">
+        <?php $content_url = $this->baseUrl() . "/themes/default/"; ?>
+
+      <script src="<?php echo $content_url; ?>js/jquery.js"></script>
+      <script src="<?php echo $content_url; ?>js/js.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                $('#maillist').submit(function(ev){
+                    ev.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        data:$(this).serialize(),
+                        url: $(this).attr('action'),
+                        dataType: "json",
+                        success: function(data){
+
+                            if(data.error){
+                                $('#maillist-results').removeClass('success').addClass('error').html(data.error);
+                            }else if(data.success){
+                                $('#maillist-results').removeClass('error').addClass('success').html(data.success);
+                            }
+                        }
+
+                    });
+                });    
+            });
+            
+        </script>
+    </head>
+    <?php $translate = Zend_Registry::get('Zend_Translate');?>
+    <body>
+    <div class="container_12">
+        <div class="header">
+
+                <div class="logo">
+                    <a href="#" title="<?php echo $translate->translate('site_title');?>"><?php echo $translate->translate('site_title');?></a>
+                </div>
+                <div class="topMenu">
+                    <ul>
+                        <li>
+                            <a href="#" id="showLoginBox" title="<?php echo $translate->translate('login');?>"><?php echo $translate->translate('login');?></a>
+                            <div id="loginBox" class="loginBox">
+                                <div class="arrow"></div>
+                                <div class="input">
+                                    <label>
+                                        <?php echo $translate->translate('username');?>
+                                    </label>
+                                    <input type="text" name="username">
+                                </div>
+                                <div class="input">
+                                    <label>
+                                        <?php echo $translate->translate('password');?>
+                                    </label>
+                                    <input type="password" name="password">
+                                </div>
+                                <div class="submit">
+                                    <span><input type="submit" name="login" value="<?php echo $translate->translate('login');?>"></span>
+                                    <span class="remember_me">
+                                        <input type="checkbox" name="remember_me" id="remember_me" value="1">
+                                        <label for="remember_me"><?php echo $translate->translate('remember_me');?></label>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li class="sep">|</li>
+                        <li>
+                            <a href="#" title="<?php echo $translate->translate('signup');?>"><?php echo $translate->translate('signup');?></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+     <div class="clear"></div>
+                <?php echo $this->plugins->renderGrids(); ?>
+    </body>
+</html>

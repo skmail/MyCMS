@@ -1,0 +1,446 @@
+
+body,a{
+        font-family:tahoma;
+        font-size:12px;
+        text-decoration:none;
+        white-space:nowrap;
+}
+.clear{
+    clear:both;
+}
+
+#container{
+    width:960px;
+    margin:auto;
+    
+}
+
+#notifications{
+    display: none;
+}
+
+
+
+.sidebar{
+    float:left;
+    width:150px;
+    margin-top: 5px;
+}
+
+ul.sidebar li img{
+    width: 16px;
+} 
+
+ul.sidebar li a{
+    color:#000;
+    display:block;
+}
+ul.sidebar li:hover{
+    background: #EFF2F7;
+}
+#topMenu{
+    border-bottom: 1px solid #0075db;
+}
+#topMenu ul li{
+    float:left;
+    margin: 0;
+    position: relative;
+}  
+
+#topMenu ul li:hover > .subMenu{
+    display: block;
+}
+
+#topMenu ul li .subMenu{
+    display: none;
+    min-width:91px;
+    position: absolute;
+    background:#EFF2F7;
+}
+#topMenu ul li .subMenu li{
+    display: block;
+    float:none;
+}
+#topMenu a{
+    color:#0075db;
+    display: block;
+    padding: 3px 5px;
+}
+#topMenu a:hover{
+    color:#fff; 
+    background: #0075db;
+}
+.topLeftMenu{
+    float:left;
+}
+.topRightMenu{
+    float:right;
+}
+
+#mainContent{
+    width:798px;
+    border-left:1px solid #CCCCCC;
+    border-right:1px solid #CCCCCC;
+    border-bottom:1px solid #CCCCCC;
+    float:right;
+    padding:5px;
+}
+
+/*################ Window Settings * #########*/
+ .window .windowContent{
+    position: relative;
+}
+.window .body{
+    float: left;
+    width: 598px;
+}
+
+.hasSidebar{
+   background : #fff    url(../images/miscs/sidebar_bg.png) repeat-y left ;
+}
+.window .sidebar{
+    float: left;
+    width:200px;
+    display: none;
+    margin: 0;
+}
+.window .sidebar .sidebarItem{
+    margin:.5em 0 ;
+    line-height: 1.5;
+    border-bottom: 1px solid #f2eeee;
+}
+.window .sidebar .sidebarItem label{
+    color:#248dd4;
+    font-weight: bold;
+    display: block;
+    padding:0 .5em;
+}
+.window .sidebar .sidebarItem p{
+    padding-left: 10px;
+    font-style: italic;
+    color:#b6b6b6;
+}
+
+.window .sidebar .sidebarItem button{
+    background: -moz-linear-gradient(top, #67b7ff,#4186ed);
+    border:0;
+    border-radius: 3px;
+    padding:5px;
+    float:left;
+    margin:5px 0;
+    color:#fff;
+    cursor: pointer;
+    width:182px;
+}
+.window .sidebar .sidebarItem button:hover  {
+    background: -moz-linear-gradient(top,#4186ed, #67b7ff);
+}
+.window .sidebar .sidebarItem ul li a{
+    display: block;
+    padding:5px ;
+    color:#000;
+}
+
+.window .sidebar .sidebarItem ul li a.active{
+    
+    background: -moz-linear-gradient(top,#008aff, #0075db);
+    color:#fff;
+}
+
+.activeWindow{
+    z-index:11;
+    opacity: 1;
+}
+
+/*######################### Table */
+
+.windowTable{
+    
+    
+}
+.windowTable thead tr th{
+    padding:5px;
+    background: -moz-linear-gradient(top, #67b7ff,#4186ed);
+    text-align: left;
+    color:#fff;
+    font-size:11px;
+    letter-spacing: 1px;
+    font-weight: normal;
+    
+}
+
+
+.windowTable tbody tr{
+    background: -moz-linear-gradient(top,#fcfcfc, #f7f7f7);    
+}
+.windowTable tbody tr:hover{
+    background: -moz-linear-gradient(top,#fff, #f0eeee);    
+}
+
+
+.windowTable tbody tr td{
+    padding:5px;
+}
+
+
+.windowTable tbody tr td , .windowTable tbody tr td{
+    font-size: 12px;
+    font-family: tahoma;
+}
+.windowTable tbody tr td a{
+    color:#575757;
+}
+.windowTable tbody tr td a:hover{
+    text-decoration: underline;
+}
+
+
+.windowTable_tbody_tr_focus td{
+    background: -moz-linear-gradient(top,#fff, #fffad7);  
+}
+
+.windowTable_tbody_tr_checked_td td{
+    background: -moz-linear-gradient(top,#fff, #ebf5ff);  
+}
+/************** Form & Inputs **********************/
+.window form{
+    padding:.5em;
+}
+
+.window .body form input[type=text],.window .body form textarea ,.window .body form select{
+    border:1px solid #e7e7e7;
+    width:300px;
+    padding:6px 4px;
+    border-radius: 2px;
+}
+
+.window .body form input.submit{
+    padding:.5em 1em;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #008aff, #0075db);
+    color: #fff;
+    cursor: pointer;
+}
+
+.window .body form input.submit:hover{
+    background: -moz-linear-gradient(top,#0075db, #008aff);
+}
+.windowForm input[type=text]:focus,.windowForm textarea:focus {
+    
+    box-shadow: 0 0 3px 0 #e7e7e7;
+}
+
+
+
+.windowForm dt{
+    padding:5px;
+}
+
+.windowForm dd{
+    margin:0 0 0 10px;
+}
+
+
+
+/*############### Message Box ############################## */
+
+
+.messageBox{
+    margin: 1em;
+}
+
+.messageBox .box{
+    padding:.5em;
+    border-radius:3px;
+    font-weight: bold;
+}
+.messageBox .error{
+    border:1px solid red;
+    background:#ffefef;
+    color:#de0000;
+}
+.messageBox .success{
+    border:1px solid #387e05;
+    background:#f1ffe7;
+    color:#387e05;
+}
+
+
+/*############# Breadcrumb #############*/
+
+
+.window .breadcrumb{
+    background: #f8f8f8;
+    padding-left: 10px;
+    border-bottom: 1px solid #fff;
+}
+.window .breadcrumb ul li{
+    float:left;
+}
+.window .breadcrumb ul li a{
+    display: block;
+}
+.window .breadcrumb ul li.sep,.window .breadcrumb ul li a{
+    background: -moz-linear-gradient(top, #008aff, #0075db);
+    
+    color: #FFFFFF;
+    font-size: 12px;
+    margin: 4px 0;
+    padding: 4px 5px;
+    text-shadow: 1px 1px 0 #1f5cbf;
+}
+
+.window .breadcrumb ul li a:hover{
+    background: -moz-linear-gradient(top, #0075db,#008aff);
+    
+}
+
+.window .breadcrumb ul li:first-child a {
+    border-radius:5px 0 0 5px ;
+}
+.window .breadcrumb ul li:last-child a{
+    border-radius:0 5px 5px 0 ;
+    border-right:1px solid #c3c3c3; 
+}
+
+
+.window .breadcrumb ul li.sep{
+        background: -moz-linear-gradient(top, #137bf3,#0f5bb7);
+        color:#fff;
+}
+
+
+/*######### Notifications ###########*/
+
+#notifications{
+    right:-249px;
+    bottom: 80px;
+    padding-top: 80px;
+    width:250px;
+    background: #2d2d2d;
+    height: 100%;
+    border-left:1px solid #3d3d3d;
+    box-shadow: 0 0  10px 0 #000;
+    background: -moz-linear-gradient(top, #363636,#212121);
+}
+
+#notifications ul{
+    position: relative;
+    top:85px;
+}
+
+#notifications ul li{
+    color:#fff;
+    padding:.5em;
+    border-bottom:1px solid #3d3c3c;
+    white-space:normal; 
+}
+#notifications ul li:last-child{
+    border-bottom: 0;
+}
+#notifications ul li:hover{
+    background:#373636;
+}
+
+#notifications ul li strong{
+    color:#f8fad6;
+}
+#notifications ul li p{
+    float:right;
+    font-size:10px;
+}
+
+#notifications .controll .show{
+    float: left;
+    width: 36px;
+    height: 36px;
+    background : url(../images/icons/to_left_36_36.png) no-repeat;
+}
+#notifications .controll .hide{
+    float:left;
+    display:none;
+    width: 36px;
+    height: 36px;
+    background : url(../images/icons/to_right_36_36.png) no-repeat;
+}
+
+#notifications .controll{
+    bottom: 0;
+    left: -35px;
+    padding: 0.5em;
+    position: absolute;
+}
+
+.notificationInnerContainer{
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+}
+
+
+/*########### Overlay #########*/
+
+.overlay{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .4;
+}
+
+
+/*#################### Window Grid ############################*/
+
+
+.windowGrid .item{
+    float:left;
+    margin:10px;
+    position:relative;
+    border:1px solid #B2B2B2;
+    overflow: hidden;
+}
+
+.windowGrid .item a{
+    display: block;
+    font-size: 0;
+}
+.windowGrid .item .controll{
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+}
+.windowGrid .item .controll a{
+    color:#fff;
+    margin:7px 5px;
+    float:left;
+    font-size: 12px;
+}
+.windowGrid .item .controll a:hover{
+    text-decoration: underline;
+}
+
+.trans{
+    background:#000;
+    opacity: .7;
+    color:#fff;
+}
+
+
+.window .body .headTitle{
+    padding:5px;
+    background: #F2F2F2;
+    clear:both;
+    color:#68798B;
+    border-bottom: 1px solid #EFEFEF;
+}
+
+
+
+.window .body .headTitle p{
+    float: left;
+    
+}

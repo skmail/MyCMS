@@ -1,0 +1,783 @@
+
+body,a{
+        font-family:tahoma;
+        font-size:12px;
+        text-decoration:none;
+        white-space:nowrap;
+}
+body{
+        overflow:hidden;
+}
+.rel{
+        position:relative;
+}
+.abs{
+        position:absolute;
+        top:auto;
+        bottom:auto;
+        left:auto;
+        right:auto;
+}
+.clear{
+    clear:both;
+}
+#container{
+        width:100%;
+        height:100%;
+        top:0;
+        left: 0;
+        right:0;
+        bottom: 0;
+}
+
+/**************************
+* 	Menu Styles
+**************************/
+
+#topMenu{
+
+        background: -moz-linear-gradient(top, #fff, #e7e7e7);
+        border-bottom:1px solid #fff;
+        height:30px;
+        width:100%;
+        z-index:5;
+        left:0;
+        top:0;
+        box-shadow: 0 2px 3px 0 #7f7f7f;
+        list-style:none;
+
+}
+
+#topMenu li {
+        line-height:30px;
+}
+#topMenu  li a{
+        display:block;
+        color:#656565;
+        padding:0 5px;
+}
+
+#topLeftMenu  li{
+        display:block;
+        float:left;
+}
+
+#topMenu  li.active ul.subMenu li a{
+        padding:0 5px;
+        color:#656565;
+}
+ 
+#topMenu ul.active li.active , #topMenu ul.active li.active ul.subMenu li:hover a{
+    background: -moz-linear-gradient(top, #008aff, #0075db);
+    color:#fff;
+}
+#topMenu ul.active li.active:hover > a , #topMenu ul.active li.active  a{
+    color:#fff;
+}
+
+
+#topMenu  li ul.subMenu{
+        display:none;
+        min-width:130px;
+        background: -moz-linear-gradient(top, #fff, #e7e7e7);
+        border-radius:0 0 3px 3px;
+        overflow: hidden;
+}
+#topLeftMenu  li ul.subMenu li{
+        float:none;
+        display:block;
+}
+
+.topRightMenu{
+        float:right;
+}
+
+/*****************************
+* Desktop Elements
+*****************************/
+.background{
+        width:100%;
+        height:100%;
+        z-index:0;
+        position:fixed;
+}
+#desktop{
+        top:32px;
+        left:0;
+        right:0;
+        bottom:0;
+        z-index:2;
+}
+
+
+#desktop .icons li{
+    position:absolute;
+}
+
+.window .icons li{
+    position:relative;
+}
+.icons li{
+        display: block;
+        text-align:center;
+        width:65px;
+        height: 65px;
+        padding:5px;
+}
+
+.icons_li_focus{
+    color: #fff
+}
+.icons li a{
+        border:1px solid transparent;
+        display:block;
+        border-radius: 5px;
+        padding:5px;
+        text-shadow:0 0 10px #000;
+}
+.icons li a:hover{
+        text-shadow:0 0 10px #fff;    
+}
+.icons li a img{
+        width:42px;
+        height:42px;
+}
+.icons  li a label{
+        display:block;                
+        margin-top:5px;
+        color:#fff;
+}
+
+.openWindowLoading{
+    background : #fff url(../images/miscs/openWindowLoading.gif) no-repeat center 2px;
+    border-radius: 3px 3px 3px 3px;
+    bottom: 25px;
+    height: 16px;
+    padding: 2px;
+    position: absolute;
+    right: 12px;
+    width: 16px;
+
+}
+/*********** Windows ***********/
+
+.window{
+    z-index: 10; 
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 5px 0 #c2c0c0;
+    opacity: .85;
+    background:#fff;   
+}
+
+.normalWindow{
+    top: 20px;
+    left:30px;
+    width: 700px;
+    
+}
+
+.normalWindow .body{
+    height: 300px;
+}
+.maxiWindow{
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+}
+
+.window .head{
+    background: -moz-linear-gradient(top, #fff, #e7e7e7);
+    height: 20px;    
+    position: relative;
+}
+.window .head .title{
+    
+    margin-left:5px;
+    font-size: 11px;
+    margin-top: 2px;
+    color:#706f6f;
+    text-align: center;
+    text-shadow: 2px 0 0 #ffffff;
+}
+
+.window .head .headButtons {
+    float:right;
+    width: 120px;
+    position: absolute;
+    top: 0;
+    right:0;
+}
+
+.window .head .headButtons div{
+    float:right;
+    margin:0 5px;
+    padding: 1px 3px;
+    border-radius: 0 0 2px 2px;
+    color:#fff;
+    cursor: pointer;
+}
+.window .head .headButtons .closeWindow {
+    background: -moz-linear-gradient(top, #fff, #d32e2e);
+}
+.window .head .headButtons .closeWindow:hover{
+    background: -moz-linear-gradient(top, #d32e2e, #fff);
+}
+.window .head .headButtons .miniWindow{
+    background: -moz-linear-gradient(top, #fff, #248dd4);
+}
+.window .head .headButtons .miniWindow:hover{
+    background: -moz-linear-gradient(top, #248dd4, #fff);
+}
+.window .head .headButtons .maxWindow , .window .head .headButtons .restWindow {
+    background: -moz-linear-gradient(top, #fff, #08a700);
+}
+.window .head .headButtons .maxWindow:hover,.window .head .headButtons .restWindow:hover{
+    background: -moz-linear-gradient(top, #08a700, #fff);
+}
+.window .head .headButtons .restWindow{
+    display:none;
+}
+.window .menubar{
+    height: 35px;
+    background: #f8f8f8;
+    padding-left: 10px;
+    border-bottom: 1px solid #fff;
+}
+.window .menubar li{
+    float: left;
+}
+
+.window .menubar li a{
+    padding: 2px 5px;
+    line-height: 20px;
+    display:block;
+    float:left;
+    color: #7c7c7c;
+    background: -moz-linear-gradient(top, #fff, #e4e4e4);
+    margin:4px 0 0 0;
+    border:1px solid #c3c3c3;
+    border-right: 0;
+    text-shadow: 1px 1px #fff;
+}
+.window .menubar  li a:hover{
+    box-shadow: 0 0 3px 0 #d1cfcf;
+    color:#424141;
+}
+.window .menubar li a.focusedMenubar{
+        background: -moz-linear-gradient(top,#e4e4e4, #fff);
+
+}
+.window .menubar li:first-child  a{
+    border-radius:5px 0 0 5px ;
+}
+.window .menubar li:last-child a {
+    border-radius:0 5px 5px 0 ;
+    border-right:1px solid #c3c3c3; 
+}
+.window .menubar li{
+    position: relative;
+}
+.window .menubar li div.subMenu{
+    position: absolute;
+    min-width: 150px;
+    background: -moz-linear-gradient(top,#fff,#e4e4e4);
+    top:30px;
+    padding-top:5px;
+    color:#fff;
+    z-index: 1;
+    border-radius:0 0 5px 5px;
+    display: none;
+    border: 1px solid #e7e7e7;
+    box-shadow:  0 4px 5px 0 #716f6f;
+}
+
+
+.window .menubar li div.subMenu li {
+  display: block;
+  float:none;    
+}
+
+.window .menubar li div.subMenu li a{
+  background: none;
+  border:0;
+  border-radius:0;
+  float: none;
+}
+
+.window .menubar li div.subMenu li a:hover{
+    border:0;
+    box-shadow:none;
+    background: -moz-linear-gradient(top,#fff,#d8d8d8);
+}
+.window .toolbar{
+    height:25px;
+    background: #f8f8f8;
+    padding-left: 10px;
+    border-bottom: 1px solid #fff;
+}
+.window .toolbar a{
+    line-height: 25px;
+    float:left;
+    padding:0 5px;
+}
+
+.window .toolbar a.prevWindow{
+    display: block;
+    height: 25px;
+}
+
+.toolbarButtonDisabled{
+    opacity: .6;
+}
+.window .toolbar a .icon{
+    margin-top: 5px;
+    height:16px;
+    width:16px;
+    float:left;
+}
+
+.window .toolbar a.prevWindow .icon{
+    background: url("../images/icons/prevWindow.png") no-repeat ;
+}
+.window .toolbar a.refresh .icon{
+    background: url("../images/icons/refresh.png") no-repeat ;
+}
+.window .toolbar a label{
+    float:left;
+    padding-left:5px;
+    color:#000;
+    cursor: pointer;
+}
+
+.window .windowContent{
+    position: relative;
+    height: 300px;
+    padding-bottom: 20px;
+}
+.window .body{
+    height: 100%;
+    background:#fff;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.windowBodyInsideSidebar .body
+{
+   margin-left: 201px;
+}
+.hasSidebar{
+   background : #fff    url(../images/miscs/sidebar_bg.png) repeat-y left ;
+}
+.window .sidebar{
+    float: left;
+    width:200px;
+}
+.window .sidebar .sidebarItem{
+    margin:.5em 0 ;
+    line-height: 1.5;
+    border-bottom: 1px solid #f2eeee;
+}
+.window .sidebar .sidebarItem label{
+    color:#248dd4;
+    font-weight: bold;
+    display: block;
+    padding:0 .5em;
+}
+.window .sidebar .sidebarItem p{
+    padding-left: 10px;
+    font-style: italic;
+    color:#b6b6b6;
+}
+
+.window .sidebar .sidebarItem button{
+    background: -moz-linear-gradient(top, #67b7ff,#4186ed);
+    border:0;
+    border-radius: 3px;
+    padding:5px;
+    float:left;
+    margin:5px 0;
+    color:#fff;
+    cursor: pointer;
+    width:182px;
+}
+.window .sidebar .sidebarItem button:hover  {
+    background: -moz-linear-gradient(top,#4186ed, #67b7ff);
+}
+.window .sidebar .sidebarItem ul li a{
+    display: block;
+    padding:5px ;
+    color:#000;
+}
+
+.window .sidebar .sidebarItem ul li a.active{
+    
+    background: -moz-linear-gradient(top,#008aff, #0075db);
+    color:#fff;
+}
+
+.activeWindow{
+    z-index:11;
+    opacity: 1;
+}
+.window .footer{
+    background: -moz-linear-gradient(top, #fff, #e7e7e7);
+    height: 20px;
+    line-height: 20px;
+    position:absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.window .footer .resize{
+    background : url(../images/miscs/resizeWindow.png) no-repeat;
+    width:16px;
+    height:15px;
+    cursor: pointer;
+    float:right;
+    margin-right:3px;
+}
+
+
+/*############## Dock Bar ##################*/
+
+#dockBar{
+    max-width:300px;
+    right:10px;
+    bottom:10px;
+    background:#000;
+    opacity:.7;
+    border-radius:2px;
+    z-index: 20;
+    padding: 0 ;
+    
+}
+#dockBar > ul {
+    margin: auto;
+    
+}
+#dockBar li{
+    display:block;   
+    background: #323232;;
+    border-radius: 2px;
+    text-align: center;
+    padding:5px;
+    margin:5px 0 5px 5px;
+    float:right;
+}
+#dockBar li:first-child{
+    margin-right: 5px;
+}
+#dockBar li:last-child{
+    
+}
+#dockBar li:hover ,#dockBar li.activeDock{   
+    background: #6f6f6f;
+}
+#dockBar li a{
+    display: block;
+    clear:both;
+    height:40px;    
+}
+#dockBar li a img{
+    width: 40px;
+    height:40px;
+}
+
+
+
+
+/*############## Window Elements */
+
+/*######################### Table */
+
+.windowTable{
+    width:100%;
+}
+.windowTable thead tr th{
+    padding:5px;
+    background: -moz-linear-gradient(top, #67b7ff,#4186ed);
+    text-align: left;
+    color:#fff;
+    font-size:11px;
+    letter-spacing: 1px;
+    font-weight: normal;
+    
+}
+
+
+.windowTable tbody tr{
+    background: -moz-linear-gradient(top,#fcfcfc, #f7f7f7);    
+}
+.windowTable tbody tr:hover{
+    background: -moz-linear-gradient(top,#fff, #f0eeee);    
+}
+
+
+.windowTable tbody tr td{
+    padding:5px;
+}
+
+
+.windowTable tbody tr td , .windowTable tbody tr td{
+    font-size: 12px;
+    font-family: tahoma;
+}
+.windowTable tbody tr td a{
+    color:#575757;
+}
+.windowTable tbody tr td a:hover{
+    text-decoration: underline;
+}
+
+
+.windowTable_tbody_tr_focus td{
+    background: -moz-linear-gradient(top,#fff, #fffad7);  
+}
+
+.windowTable_tbody_tr_checked_td td{
+    background: -moz-linear-gradient(top,#fff, #ebf5ff);  
+}
+/************** Form & Inputs **********************/
+.window form{
+    padding:.5em;
+}
+
+.window .body form input[type=text],.window .body form textarea ,.window .body form select{
+    border:1px solid #e7e7e7;
+    width:300px;
+    padding:6px 4px;
+    border-radius: 2px;
+}
+
+.window .body form input.submit{
+    padding:.5em 1em;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #008aff, #0075db);
+    color: #fff;
+    cursor: pointer;
+}
+
+.window .body form input.submit:hover{
+    background: -moz-linear-gradient(top,#0075db, #008aff);
+}
+.windowForm input[type=text]:focus,.windowForm textarea:focus {
+    
+    box-shadow: 0 0 3px 0 #e7e7e7;
+}
+
+
+
+.windowForm dt{
+    padding:5px;
+}
+
+.windowForm dd{
+    margin:0 0 0 10px;
+}
+
+
+
+/*############### Message Box ############################## */
+
+
+.messageBox{
+    margin: 1em;
+}
+
+.messageBox .box{
+    padding:.5em;
+    border-radius:3px;
+    font-weight: bold;
+}
+.messageBox .error{
+    border:1px solid red;
+    background:#ffefef;
+    color:#de0000;
+}
+.messageBox .success{
+    border:1px solid #387e05;
+    background:#f1ffe7;
+    color:#387e05;
+}
+
+
+/*############# Breadcrumb #############*/
+
+
+.window .breadcrumb{
+    background: #f8f8f8;
+    padding-left: 10px;
+    border-bottom: 1px solid #fff;
+}
+.window .breadcrumb ul li{
+    float:left;
+}
+.window .breadcrumb ul li a{
+    display: block;
+}
+.window .breadcrumb ul li.sep,.window .breadcrumb ul li a{
+    background: -moz-linear-gradient(top, #008aff, #0075db);
+    
+    color: #FFFFFF;
+    font-size: 12px;
+    margin: 4px 0;
+    padding: 4px 5px;
+    text-shadow: 1px 1px 0 #1f5cbf;
+}
+
+.window .breadcrumb ul li a:hover{
+    background: -moz-linear-gradient(top, #0075db,#008aff);
+    
+}
+
+.window .breadcrumb ul li:first-child a {
+    border-radius:5px 0 0 5px ;
+}
+.window .breadcrumb ul li:last-child a{
+    border-radius:0 5px 5px 0 ;
+    border-right:1px solid #c3c3c3; 
+}
+
+
+.window .breadcrumb ul li.sep{
+        background: -moz-linear-gradient(top, #137bf3,#0f5bb7);
+        color:#fff;
+}
+
+
+/*######### Notifications ###########*/
+
+#notifications{
+    right:-249px;
+    bottom: 80px;
+    padding-top: 80px;
+    width:250px;
+    background: #2d2d2d;
+    height: 100%;
+    border-left:1px solid #3d3d3d;
+    box-shadow: 0 0  10px 0 #000;
+    background: -moz-linear-gradient(top, #363636,#212121);
+}
+
+#notifications ul{
+    position: relative;
+    top:85px;
+}
+
+#notifications ul li{
+    color:#fff;
+    padding:.5em;
+    border-bottom:1px solid #3d3c3c;
+    white-space:normal; 
+}
+#notifications ul li:last-child{
+    border-bottom: 0;
+}
+#notifications ul li:hover{
+    background:#373636;
+}
+
+#notifications ul li strong{
+    color:#f8fad6;
+}
+#notifications ul li p{
+    float:right;
+    font-size:10px;
+}
+
+#notifications .controll .show{
+    float: left;
+    width: 36px;
+    height: 36px;
+    background : url(../images/icons/to_left_36_36.png) no-repeat;
+}
+#notifications .controll .hide{
+    float:left;
+    display:none;
+    width: 36px;
+    height: 36px;
+    background : url(../images/icons/to_right_36_36.png) no-repeat;
+}
+
+#notifications .controll{
+    bottom: 0;
+    left: -35px;
+    padding: 0.5em;
+    position: absolute;
+}
+
+.notificationInnerContainer{
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+}
+
+
+/*########### Overlay #########*/
+
+.overlay{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .4;
+}
+
+
+/*#################### Window Grid ############################*/
+
+
+.windowGrid .item{
+    float:left;
+    margin:10px;
+    position:relative;
+    border:1px solid #B2B2B2;
+    overflow: hidden;
+}
+
+.windowGrid .item a{
+    display: block;
+    font-size: 0;
+}
+.windowGrid .item .controll{
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+}
+.windowGrid .item .controll a{
+    color:#fff;
+    margin:7px 5px;
+    float:left;
+    font-size: 12px;
+}
+.windowGrid .item .controll a:hover{
+    text-decoration: underline;
+}
+
+.trans{
+    background:#000;
+    opacity: .7;
+    color:#fff;
+}
+
+
+.window .body .headTitle{
+    padding:5px;
+    background: #F2F2F2;
+    clear:both;
+    color:#68798B;
+    border-bottom: 1px solid #EFEFEF;
+}
+
+
+
+.window .body .headTitle p{
+    float: left;
+    
+}

@@ -1,0 +1,40 @@
+ <?php if(sizeof($this->app['mailsGroup']) == 0){
+    
+ echo   $this->appendMessage('There is no emails Group','error');
+   
+}else{
+    
+?>
+
+    <div class="panel clearfix">
+        <div class="content no-pad clearfix">
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1">#</th>
+            <th width="1"><input type='checkbox' class="check_all" rel="page"></th>
+            <th>Page name</th>
+            <th width="100">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->app['pages'] as $pageK=>$page) { ?>
+            <tr>
+                <td><?php echo ++$pageK;?></td>
+                <td><input type="checkbox" class="page"></td>
+                <td><a href="<?php echo $this->app['url'];?>window/page/do/edit/pageid/<?php echo $page['page_id'];?>" class="deletePage"><?php echo $page['page_name']; ?></a></td>
+                <td>
+                    <a href="<?php echo $this->app['url'];?>window/page/do/edit/pageid/<?php echo $page['page_id'];?>" class='editPage'>Edit</a> 
+                    |
+                    <a href="<?php echo $this->app['url'];?>window/savePage/do/delete/pageid/<?php echo $page['page_id'];?>" class='deletePage'>Delete</a> 
+                </td>
+            </tr>    
+            
+       
+        <?php } ?>    
+    </tbody>
+
+</table>
+        </div>
+    </div>
+<?php } ?>

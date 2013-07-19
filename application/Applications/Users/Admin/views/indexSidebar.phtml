@@ -1,0 +1,19 @@
+<div class="sidebarItem float_1">
+    <button class="btn" href="<?php echo $this->app['url'];?>window/usergroup/do/add"><?php echo $this->translate('Add new users group');?></button>
+</div>
+
+
+<div class="sidebarItem float_2">
+    <ul class="itemsStatus nav nav-pills">
+        <li class="<?php if($this->app['currentPage'] == 'index')echo 'active';?>">
+            <a href="<?php echo $this->app['url'];?>">
+                <?php  echo $this->translate('users');?>
+            </a>
+        </li>
+        <li class="<?php if($this->app['currentPage'] == 'pages')echo 'active';?>">
+            <a href="<?php echo $this->app['url'];?>window/pages">
+                <?php  echo $this->translate('pages');?>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,163 @@
+.floatRight{
+    float:right;
+}
+.floatLeft{
+    float:left;
+}
+.margin-left-5{
+    margin-left:5px;
+}
+.logo a{
+    float:left;
+}
+
+.textAlign{
+    text-align: left !important;
+}
+
+#sidebar ul li  ul li a{
+    padding-left:35px;
+}
+
+
+
+#sidebar ul li a img{
+    float:left;
+}
+.form-element .form-label{
+    float:left;
+}
+
+
+
+
+table.windowTable {
+    text-align: left;
+}
+
+.heading_1{
+    text-align: left;
+}
+.popup-info span {
+    margin-left:5px;
+}
+.popup-info img {
+    float: left
+}
+.popup-accept span ,.popup-success span {
+    margin-left:5px;
+}
+
+.popup-warning span {
+    margin-left:5px;
+}
+.popup-warning img {
+    float: left
+}
+.popup-error span {
+    margin-left:5px;
+}
+.popup-error img {
+    margin: 10px 8px 0 10px;
+    float: left
+}
+/*############ Data Grid */
+.windowGrid .item .controll a{
+    float:left;
+}
+/*########## Search Form */
+.topSearchForm{
+    float:left;
+    margin-left: 20px;
+}
+.welcome{
+    float: right;
+    margin:0 10px 0 0;
+}
+.sidebarTabs li{
+    float:left;
+}
+.welcome ul{
+    float:right;
+}
+
+.welcome ul.dropdown-menu{
+    left: -31px;
+}
+a.show-profile-settings-list-anchor{
+    float: right;
+    margin-left: 10px;
+}
+ul.icons li{
+    float:left;
+}
+#inner-content table.form-element  td .form-label {
+    padding-right:5px;
+    padding-left:5px;
+}
+
+/*######################### popup ####################*/
+
+#popupOverlay{
+    left:0;
+}
+#popupContent{
+    left:0;
+}
+#popupContent .popupHead .popupClose{
+    float:right;
+}
+#popupContent .popupHead p{
+    float:left;
+}
+.tabs-no-bg .tab-content{
+    border:0;
+    padding: 1em 0 ;
+}
+.popUpResultRow .closeThis{
+    float: left;
+}
+.popUpResultRow .rowContent{
+    margin-left: 26px;
+}
+#postImagesContainer .image{
+    float:left;
+}
+#postImagesContainer .imageControlls a{
+    float: left;
+}
+.applicationsList .segment{
+    margin:0 0 0 10px;
+}
+
+
+.form-inline-elements-title small{
+    margin-left: 5px;
+}
+.form-inline-elements-element{
+    float:left;
+}
+.form-inline-elements-content{
+    padding:5px 0 0 0;
+}
+.form-inline-elements-element label.form-label{
+    padding:0 10px 0 5px;
+}
+
+.info_box{
+    position: relative;
+}
+
+.info_box .info_box_link{
+    float:left;
+    margin:2px 5px 0 3px ;
+
+}
+.info_box .info_box_content_arrow{
+    left:7px;
+}
+
+
+.textAlign{
+    text-align: left !important;
+}

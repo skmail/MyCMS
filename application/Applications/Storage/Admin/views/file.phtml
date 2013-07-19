@@ -1,0 +1,52 @@
+<?php $pluginUrl = 'contents/admin/themes/default/js/jquery.plugins/uploader/';?>
+<link href="<?php echo $pluginUrl;?>/fineuploader.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $pluginUrl;?>js/header.js"></script>
+<script src="<?php echo $pluginUrl;?>js/util.js"></script>
+<script src="<?php echo $pluginUrl;?>js/button.js"></script>
+<script src="<?php echo $pluginUrl;?>js/handler.base.js"></script>
+<script src="<?php echo $pluginUrl;?>js/handler.form.js"></script>
+<script src="<?php echo $pluginUrl;?>js/handler.xhr.js"></script>
+<script src="<?php echo $pluginUrl;?>js/uploader.basic.js"></script>
+<script src="<?php echo $pluginUrl;?>js/dnd.js"></script>
+<script src="<?php echo $pluginUrl;?>js/uploader.js"></script>
+<script src="<?php echo $pluginUrl;?>js/jquery-plugin.js"></script>
+<script src="<?php echo $pluginUrl;?>uploader-demo-jquery.js"></script>
+
+<div class="tabs-no-bg">
+    <ul id='myTab' class='nav nav-tabs'>
+        <li class='active'><a href='#upload_from_computer' class='disAjax noRedirect ' data-toggle='tab'>Upload From Computer</a></li>
+        <li><a href='#upload_from_url' class='disAjax noRedirect ' data-toggle='tab'>Upload From URL</a></li>
+        <?php if (in_array('library', $this->app['include_tabs'])) { ?>
+            <li><a href='#files_in_library' class='disAjax noRedirect ' data-toggle='tab'>Files In Library</a></li>
+        <?php } ?>
+    </ul>
+    <div class='tab-content'>
+        <div class='tab-pane active' id='upload_from_computer'>
+            
+                <div id="fubUploadButton" class="btn btn-primary"><div>Select Files</div></div>
+                
+                <select id="group_id" id="storage_group_id" name="group_id">
+                    <?php foreach($this->app['groupsList'] as $group){?>
+                        <option label="<?php echo $group['group_id'];?>" value="1"><?php echo $group['group_name'];?></option>
+                    <?php } ?>
+                    <option label="Images" value="2">Images</option>
+                </select>
+
+            
+            <?php //echo $this->app['fileForm']; ?>
+        </div>
+        <div class='tab-pane' id='upload_from_url'>
+            <?php echo $this->app['uploadFileByUrlForm']; ?>
+        </div>
+        <?php if (in_array('library', $this->app['include_tabs'])) { ?>
+            <div class='tab-pane' id='files_in_library'>
+                <?php echo $this->app['filesLibraryGrid']; ?>
+            </div>
+        <?php } ?>
+        
+        <div id="uploadResults">
+            <ul id="uploadWithVariousOptionsExample" class="unstyled"></ul>
+        <input type="button" id="addFilesToPost" value="Add images to post" class="btn btn-primary">
+        </div>
+    </div>
+</div>

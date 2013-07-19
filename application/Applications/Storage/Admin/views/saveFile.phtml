@@ -1,0 +1,21 @@
+<?php
+    header("Content-Type: text/plain");
+    echo json_encode($this->app['output']);
+
+die();
+?>
+
+
+<?php if(count($this->app['result']) > 0) foreach ($this->app['result'] as $file) { ?>
+    
+
+<tr class="popUpResultRow ">
+        <td><a href='#' class="closeThis">x</a></td>
+        <td valign="middle" align="center"><input type="checkbox" class="uploaded_file" value="<?php echo $file['storage_id'] ;?>"></td>
+        <td title="<?php echo $file['full_name'];?>"><?php echo $file['name'];?></td>
+        <td class="gray-color"><?php echo $file['size'];?></td>
+        <td class="gray-color"><?php echo $file['type'];?></td>
+        <td class="gray-color"><?php echo $file['upload_date'];?></td>
+        <td class="gray-color" align="center"><a href="<?php echo $file['url'];?>"  class="disAjax fileLink" target="_blank">Download</a></td>
+    </tr>
+<?php } ?>

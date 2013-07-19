@@ -1,0 +1,44 @@
+<?php
+if (sizeof($this->app['itemsList']) == 0) {
+    echo $this->appendMessage($this->translate('There is no items for this category'), 'error');
+} else {
+    ?>
+    <form method="post" action="admin/ajax/window/id/appWindow_<?php echo $this->app['app_id']; ?>/window/deleteItem">
+        <div class="panel clearfix">
+            <div class="content no-pad clearfix">
+                <table class="table" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="1">#</th>
+                            <th width="1"><input type='checkbox' class="check_all" rel="item"></th>
+                            <th><?php echo $this->translate('Post Title');?></th>
+                            <th width="100"><?php echo $this->translate('Auther');?></th>
+                            <th width="100"><?php echo $this->translate('Publish Date');?></th>
+                            <th width="10"><?php echo $this->translate('Status');?></th>
+                            <th width="10"><?php echo $this->translate('action');?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->app['itemsList'] as $item_k => $item) { ?>
+                            <tr>
+                                <td><?php echo++$item_k; ?></td>
+                                <td><input type="checkbox" class="item" name="item[]" value="<?php echo $item['item_id']; ?>"></td>
+                                <td><a href='<?php echo $this->app['url'] . 'window/item/do/edit'; ?>/itemid/<?php echo $item['item_id']; ?>' class="openItem"><?php echo $item['item_title']; ?></a></td>
+                                <td><?php echo $item['auther']; ?> Solaiman Kmail</td>
+                                <td><?php echo date('Y-m-d h:i', $item['publish_date']); ?></td>
+                                <td><?php echo $item['item_status']; ?></td>
+                                <td>
+                                    <a href='<?php echo $this->app['url'] . 'window/saveItem/do/deleteItem'; ?>/itemid/<?php echo $item['item_id']; ?>' class="disState" title="<?php echo $this->translate('delete');?>">
+                                        <img src="contents/admin/themes/default/_layout/images/delete.png" alt="<?php echo $this->translate('delete');?>">
+                                    </a></td>
+                            </tr>    
+                        <?php } ?>    
+                    </tbody>
+                </table>
+                <div class="margin-top-5px">
+                    <input type="submit" value="<?php echo $this->translate('delete');?>" name="deleteItems" class="btn btn-navbar">
+                </div>
+            </div>
+        </div>
+    </form>
+<?php } ?>

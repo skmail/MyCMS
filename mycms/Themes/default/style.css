@@ -1,0 +1,188 @@
+@font-face {
+    font-family: 'Carrois Gothic SC';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Carrois Gothic SC'), local('CarroisGothicSC-Regular'), url(http://themes.googleusercontent.com/static/fonts/carroisgothicsc/v1/bVp4nhwFIXU-r3LqUR8DSJDLFmdXetBaxVj2IReX7o0.woff) format('woff');
+}
+
+
+
+.clear{
+    clear:both;
+}
+
+
+body{
+
+}
+
+body,a,input{
+    font-family: 'Carrois Gothic SC';
+    font-size: 14px;
+
+}
+
+a{
+
+    text-decoration: none;
+}
+
+.gridRowCat{
+    margin-bottom:10px;
+    margin-top: 10px;
+}
+
+.header {
+    height: 130px;
+    border-bottom: 4px solid #e7e7e7;
+    margin-bottom: 10px;
+}
+.header .logo{
+    float: left;
+    margin-top: 30px;
+}
+.header .logo a{
+    color: #c38aff;
+    font-size: 64px;
+}
+
+.topMenu{
+    float:right;
+    background: #c38aff;
+    padding: 5px 10px;
+}
+
+.topMenu ul li
+{
+    float:left;
+    position: relative;
+}
+.topMenu ul li.sep
+{
+    padding:0 10px;
+    color: #dcbbff;
+}
+.topMenu ul li a
+{
+    display: block;
+    color:#fff;
+    padding: 0 5px;
+    line-height: 10px;
+}
+
+.loginBox
+{
+    background: #c38aff;
+    position: absolute;
+    padding:10px;
+    width: 234px;
+    top: 34px;
+    right:-88px;
+    display: none;
+}
+
+.loginBox .arrow{
+    background: url(images/loginBoxArrow.png) no-repeat;
+    height: 15px;
+    margin-top: -12px;
+    position: absolute;
+    right: 90px;
+    top: 0;
+    width: 28px;
+}
+
+.loginBox .input
+{
+    margin-bottom: 5px;
+}
+.loginBox .input label{
+    display: inline-block;
+    width: 65px;
+    color: #fff;
+}
+
+
+.loginBox .input input[type=text],.loginBox .input input[type=password]
+{
+    border:1px solid #ad63fc;
+    padding: 5px;
+}
+
+.loginBox .submit input[type=submit]{
+    background: #a053f1;
+    border: 0;
+    color: #fff;
+    padding: 5px 10px;
+    float:right;
+    cursor: pointer;
+}
+.loginBox .submit input[type=submit]:hover{
+    background: #963cf4;
+}
+.remember_me
+{
+    float:left;
+    color: #fff;
+    margin-top: 5px;
+}
+
+.dailyDeals{
+    width: 760px !important;
+}
+
+
+.search-newsletter-adv{
+    width: 160px !important;
+}
+.search_form .search-input{
+    margin-bottom: 10px;
+}
+
+.search_form .search-input input[type=text]
+{
+    width: 148px;
+    padding: 5px;
+    border:1px solid #cfcfcf;
+}
+
+.search_form .search-button{
+    display: none;
+}
+
+.maillist{
+    margin-bottom: 10px;
+}
+#maillist .inputLargeCont input[type=text]
+{
+    margin-bottom: 5px;
+    width: 148px;
+    padding: 5px;
+    border:1px solid #9f44ff;
+}
+
+#maillist .inputLargeCont input[type=submit]{
+    background: #a053f1;
+    border: 0;
+    color: #fff;
+    padding: 5px 10px;
+    float:right;
+    cursor: pointer;
+}
+#maillist .inputLargeCont input[type=submit]:hover{
+    background: #963cf4;
+}
+
+
+
+.discount_50 .item
+{
+    float:left;
+    margin: 0 13px 10px 0;
+}
+.discount_50 .item .img img
+{
+    border: 1px solid #dcdcdc;
+}
+.discount_50 .item:nth-child(4),.discount_50 .item:nth-child(8),.discount_50 .item:last-child{
+    margin-right: 0;
+}

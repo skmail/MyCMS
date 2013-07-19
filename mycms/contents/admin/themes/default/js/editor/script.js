@@ -1,0 +1,4 @@
+$(function(){
+   
+   $('textarea.editor').ckeditor();
+});

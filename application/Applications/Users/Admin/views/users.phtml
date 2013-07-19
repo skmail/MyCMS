@@ -1,0 +1,46 @@
+<?php
+if (sizeof($this->app['users']) == 0) {
+    echo $this->appendMessage('There is no user in usergroup', 'error');
+} else {
+    ?>
+    <form method="post" action="">
+        <div class="panel clearfix">
+            <div class="content no-pad clearfix">
+                <table class="table" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="1">#</th>
+                            <th width="1"><input type='checkbox' class="check_all" rel="users"></th>
+                            <th><?php echo $this->translate('Username');?></th>
+                            <th width="10"><?php echo $this->translate('delete');?></th>
+                            <th width="10"><?php echo $this->translate('Permissions');?></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->app['users'] as $user_k => $user) { ?>
+                            <tr>
+                                <td><?php echo ++$user_k; ?></td>
+                                <td><input type="checkbox" class="users" name="user[]" value="<?php echo $user['user_id']; ?>"></td>
+                                <td><a href='<?php echo $this->app['url'] . 'window/user/do/edit'; ?>/uid/<?php echo $user['user_id']; ?>' class="openItem"><?php echo $user['username']; ?></a></td>
+                                <td>
+                                    <a href='<?php echo $this->app['url'] . 'window/saveUser/do/delete'; ?>/uid/<?php echo $user['user_id']; ?>' class="disState" title="<?php echo $this->translate('delete');?>">
+                                    <img src="contents/admin/themes/default/_layout/images/delete.png" alt="<?php echo $this->translate('delete');?>"/>
+                                    
+                                    </a></td>
+                                <td>
+                                    <a href='<?php echo $this->app['url'] . 'window/permissions/uid'; ?>/<?php echo $user['user_id']; ?>' title="<?php echo $this->translate('Permissions');?>">
+                                        <img src="contents/admin/themes/default/_layout/images/settings.png" alt="<?php echo $this->translate('Permissions');?>"/>
+                                    </a>
+                                </td>
+                            </tr>    
+                        <?php } ?>    
+                    </tbody>
+                </table>
+                <div class="margin-top-5px">
+                    <input type="submit" value="<?php echo $this->translate('delete');?>" name="deleteItems" class="btn btn-navbar">
+                </div>
+            </div>
+        </div>
+    </form>
+<?php } ?>

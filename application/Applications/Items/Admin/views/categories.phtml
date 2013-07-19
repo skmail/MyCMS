@@ -1,0 +1,42 @@
+<?php
+
+if (!$this->app['categories'])
+{
+    echo $this->appendMessage($this->translate('no_categories_created'), 'error');
+
+}
+else
+{
+
+    $this->html()->form()->form_start(array('method' => 'post', 'action' => $this->app['url'] . "window/deleteCat"));
+    $this->html()->div_start(array('class' => 'panel clearfix'));
+
+    $this->html()->div_start(array('class' => 'content no-pad clearfix'));
+
+    $this->html()->table()->start(array('class' => 'table'));
+    $this->html()->table()->thead_start();
+    $this->html()->table()->tr_start();
+
+    $this->html()->table()->th('<input type="checkbox" class="check_all" rel="cats">',array('width'=>1));
+    $this->html()->table()->th($this->translate('folder_name'),array('class'=>'align'));
+    $this->html()->table()->th($this->translate('status'),array('width'=>'10%'));
+
+
+    $this->html()->table()->th($this->translate('action'),array('width'=>'10%'));
+
+    $this->html()->table()->tr_end();
+
+    $this->html()->table()->thead_end();
+
+    $this->html()->table()->tbody_start();
+
+
+    echo $this->AppendCategoryTr($this->app['categories']);
+
+    $this->html()->table()->tbody_end();
+    $this->html()->table()->end();
+
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->form()->form_end();
+}

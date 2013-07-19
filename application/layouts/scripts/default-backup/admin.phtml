@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <?php echo $this->headMeta(); ?>
+        <?php //echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <title>MyCMS</title>
+        <?php $content_url = "contents/admin/themes/default/"; ?>
+        <link href="<?php echo $content_url; ?>/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $content_url; ?>css/style.css" rel="stylesheet" type="text/css"/>
+
+
+        <script src="<?php echo $content_url; ?>js/jquery.js"></script>
+        <script src="<?php echo $content_url; ?>js/jquery-ui.js"></script>
+        <script src="<?php echo $content_url; ?>js/js_settings.js"></script>
+        <script src="<?php echo $content_url; ?>js/ajaxOpenWindow.js"></script>
+
+    </head>
+    <body>
+        <div id="container">
+            <div id="topMenu" class="abs">
+                <ul id="topLeftMenu">
+                    <li class='rel'>
+                        <a href='#'>Widgets</a>
+                        <ul class='subMenu abs'>
+                            <li><a href="">Calculator</a></li>
+                            <li><a href="">Stickies</a></li>
+                            <li><a href="">Performance</a></li>
+                            <li><a href="">Short Links</a></li>
+                        </ul>
+                    </li>
+                    <li class='rel'>
+                        <a href='#'>Help</a>
+                        <ul class='subMenu abs'>
+                            <li><a href="">License Status</a></li>
+                            <li><a href="">Upgrade System</a></li>
+                            <li><a href="">About</a></li>
+                        </ul>
+                    </li>
+                    <li class='rel'>
+                        <a href='#'>Get more</a>
+                        <ul class='subMenu abs'>
+                            <li><a href="">Applications</a></li>
+                            <li><a href="">Widgets</a></li>
+                            <li><a href="">Plugins</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="topRightMenu">
+                    <li><a href='#'>Solaiman Kmail</a>
+                        <ul class="subMenu abs">
+                            <li><a href="">Messages</a></li>
+                            <li><a href='#'>Settings</a></li>
+                            <li><a  href ="" onClick='location.href="<?php echo $this->baseUrl(); ?>/admin/login/logout"'>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            
+            <div id="notifications" class="abs">
+                    <div class="notificationInnerContainer">
+                        <ul>
+                            <?php echo $this->partialLoop('admin/notifications_list.phtml', $this->layout()->notifications); ?>
+                        </ul>
+                    </div>
+                    <div class="controll">
+                        <a href="#" class="show"></a>
+                        <a href="#" class="hide"></a>
+                    </div>
+                </div>
+            
+            <div class="clear"></div>
+                <ul class="sidebar">
+                    <?php echo $this->partialLoop('admin/icons_list.phtml', $this->layout()->icons); ?>
+                </ul>
+                
+                <div id='mainContent'>
+                    
+                </div>
+        </div>
+    </body>
+</html>

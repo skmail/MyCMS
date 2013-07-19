@@ -1,0 +1,60 @@
+<?php
+
+if (!$this->app['listHooks'])
+{
+    echo $this->appendMessage($this->translate('There is no Hooks installed'), 'error');
+}
+else
+{
+
+
+     $this->html()->div_start(array('class' => 'panel clearfix'));
+
+    $this->html()->div_start(array('class' => 'content no-pad clearfix'));
+
+    $this->html()->table()->start(array('class' => 'table'));
+    $this->html()->table()->thead_start();
+    $this->html()->table()->tr_start();
+
+    $this->html()->table()->th($this->translate('hook_name'));
+    $this->html()->table()->th($this->translate('version'));
+    $this->html()->table()->th($this->translate('status'));
+
+    $this->html()->table()->tr_end();
+
+    $this->html()->table()->thead_end();
+
+    $this->html()->table()->tbody_start();
+
+    foreach ($this->app['listHooks'] as $hook)
+    {
+        $this->html()->table()->tr_start();
+
+        $this->html()->table()->td("<a href='" . $this->app['url'] . "window/hook/hookName/" . $hook['hook_name'] . "' class='hookName'>" . $hook['hook_name'] . "</a>",array('class'=>'textAlign'));
+
+        $this->html()->table()->td(
+            $hook['current_version'] .
+                ((intval($hook['current_version'] != 0) && intval($hook['available_version']) != 0)?'|':'').
+            (($hook['available_version'])?'  <span class="color_orange">' . $hook['available_version'] . " " . $this->translate('available') . "</span>" :''));
+
+        if($hook['url'])
+        {
+            $this->html()->table()->td("<a href='".$hook['url']."' class='disState ".$hook['status_color']."'>".$hook['status']."</a>",array('class'=>'color_'.$hook['status_color']));
+        }else
+        {
+            $this->html()->table()->td($hook['status'],array('class'=>$hook['status_color']));
+        }
+
+        $this->html()->table()->tr_end();
+    }
+
+    $this->html()->table()->tbody_end();
+
+    $this->html()->div_start(array('class' => 'margin-top-5px'));
+
+
+
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->div_end();
+ }

@@ -1,0 +1,23 @@
+<ul class="applicationsList">
+
+
+    <?php foreach ($this->app['applicationsName'] as $id => $app) { ?>
+        <li class="appName"><?php echo $app; ?></li>
+        <?php foreach ($this->app['applicationsList'][$id] as $segment) { ?>
+            <li class="segment">
+                <span class="appTitle"><?php echo $segment['label']; ?></span>
+                <small><a href="#" class="addMenuSegment">add</a></small>
+                <input type="hidden" class="appid" value="<?php echo $id; ?>">
+                <input type="hidden" class="segmentid" value="<?php echo $segment['id']; ?>">
+
+                <?php
+                if ($this->app['do'] == 'appendChild') {
+                    
+                }
+                ?>
+
+            </li>
+
+        <?php } ?>
+<?php } ?>
+</ul>

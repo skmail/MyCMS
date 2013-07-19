@@ -1,0 +1,59 @@
+<?php if (!$this->app['grids']) { ?>
+    <?php echo $this->appendMessage('There is no grids added yet', 'error'); ?>
+<?php } else { ?>
+<div class="panel clearfix">
+    <div class="content no-pad clearfix">
+        <form action="<?php echo $this->app['url'];?>window/deleteGrid">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="1" colspan="3"><input type="checkbox" class="check_all" rel="grid"></th>
+                        <th>Row Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="tableSortable" rel="<?php echo $this->app['url']; ?>window/saveGridOrder">
+                    <?php foreach ($this->app['grids'] as $c => $grid) { ?>
+                        <tr 
+                                <?php if($grid['grid_id'] != 0){ ?>id="order_<?php echo $grid['grid_id']; ?>"<?php } ?>>
+                            <td width="1">
+                                <?php if($grid['grid_id'] != 0){ ?>
+                                <div class='sort-handle'></div>
+                                <?php } ?>
+                                
+                            </td>
+                            <td width="1"><?php echo $c + 1; ?></td>
+                            <td width="1">
+                                <?php if($grid['grid_id'] != 0){ ?>
+                                <input type="checkbox" class="grid " name="grids[<?php echo $grid['grid_id'];?>]" value="<?php echo $grid['grid_id'];?>">
+                                <?php } ?>
+                            </td>
+                            <td><a href='<?php echo $this->app['url'] . 'window/groups/gridid/' . $grid['grid_id']; ?>'><?php echo $grid['grid_name']; ?></a></td>
+                            <td><?php echo $group['group_status']; ?></td>
+                            <td>
+                                <?php if($grid['grid_id'] != 0){ ?>
+                            <span class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->translate('operations');?></a>
+                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                     <li><a href='<?php echo $this->app['url'] . 'window/duplicateGrid/gridid/' . $grid['grid_id']; ?>' class="disState"><?php echo $this->translate('duplicate');?></a></li>
+                                     <li><a href="<?php echo $this->app['url'] . 'window/deleteGrid/gridid/' . $grid['grid_id']; ?>" class="disState"><?php echo $this->translate('Delete');?></a></li>                                     
+                                </ul>                               
+                            </span>    
+                                |
+                                <a href="<?php echo $this->app['url'] . 'window/grid/do/edit/gridid/' . $grid['grid_id']; ?>"><?php echo $this->translate('edit');?></a>
+                                
+                                <?php } ?>
+                            </td>
+                        </tr>    
+                    <?php } ?>    
+                </tbody>
+            </table>
+            <br>
+            <input type="submit" class="btn" name="delete" value="delete">
+        </form>
+    </div>
+</div>
+
+<?php }?>

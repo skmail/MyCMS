@@ -1,0 +1,27 @@
+<div class="panel clearfix">
+    <div class="content no-pad clearfix">
+        <table class="table" width="100%">
+            <thead>
+                <tr>
+                    <th width="1"><input type="checkbox" class="check_all" rel="groups"></th>
+                    <th>Group Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->app['groups'] as $group) { ?>
+                    <tr>
+                        <td><input type="checkbox" class="groups"></td>
+                        <td><a href='<?php echo $this->app['url']; ?>window/files/by/group/groupid/<?php echo $group['group_id']; ?>' class="name"><?php echo $group['group_name']; ?></a></td>
+                        <td><?php echo $category['cat_status']; ?></td>
+                        <td><a href="<?php echo $this->app['url']; ?>window/group/do/edit/groupid/<?php echo $group['group_id']; ?>" >Edit</a>  | 
+                            <a href="<?php echo $this->app['url']; ?>window/group/do/delete/groupid/<?php echo $group['group_id']; ?>" class="disState">Delete</a></td>
+                    </tr>    
+                <?php } ?>    
+            </tbody>
+
+        </table>
+    </div>
+
+</div>

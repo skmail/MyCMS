@@ -1,0 +1,70 @@
+<?php echo $this->ajaxOpenWindow($this->app,'',
+            array('.breadcrumb ul li a',
+                  '.toolbar a.prevWindow',
+                  '.toolbar a.refresh',
+                  '.menubar a'
+                ));?>
+
+
+
+
+<div class="window abs activeWindow normalWindow <?php if(!empty($this->app['sidebar'])) echo "hasSidebar windowBodyInsideSidebar";?>" id="appWindow_<?php echo $this->app['app_id']; ?>">
+    <div class="head windowHead">
+        <p class="title"><?php echo $this->app['app_name']; ?></p>
+        <div class="headButtons">
+            <div class="closeWindow">x</div>
+            <div class="miniWindow">_</div>
+            <div class="restWindow">-</div>
+            <div class="maxWindow">-</div>    
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="controll">
+    <?php  if(is_array($this->app['menubar']))
+            if(sizeof($this->app['menubar']) > 0){
+          ?>
+    <div class="menubar">
+        <ul>
+            <?php  echo $this->partialLoop('ajax/_menubar.phtml', $this->app['menubar']);?>
+        </ul>
+    </div>
+    <?php } ?>
+    <div class="toolbar">
+        <a rel="#" class="prevWindow toolbarButtonDisabled" href="" >
+            <div class='icon'></div>
+            <label>Back</label>
+        </a>
+        <a class="refresh" href="<?php echo $this->window['windowUri'];?>" >
+            <div class='icon'></div>
+            <label>Refresh</label>
+        </a>
+        
+    </div>
+    <div class="breadcrumb">
+        <ul>
+            <li class="<?php echo $this->app['breadcrumbClass'];?>">
+                <a href='<?php echo $this->app['windowUri'];?>' ><?php echo $this->app['app_name'];?></a>
+            </li>
+            
+        </ul>
+        
+    <div class='clear'></div>
+    </div>
+    </div>
+    <div class='clear'></div>
+    <div class="windowContent">
+        <?php if(!empty($this->app['sidebar'])){?>
+            <div class="sidebar"><?php echo $this->app['sidebar'];?></div>
+        <?php } ?>
+        <div class="body">
+            <?php echo $this->app['body']; ?>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="footer">
+        <div class="resize"></div>
+        <div class="clear"></div>
+
+    </div>
+
+</div>

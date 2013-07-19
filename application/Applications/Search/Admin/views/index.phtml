@@ -1,0 +1,77 @@
+<?php
+
+if (!$this->app['categories'])
+{
+    echo $this->appendMessage($this->translate('There is no categories'), 'error');
+}
+else
+{
+
+
+    $this->html()->form()->form_start(array('method' => 'post', 'action' => $this->app['url'] . "window/deleteCat"));
+    $this->html()->div_start(array('class' => 'panel clearfix'));
+
+    $this->html()->div_start(array('class' => 'content no-pad clearfix'));
+
+    $this->html()->table()->start(array('class' => 'table'));
+    $this->html()->table()->thead_start();
+    $this->html()->table()->tr_start();
+
+    $this->html()->table()->th('<input type="checkbox" class="check_all" rel="cats">');
+    $this->html()->table()->th($this->translate('Category name'));
+    $this->html()->table()->th($this->translate('Status'));
+
+    foreach($this->app['itemStatusList'] as $status_id=>$status_name)
+    {
+        $this->html()->table()->th($this->translate($status_name));
+    }
+
+    $this->html()->table()->th($this->translate('action'));
+
+    $this->html()->table()->tr_end();
+
+    $this->html()->table()->thead_end();
+
+    $this->html()->table()->tbody_start();
+
+    foreach ($this->app['categories'] as $category)
+    {
+        $this->html()->table()->tr_start();
+
+        $this->html()->table()->td('<input type="checkbox" class="cats" name="cat[]" value="' . $category['cat_id'] . '">');
+        $this->html()->table()->td(
+                "<a href='" . $this->app['url'] . "window/items/cat_id/" . $category['cat_id'] . "' class='name'>" . $category['cat_name'] . "</a>");
+
+        $this->html()->table()->td($this->translate('item_cat_status_' . $category['cat_status']));
+
+        foreach($this->app['itemStatusList'] as $status_id=>$status_name)
+        {
+            $this->html()->table()->td(
+            "<a href='".$this->app['url']."window/items/cat_id/36/status/".$status_id."'>".
+                $this->app['itemStatus'][$category['cat_id']][$status_id]
+            ."</a>"
+            );
+        }
+
+
+
+        $this->html()->table()->td("<a href='" . $this->app['url'] . "window/category/do/edit/cat_id/" . $category['cat_id'] . "' class='editCategory'><img src='contents/admin/themes/default/_layout/images/edit.png' alt='" . $this->translate('edit') . "'/></a> 
+                                                    <a href='" . $this->app['url'] . "window/deleteCat/cat_id/" . $category['cat_id'] . "' class='deleteCategory disState'><img src='contents/admin/themes/default/_layout/images/delete.png' alt='" . $this->translate('delete') . "'/></a>
+                                                    <a href='" . $this->app['url'] . "window/fields/cat_id/" . $category['cat_id'] . "' class='editCategory'>" . $this->translate('fields') . "</a>");
+
+
+        $this->html()->table()->tr_end();
+    }
+
+    $this->html()->table()->tbody_end();
+
+    $this->html()->div_start(array('class' => 'margin-top-5px'));
+
+    $this->html()->form()->submit('deleteCats', $this->translate('delete'), array('class' => 'btn btn-navbar'));
+
+
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->form()->form_end();
+}

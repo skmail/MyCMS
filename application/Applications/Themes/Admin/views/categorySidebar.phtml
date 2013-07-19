@@ -1,0 +1,13 @@
+
+<?php if($this->app['do'] == 'edit'){?>
+<div class="sidebarItem float_1">
+    <p><button href="<?php echo $this->app['url'];?>window/category/do/add/themeid/<?php echo $this->app['theme']['theme_id'];?>" class="btn">Copy The category to</button></p>
+</div>
+<div class="sidebarItem float_1">
+    <p><button href="<?php echo $this->app['url'];?>window/category/do/add/themeid/<?php echo $this->app['theme']['theme_id'];?>" class="btn margin-left-5">Move The category to</button></p>
+</div>
+<div class="sidebarItem float_1">
+    <p><button href="<?php echo $this->app['url'];?>window/category/do/add/themeid/<?php echo $this->app['theme']['theme_id'];?>" class="btn margin-left-5">Delete category</button></p>
+</div>
+
+<?php } ?>

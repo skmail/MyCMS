@@ -1,0 +1,44 @@
+
+@media all and (min-width: 800px) {
+    .visible-tablet
+    {
+        display: none;
+    }
+    .visible-phone
+    {
+        display: none;
+    }
+    .hidden-desktop
+    {
+        display: none;
+    }
+}
+@media all and (max-width: 800px) {
+    .visible-desktop
+    {
+        display: none;
+    }
+    .visible-phone
+    {
+        display: none;
+    }
+    .hidden-tablet
+    {
+        display: none;
+    }
+}
+@media all and (max-width: 360px) {
+
+    .visible-desktop
+    {
+        display: none;
+    }
+    .visible-tablet
+    {
+        display: none;
+    }
+    .hidden-phone
+    {
+        display: none;
+    }
+}

@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+        <th><?php echo $this->translate('plugin_name'); ?></th>
+        <th><?php echo $this->translate('version'); ?></th>
+        <th><?php echo $this->translate('status'); ?></th>
+        <th><?php echo $this->translate('action'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->app['plugins'] as $plugin){ ?>
+        <tr>
+        <td class="textAlign"><?php echo $plugin['plugin_name']; ?></td>
+        <td><?php echo $plugin['version']; ?></td>
+        <td class="color_<?php echo $app['app_status_color'];?>"></td>
+        <td><a href="<?php echo $app['action_url'];?>" class="disState"><img src="contents/applications/AppsManager/<?php echo $app['action'];?>.png" width="16" height="16"></a></td>
+        </tr>    
+    <?php } ?>    
+    </tbody>
+</table>

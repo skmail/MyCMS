@@ -1,0 +1,90 @@
+
+<?php
+if (sizeof($this->app['cats']) == 0) {
+
+    echo $this->appendMessage('There is no Categories for this Theme', 'error');
+} else {
+    ?>
+
+    <script>
+        $(function(){
+            $('.templatesTable tbody tr a.expandCat').live('click',function(){
+               
+                var cat_id = $(this).attr('id');
+               
+                $(this).closest('tbody').find('.'+cat_id).slideDown();
+               
+            }) ;
+        });
+    </script>
+    <style>
+
+        table tr.child_template{
+            display: none;
+        }
+        table tr.child_template td{
+            background:#F7F7F7;
+        }
+        table tr.child_template td a{
+            color:#000;
+        }
+    </style>
+
+    <div class="panel clearfix">
+        <div class="content no-pad clearfix">
+            <table class="table templatesTable">
+                <thead>
+                    <tr>
+                        <th width="1">#</th>
+                        <th width="1"><input type='checkbox' class="check_all" rel="item"></th>
+                        <th><?php echo $this->translate('category');?></th>
+                        <th><?php echo $this->translate('templates');?></th>
+                        <th width="250"><?php echo $this->translate('action');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->app['cats'] as $catK => $cat) { ?>
+                        <tr>
+                            <td><?php echo++$catK; ?></td>
+                            <td><input type="checkbox" class="item"></td>
+                            <td class="textAlign"><a href='#' class=" expandCat" id="template_cat_<?php echo $cat['cat_id']; ?>"><?php echo $cat['cat_name']; ?></a></td>
+                            <td><?php echo sizeof($this->app['templates'][$cat['cat_id']]); ?></td>
+                            <td>
+                                <a href="<?php echo $this->app['url']; ?>window/category/do/edit/cat_id/<?php echo $cat['cat_id']; ?>" class='editCategory'><?php echo $this->translate('edit');?></a>
+                                | 
+                                <a href="<?php echo $this->app['url']; ?>window/category/do/delete/cat_id/<?php echo $cat['cat_id']; ?>" class="deleteCat"><?php echo $this->translate('delete');?></a>
+                                |
+                                <a href=""><?php echo $this->translate('operations');?></a>
+                                |
+                                <a href="<?php echo $this->app['url']; ?>window/template/do/add/cat_id/<?php echo $cat['cat_id']; ?>" class="addTemplate"><?php echo $this->translate('add_template');?></a>
+
+                            </td>
+                        </tr>    
+
+                        <?php
+                        if (is_array($this->app['templates'][$cat['cat_id']]))
+                            if (sizeof($this->app['templates'][$cat['cat_id']]) > 0)
+                                foreach ($this->app['templates'][$cat['cat_id']] as $templateK => $template) {
+                                    ?>
+                                    <tr class="child_template template_cat_<?php echo $cat['cat_id']; ?>">
+                                        <td></td>
+                                        <td></td>
+                                        <td class="textAlign templateName"><a href='<?php echo $this->app['url']; ?>window/template/do/edit/templateid/<?php echo $template['template_id']; ?>' class='editTemplate'><?php echo $template['template_name']; ?></a></td>
+                                        <td></td>
+                                        <td>
+                                            <a href="<?php echo $this->app['url']; ?>window/template/do/edit/templateid/<?php echo $template['template_id']; ?>" class='editTemplate'><?php echo $this->translate('edit');?></a>
+                                            | 
+                                            <a href=""><?php echo $this->translate('delete');?></a>
+                                            |
+                                            <a href=""><?php echo $this->translate('operations');?></a>
+                                        </td>
+                                    </tr>    
+
+                                <?php }  ?>
+                    <?php } ?>    
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+<?php } ?>

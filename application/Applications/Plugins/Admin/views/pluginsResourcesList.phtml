@@ -1,0 +1,14 @@
+<div class="box3">
+    <div class="box_head">
+        <?php echo $this->translate('availabe_plugins');?>
+    </div>
+    <div class="box_content">
+        <ul>
+            <?php foreach ($this->pluginsResource as $plugin){ ?>
+                <li><a href="<?php echo $this->app['url']; ?>window/plugin/do/add/pluginid/<?php echo $plugin['plugin_resource_id'] . $this->groupid; ?>" class="ajaxOpen"><?php echo $plugin['plugin_resource_name']; ?></a></li>
+            <?php } ?>
+        </ul>
+        
+    </div>
+</div>    
+

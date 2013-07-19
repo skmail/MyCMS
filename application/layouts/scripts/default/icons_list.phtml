@@ -1,0 +1,40 @@
+<?php
+
+$permissions = MC_Core_Loader::appClass('Users', 'Permissions', NULL, 'shared'); //new Custom_App_Users_Permissions();
+
+if ($permissions->isAllow($this, 'index', 'view'))
+{
+
+    ?>
+    <li>
+    <?php $url = Admin_Model_System_Application::appUrl($this->app_prefix); ?>
+
+        <a href="<?php echo $url; ?>" class=" <?php if ($this->app_id == $this->layout()->app['app_id']) echo 'sidebarActive'; ?> ajaxOpen">
+            <i class="icon-applications visible-desktop" style="background-image: url(contents/applications/<?php echo $this->app_prefix; ?>/<?php echo $this->app_prefix; ?>.png)"></i>
+    <?php echo $this->translate($this->app_name); ?>
+        </a>
+        <?php if (count($this->menu) > 0){?>
+            <ul <?php if ($this->app_id == $this->layout()->app['app_id']) echo 'style="display:block;"'; ?>>
+                <?php
+
+                foreach ($this->menu as $menu)
+                {
+
+                    ?>
+                    <li>
+                        <a href="<?php echo $url . '/' . $menu['url']; ?>" 
+                           class=" <?php
+
+                    if ($this->app_id == $this->layout()->app['app_id'])
+                        echo 'sidebarSubmenuActive';
+
+                    ?> ajaxOpen">
+                            <label><?php echo $this->translate($menu['title']); ?></label>
+                        </a>
+                    </li>
+            <?php } ?>
+            </ul>
+    <?php } ?>
+    </li>
+<?php } ?>
+

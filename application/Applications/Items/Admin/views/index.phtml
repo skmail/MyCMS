@@ -1,0 +1,62 @@
+<?php
+
+if (!$this->app['folders'])
+{
+    echo $this->appendMessage($this->translate('no_folders_created'), 'error');
+}
+else
+{
+
+    $this->html()->form()->form_start(array('method' => 'post', 'action' => $this->app['url'] . "window/deleteCat"));
+    $this->html()->div_start(array('class' => 'panel clearfix'));
+
+    $this->html()->div_start(array('class' => 'content no-pad clearfix'));
+
+    $this->html()->table()->start(array('class' => 'table'));
+    $this->html()->table()->thead_start();
+    $this->html()->table()->tr_start();
+
+    $this->html()->table()->th('<input type="checkbox" class="check_all" rel="cats">',array('width'=>1));
+    $this->html()->table()->th($this->translate('folder_name'),array('class'=>'align'));
+    $this->html()->table()->th($this->translate('status'));
+
+
+    $this->html()->table()->th($this->translate('action'),array('width'=>'10%'));
+
+    $this->html()->table()->tr_end();
+
+    $this->html()->table()->thead_end();
+
+    $this->html()->table()->tbody_start();
+
+    foreach ($this->app['folders'] as $folder)
+    {
+        $this->html()->table()->tr_start();
+
+        $this->html()->table()->td('<input type="checkbox" class="cats" name="folder[]" value="' . $folder['folder_id'] . '">');
+        $this->html()->table()->td(
+                "<a href='" . $this->app['url'] . "window/categories/folderId/" . $folder['folder_id'] . "' class='name'>" . $folder['folder_name'] . "</a>");
+
+        $this->html()->table()->td($this->translate('folder_status_' . $folder['folder_status']),array('width'=>'10%','align'=>'center'));
+
+
+
+        $this->html()->table()->td("<a href='" . $this->app['url'] . "window/folder/do/edit/folderId/" . $folder['folder_id'] . "' class='icon-25x25 edit' title='".$this->translate('edit')."'></a>
+                                    <a href='" . $this->app['url'] . "window/fields/folderId/" . $folder['folder_id'] . "' class='icon-25x25 fields' title='".$this->translate('fields')."'></a>",array('align'=>'center'));
+
+
+        $this->html()->table()->tr_end();
+    }
+
+    $this->html()->table()->tbody_end();
+
+    $this->html()->div_start(array('class' => 'margin-top-5px'));
+
+    $this->html()->form()->submit('deleteCats', $this->translate('delete'), array('class' => 'btn btn-navbar'));
+
+
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->div_end();
+    $this->html()->form()->form_end();
+}

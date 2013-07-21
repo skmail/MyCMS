@@ -9,7 +9,7 @@ class Plugins_HtmlContent_Form extends MC_Admin_Form_SubForm {
         $db = Zend_Registry::get('db');
 
         $outerTemplates = $this->createElement('select', 'outer_template', 
-                                                array('decorators' => $this->elementDecorators))
+                                                array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                                                 ->setLabel('Outer Template')
                                                 ->setRequired(TRUE);
 
@@ -41,7 +41,7 @@ class Plugins_HtmlContent_Form extends MC_Admin_Form_SubForm {
 
             $options = array(
                 'label' => 'Plugin Content',
-                'decorators' => $this->elementDecorators);
+                'decorators' => MC_Admin_Form_Form::$elementDecorators);
             $options['class'] = 'span12 editorArea';
             if($app['plugin_params']['disable_htm_editor'] != 1 ){
                 $options['class'].=' editor ';

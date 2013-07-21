@@ -20,5 +20,4 @@ class Admin_IndexController extends MC_Admin_Controller_Action
 
 
     }
-
 }

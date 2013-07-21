@@ -14,6 +14,10 @@ class MC_Core_Instance {
 
     }
 
+    /**
+     * @static
+     * @return MC_Core_Instance|null
+     */
     public static function    getInstance()
     {
         if(self::$instance === null)
@@ -25,6 +29,9 @@ class MC_Core_Instance {
         return self::$instance;
     }
 
+    /**
+     * @param $appPath
+     */
     public static  function setAppPath($appPath)
     {
         self::$appPath = $appPath;

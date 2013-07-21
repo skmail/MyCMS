@@ -36,6 +36,7 @@ class Admin_Model_System_Breadcrumb
         if ($link == '' || $link == false || $link == '#')
         {
             $link = '#';
+
         }
 
         $element['label'] = $label;
@@ -95,7 +96,7 @@ class Admin_Model_System_Breadcrumb
             }
             else
             {
-                $outputs.="<li><a href='" . $this->_options['url'] . $el['link'] . "' " . $options . ">" . $el['label'] . "</a> <span class='divider'></span></li>";
+                $outputs.="<li><a href='" . (($el['link'] != "#")?$this->_options['url'] . $el['link']:$el['link']) . "' " . $options . ">" . $el['label'] . "</a> <span class='divider'></span></li>";
             }
         }
 

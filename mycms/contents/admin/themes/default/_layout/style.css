@@ -379,7 +379,7 @@ label.form-label
 }
 
 
-#top-navigation .top_menu .dropdown-menu .menu-content
+.menu1.dropdown-menu .menu-content
 {
     padding: 5px 0;
 
@@ -387,7 +387,7 @@ label.form-label
     border:1px solid #e3e3e3;
     border-radius: 5px;
 }
-#top-navigation .top_menu .dropdown-menu .menu-content
+.menu1.dropdown-menu .menu-content
 {
 
     right: 0;
@@ -395,17 +395,17 @@ label.form-label
     position: absolute;
 
 }
-#top-navigation .top_menu .dropdown-menu li
+.menu1.dropdown-menu li
 {
     display: block;
     float:none;
 }
-#top-navigation .top_menu .dropdown-menu li a:hover{
+.menu1.dropdown-menu li a:hover{
     border-bottom: 1px solid #d3d3d3;
     background: #e2e2e2;
 }
 
-#top-navigation .top_menu .dropdown-menu li a
+.menu1.dropdown-menu li a
 {
     font-size: 12px;
     display: block;
@@ -416,7 +416,7 @@ label.form-label
 }
 
 
-#top-navigation .top_menu .menu-container
+.menu1.menu-container
 {
     position: absolute;
     top: 33px;
@@ -424,11 +424,11 @@ label.form-label
     min-width:150px;
 }
 
-#top-navigation .top_menu .dropdown-menu  li:last-child a
+.menu1.dropdown-menu  li:last-child a
 {
     border:0;
 }
-#top-navigation .top_menu .arrow
+.menu1 .arrow
 {
     position: absolute;
     background: url(images/arrow-dropdown-menu.png) no-repeat;
@@ -618,4 +618,8 @@ label.form-label
 .icon-25x25.delete
 {
     background-image:  url(images/icons/25x25/delete.png);
+}
+.icon-25x25.operations
+{
+    background-image:  url(images/icons/25x25/operations.png);
 }

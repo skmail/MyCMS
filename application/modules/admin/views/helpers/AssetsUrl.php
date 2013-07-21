@@ -22,9 +22,9 @@ class Admin_View_Helper_AssetsUrl extends Zend_View_Helper_Abstract
       $settings = MC_Core_Loader::appClass('settings', 'settings', NULL , 'Shared');
       
       $assets_url = $settings->get('settings','assets_url');
-      return $assets_url;
+      //return $assets_url;
 
-        return 'http://localhost/cmstest/mycms/';
+        return '/mycms/';
 
     }
 

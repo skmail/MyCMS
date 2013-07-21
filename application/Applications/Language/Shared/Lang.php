@@ -6,7 +6,6 @@
             
             $languageRow = Zend_Registry::get('language');
 
-
             if($row == '*')
             {
                 return $languageRow;
@@ -44,21 +43,14 @@
             {
                 return $this->setLanguage(array('lang_default'=>1));
             }
-            
-            
         }
 
 
         public  static function  langsList(){
-         
             $db = Zend_Registry::get('db');
-            
             $lang = $db->select()->from('language')->where('lang_status = ? ',1);
-            
             $langList = $db->fetchAll($lang);
-            
             return $langList;
-               
         }
       
     }

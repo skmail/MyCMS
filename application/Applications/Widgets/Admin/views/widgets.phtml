@@ -1,0 +1,44 @@
+<div class="row-fluid">
+    
+    <div class="span10">
+    <?php if (!$this->app['widgets']){?>
+        <?php echo $this->appendMessage('There is no widgets', 'error'); ?>
+    <?php }else{?>
+        <form method="post" action="<?php echo $this->app['url']; ?>window/deleteWidget/group_id/<?php echo $this->app['group_id']; ?>/do/delete">
+            <div class="panel clearfix">
+                <div class="content no-pad clearfix">   
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="1"></th>
+                                <th width="1" ><input type="checkbox" class="check_all" rel="widget"></th>
+                                <th width="1"></th>
+                                <th><?php echo $this->translate('widget_name');?></th>
+                                <th width="10%"><?php echo $this->translate('status');?></th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="tableSortable" rel="<?php echo $this->app['url']; ?>window/saveWidgetOrder">
+                            <?php foreach ($this->app['widgets'] as $c => $widget){?>
+                                <tr id="order_<?php echo $widget['plugin_id']; ?>">
+                                    <td width="1"><div class='sort-handle'></div></td>
+                                    <td width="1"><input type="checkbox" class="widget" name="widget_id[]" value="<?php echo $widget['plugin_id']; ?>"></td>
+                                    <td width="1"><?php echo $c + 1; ?></td>
+                                    <td><a href='<?php echo $this->app['url'] . 'window/widget/do/edit/widgetId/' . $widget['plugin_id']; ?>' class="group_name"><?php echo $widget['plugin_name']; ?></a></td>
+                                    <td align="center"><?php echo $widget['plugin_status']; ?></td>
+                                </tr>    
+                            <?php } ?>    
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <input type="submit" value="<?php echo $this->translate('delete'); ?>" data-modal-type="confirm" data-modal-msg="<?php echo $this->translate("do_you_want_delete_plugins");?>" class="btn"/>
+        </form>
+<?php } ?>
+</div>
+<div class="span2">
+<?php echo $this->app['listPluginsResource'] ?>
+</div>
+
+</div>

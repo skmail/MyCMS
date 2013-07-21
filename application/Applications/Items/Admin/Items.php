@@ -291,7 +291,6 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
 
                 $itemLang[$langId]['lang_id'] = $langId;
                 $itemLang[$langId]['item_title'] = $item_lang['item_title'];
-                $itemLang[$langId]['item_content'] = $item_lang['item_content'];
 
                 if(isset($item_lang['fields_lang']))
                 {

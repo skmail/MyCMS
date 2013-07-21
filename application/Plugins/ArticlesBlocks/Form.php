@@ -6,14 +6,13 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
     public function init()
     {
 
-
         $db = Zend_Registry::get('db');
 
         $data = $this->getAttrib('app');
 
         $this->removeAttrib('app');
 
-        $catsList = $this->createElement('select', 'category_id', array('isArray'    => true, 'decorators' => $this->elementDecorators))
+        $catsList = $this->createElement('select', 'category_id', array('isArray'    => true, 'decorators' => MC_Admin_Form_Form::$elementDecorators))
                 ->setLabel('Articles Categories')
                 ->setRequired(TRUE)
                 ->setAttrib('multiple', true);
@@ -31,16 +30,12 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
 
         $this->addElement('checkbox', 'hasImage', array('label' => 'Show only has image'));
 
-        $outerTemplates = $this->createElement('select', 'outer_template', array('decorators' => $this->elementDecorators))
+        $outerTemplates = $this->createElement('select', 'outer_template', array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                 ->setLabel('Outer Template')
                 ->setRequired(TRUE);
 
         $templates = $db->select()->from('templates');
 
-        if(intval($data['group_params']['plugin_outer_template_category'])!=0)
-        {
-            $templates->where('cat_id = ?',$data['group_params']['plugin_outer_template_category']);
-        }
         foreach ($db->fetchAll($templates) as $k => $v)
         {
             $outerTemplates->addMultiOption($v['template_id'], $v['template_name']);
@@ -48,15 +43,12 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
 
         $this->addElement($outerTemplates);
 
-        $innerTemplates = $this->createElement('select', 'inner_template', array('decorators' => $this->elementDecorators))
-                ->setLabel('Inner Template')
+        $innerTemplates = $this->createElement('select', 'inner_template', array('decorators' => MC_Admin_Form_Form::$elementDecorators))
+                ->setLabel('inner_template')
                 ->setRequired(TRUE);
 
         $templates = $db->select()->from('templates');
-        if(intval($data['group_params']['articleBlocks_inner_templates_category']) != 0)
-        {
-            $templates->where('cat_id = ?',$data['group_params']['articleBlocks_inner_templates_category']);
-        }
+
 
         foreach ($db->fetchAll($templates) as $k => $v)
         {
@@ -71,7 +63,7 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
 
 
         $sortBy = $this->createElement('select', 'sort_by', array('label'      => 'Sort By',
-            'decorators' => $this->elementDecorators));
+            'decorators' => MC_Admin_Form_Form::$elementDecorators));
 
         $sortBy->addMultiOption('DESC', 'Descending');
         $sortBy->addMultiOption('ASC', 'Ascending');
@@ -86,7 +78,7 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
         $rowsShow->addElement('text', 'num_rows', array('label'      => 'Articles Number',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 5,
             'class'      => 'input-mini'));
 
@@ -94,7 +86,7 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
             'label'      => 'Articles Start From',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 0,
             'class'      => 'input-mini'));
 
@@ -120,19 +112,19 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
             'label'      => 'Length',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 10,
             'class'      => 'input-mini'));
 
         $title->addElement('text', 'complete', array(
             'label'      => 'Last chars',
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => '...',
             'class'      => 'input-mini'
         ));
         $cutType = $title->createElement('select', 'cut_type', array(
             'label'      => 'Cut type',
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'class'      => 'input-small2'
                 ));
 
@@ -163,20 +155,20 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
             'label'      => 'Length',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 20,
             'class'      => 'input-mini'));
 
         $content->addElement('text', 'complete', array(
             'label'      => 'Last chars',
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => '...',
             'class'      => 'input-mini'
         ));
 
         $cutType = $content->createElement('select', 'cut_type', array(
             'label'      => 'Cut Type',
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'class'      => 'input-small2'
                 ));
 
@@ -206,26 +198,26 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
         $image->addPrefixPath('MC_Admin_Form', 'MC/Admin/Form');
 
         $image->addElement('checkbox', 'use', array(
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 1));
 
         $image->addElement('text', 'width', array(
             'label'      => 'Width',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 100,
             'class'      => 'input-mini'));
 
         $image->addElement('text', 'height', array(
             'label'      => 'Height',
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 80,
             'class'      => 'input-mini'
         ));
 
         $image->addElement('checkbox', 'crop', array(
-            'decorators' => $this->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 1,
             'label'=>'crop'));
 

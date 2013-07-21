@@ -1,0 +1,30 @@
+<style>
+    .add_new_widget.menu-container.dropdown-menu.menu1 {
+        top: 45px;
+        width: 200px;
+        left:0;
+    }
+
+    .add_new_widget.menu1.dropdown-menu .arrow{
+        left:10px;
+    }
+    .add_new_widget.menu1.dropdown-menu .menu-content{
+        left:0;
+    }
+
+</style>
+<div class="sidebarItem dropdown">
+    <button  role="button"    class="btn dropdown-toggle" data-toggle="dropdown">
+        <?php echo $this->translate('add_new_widget');?>
+    </button>
+    <div class="menu-container add_new_widget dropdown-menu menu1" role="menu" aria-labelledby="drop3">
+        <div class="arrow"></div>
+        <ul class="menu-content">
+            <?php foreach ($this->app['widgetsSources'] as $widget){ ?>
+                    <li><a href="<?php echo $this->app['url']; ?>window/widget/do/add/widgetSourceId/<?php echo $widget['plugin_resource_id']; ?>/groupId/<?php echo $this->app['group_id'];?>" class="ajaxOpen"><?php echo $widget['plugin_resource_name']; ?></a></li>
+            <?php } ?>
+        </ul>
+    </div>
+</div>
+
+

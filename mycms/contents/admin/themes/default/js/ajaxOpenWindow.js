@@ -19,6 +19,10 @@ $(function(){
             return false;
         }
 
+        if( href == '#'){
+            return false;
+        }
+
         if($(this).hasClass('disAjax') && $(this).hasClass('noRedirect')){
             return false;
         }

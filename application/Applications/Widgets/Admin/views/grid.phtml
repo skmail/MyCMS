@@ -1,0 +1,26 @@
+<script>
+
+    $('#saveGrid #theme_id').die().live('change',function(){
+
+        $.ajax({
+            'url':'<?php echo $this->app['url'];?>window/_templateGroupCategoriesList',
+            'type':'POST',
+            'dataType':'json',
+            'data':'themeid='+$(this).val(),
+            'success':function(data)
+            {
+
+                $_selectMenu = $('#saveGrid').find('#params-group_outer_templates_category');
+
+                $_selectMenu.find('option').remove();
+
+                $.each(data.app.categories,function(key,value){
+                    $_selectMenu.append('<option value="'+value.cat_id+'">'+value.cat_name+'</option>');
+                });
+
+            }
+        });
+    });
+</script>
+
+<?php echo $this->app['gridForm'];?>

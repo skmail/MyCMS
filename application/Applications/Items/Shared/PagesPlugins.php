@@ -1,12 +1,12 @@
 <?php
 
 
-class App_Items_Shared_PagesPlugins extends App_Plugins_Shared_PagesPluginsAbstract
+class App_Items_Shared_PagesPlugins extends App_Widgets_Shared_PagesPluginsAbstract
 {
 
     public function buildPages()
     {
-        $itemsQueries = new App_Items_Admin_Queries();
+        $itemsQueries = new App_Items_Shared_Libraries_Queries();
 
         $langs = new App_Language_Shared_Lang();
 

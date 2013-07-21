@@ -1,0 +1,46 @@
+<?php if (!$this->app['groups']) { ?>
+    <?php echo $this->appendMessage('There is no groups In this Grid', 'error'); ?>
+<?php } else { ?>
+<div class="panel clearfix">
+    <div class="content no-pad clearfix">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="1" ></th>
+                    <th width="1" ><input type="checkbox" class="check_all" rel="group"></th>
+                    <th width="1" ></th>
+                    <th class="align">Group Name</th>
+                    <th>Status</th>
+                    <th width="10%">Action</th>
+                </tr>
+            </thead>
+            <tbody class="tableSortable" rel="<?php echo $this->app['url'];?>window/saveGroupOrder">
+                <?php foreach ($this->app['groups'] as $c=>$group) { ?>
+                    
+                    <tr id="order_<?php echo $group['group_id'];?>">
+                        <td width="1"><div class='sort-handle'></div></td>
+                        <td width="1"><input type="checkbox" class="group"></td>
+                        <td width="1"><?php echo $c+1;?></td>
+                        <td><a href='<?php echo $this->app['url'] . 'window/widgets/groupid/' . $group['group_id']; ?>' class="group_name"><?php echo $group['group_name']; ?></a></td>
+                        <td><?php echo $group['group_status']; ?></td>
+                        <td align="center">
+                            <a href="<?php echo $this->app['url'] . 'window/group/do/edit/groupid/' . $group['group_id']; ?>" class="icon-25x25 edit" title="<?php echo $this->translate('edit');?>"></a>
+
+                            <span class="dropdown">
+                                <a href="#" class="dropdown-toggle icon-25x25 operations" data-toggle="dropdown" title="<?php echo $this->translate('operations');?>"></a>
+                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                     <li><a href='<?php echo $this->app['url'] . 'window/duplicateGroup/groupid/' . $group['group_id'].'/'.'gridid/' . $group['grid_id']; ?>' class="disState"><?php echo $this->translate('duplicate');?></a></li>
+                                     <li><a href="<?php echo $this->app['url'] . 'window/deleteGroup/groupid/' . $group['group_id'].'/'.'gridid/' . $group['grid_id']; ?>" class="disState"><?php echo $this->translate('delete');?></a></li>
+                                </ul>                               
+                            </span>    
+                            
+                        </td>
+                    </tr>    
+                <?php } ?>    
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+<?php } ?>

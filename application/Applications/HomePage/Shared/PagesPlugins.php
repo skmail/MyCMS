@@ -1,7 +1,7 @@
 <?php
 
 
-class App_HomePage_Shared_PagesPlugins extends App_Plugins_Shared_PagesPluginsAbstract
+class App_HomePage_Shared_PagesPlugins extends App_Widgets_Shared_PagesPluginsAbstract
 {
 
     public function buildPages()

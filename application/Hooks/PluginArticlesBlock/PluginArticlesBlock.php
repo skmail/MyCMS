@@ -11,20 +11,20 @@ class Hooks_PluginArticlesBlock_PluginArticlesBlock
         $thumb->addPrefixPath('MC_Admin_Form', 'MC/Admin/Form');
 
         $thumb->addElement('checkbox', 'use', array(
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 1));
 
         $thumb->addElement('text', 'width', array(
             'label'      => 'Width',
             'required'   => true,
             'validators' => array('Digits'),
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 60,
             'class'      => 'input-mini'));
 
         $thumb->addElement('text', 'height', array(
             'label'      => 'Height',
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 45,
             'class'      => 'input-mini'
         ));
@@ -49,20 +49,20 @@ class Hooks_PluginArticlesBlock_PluginArticlesBlock
         $customSize->addElement('text', 'width', array(
             'label'      => 'Width',
             'validators' => array('Digits'),
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 100,
             'class'      => 'input-mini'));
 
         $customSize->addElement('text', 'height', array(
             'label'      => 'Height',
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'value'      => 80,
             'class'      => 'input-mini'
         ));
 
         $customSize->addElement('text', 'noOfImage', array(
             'label'      => 'Image no.',
-            'decorators' => $form->elementDecorators,
+            'decorators' => MC_Admin_Form_Form::$elementDecorators,
             'class'      => 'input-mini'));
 
 
@@ -106,7 +106,7 @@ class Hooks_PluginArticlesBlock_PluginArticlesBlock
 
         $groupOuterTemplatesCategoryEL =
             $form->createElement('select','articleBlocks_inner_templates_category',
-                array('decorators' => $form->elementDecorators))
+                array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                 ->setLabel('articleBlocks_inner_templates_category')
                 ->setRequired(TRUE);
 

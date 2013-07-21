@@ -18,8 +18,6 @@ class App_Items_Shared_FieldsTypes_Editor_Field extends App_Items_Shared_Core_Fi
 
     public static function setFieldValue($field)
     {
-
-        self::$_fieldErrors[] = 's';
         return $field;
     }
 }

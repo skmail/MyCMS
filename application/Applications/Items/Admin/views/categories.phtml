@@ -17,8 +17,8 @@ else
     $this->html()->table()->thead_start();
     $this->html()->table()->tr_start();
 
-    $this->html()->table()->th('<input type="checkbox" class="check_all" rel="cats">',array('width'=>1));
-    $this->html()->table()->th($this->translate('folder_name'),array('class'=>'align'));
+    $this->html()->table()->th('<input type="checkbox" class="check_all" rel="category">',array('width'=>1));
+    $this->html()->table()->th($this->translate('category_name'),array('class'=>'align'));
     $this->html()->table()->th($this->translate('status'),array('width'=>'10%'));
 
 
@@ -30,11 +30,13 @@ else
 
     $this->html()->table()->tbody_start();
 
-
     echo $this->AppendCategoryTr($this->app['categories']);
 
     $this->html()->table()->tbody_end();
     $this->html()->table()->end();
+
+    echo $this->formSubmit('delete',$this->translate('delete'),array('type'=>'submit','data-modal-type'=>'confirm','class'=>'btn','data-modal-msg'=>$this->translate('do_you_want_delete_category')));
+    echo "<input type='hidden' name='folder_id' value='".$this->app['folder']['folder_id']."' />";
 
     $this->html()->div_end();
     $this->html()->div_end();

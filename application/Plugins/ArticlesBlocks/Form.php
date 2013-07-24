@@ -6,10 +6,10 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
     public function init()
     {
 
-        $db = Zend_Registry::get('db');
+        $MC =& MC_Core_Instance::getInstance();
+        $MC->load->appLibrary('Queries','itemQueries','Items');
 
         $data = $this->getAttrib('app');
-
         $this->removeAttrib('app');
 
         $catsList = $this->createElement('select', 'category_id', array('isArray'    => true, 'decorators' => MC_Admin_Form_Form::$elementDecorators))
@@ -17,51 +17,42 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
                 ->setRequired(TRUE)
                 ->setAttrib('multiple', true);
 
-        $cats = $db->select()->from('items_categories')
-                ->join('items_categories_lang', 'items_categories.cat_id = items_categories_lang.cat_id')
-                ->where('cat_status = ?', 1);
-
-        foreach ($db->fetchAll($cats) as $k => $v)
+        $folders = $MC->itemQueries->getFolderByLangId($MC->model->lang->currentLang('lang_id'));
+        $categroiesArray = array();
+        foreach ($folders as $folder)
         {
-            $catsList->addMultiOption($v['cat_id'], $v['cat_name']);
+            $categories = $MC->itemQueries->categoriesTreeBySequence(0,2,array('folder_id'=>$folder['folder_id']));
+            foreach($categories as $cat)
+            {
+                $categroiesArray[$folder['folder_name']][$cat['cat_id']] = $cat['cat_name'];
+            }
         }
 
+        $catsList->setMultiOptions($categroiesArray);
         $this->addElement($catsList);
-
         $this->addElement('checkbox', 'hasImage', array('label' => 'Show only has image'));
-
         $outerTemplates = $this->createElement('select', 'outer_template', array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                 ->setLabel('Outer Template')
                 ->setRequired(TRUE);
 
-        $templates = $db->select()->from('templates');
+        
+        $templates = $MC->db->select()->from('templates');
 
-        foreach ($db->fetchAll($templates) as $k => $v)
+        foreach ($MC->db->fetchAll($templates) as $k => $v)
         {
             $outerTemplates->addMultiOption($v['template_id'], $v['template_name']);
         }
-
         $this->addElement($outerTemplates);
-
         $innerTemplates = $this->createElement('select', 'inner_template', array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                 ->setLabel('inner_template')
                 ->setRequired(TRUE);
-
-        $templates = $db->select()->from('templates');
-
-
-        foreach ($db->fetchAll($templates) as $k => $v)
+        $templates = $MC->db->select()->from('templates');
+        foreach ($MC->db->fetchAll($templates) as $k => $v)
         {
             $innerTemplates->addMultiOption($v['template_id'], $v['template_name']);
         }
 
         $this->addElement($innerTemplates);
-
-
-
-
-
-
         $sortBy = $this->createElement('select', 'sort_by', array('label'      => 'Sort By',
             'decorators' => MC_Admin_Form_Form::$elementDecorators));
 
@@ -91,16 +82,6 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
             'class'      => 'input-mini'));
 
         $rowsShow->setElementsBelongTo('');
-
-        $rowsShow->setElementDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array('Inline_Element')
-        ));
-
-        $rowsShow->setDecorators(array('FormElements',
-            array('Inline_Wrapper')
-        ));
 
         $this->addSubForm($rowsShow, 'rowsshow');
 
@@ -133,19 +114,11 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
 
         $title->addElement($cutType);
 
-        $title->setElementDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array('Inline_Element')
-        ));
-
         $title->setDecorators(array('FormElements',
-            array('Inline_Wrapper', array('title'    => 'Title Settings', 'elements' => $title->getElements()))
+            array('Elements_Group', array('title'    => 'Title Settings', 'elements' => $title->getElements()))
         ));
 
         $this->addSubForm($title, 'title');
-
-
 
         $content = new MC_Admin_Form_SubForm();
 
@@ -178,20 +151,12 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
 
         $content->addElement($cutType);
 
-        $content->setElementDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array('Inline_Element')
-        ));
-
         $content->setDecorators(array('FormElements',
             array('HtmlTag', array('tag' => 'div')),
-            array('Inline_Wrapper', array('title'    => 'Content Settings', 'isHidden' => true))
+            array('Elements_Group', array('title'    => 'Content Settings', 'isHidden' => true))
         ));
 
         $this->addSubForm($content, 'content');
-
-
 
         $image = new MC_Admin_Form_SubForm();
 
@@ -221,15 +186,8 @@ class Plugins_ArticlesBlocks_Form extends MC_Admin_Form_SubForm
             'value'      => 1,
             'label'=>'crop'));
 
-        $image->setElementDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array('Inline_Element')
-        ));
-
-
         $image->setDecorators(array('FormElements',
-            array('Inline_Wrapper', array('title' => 'Main Image Settings'))
+            array('Elements_Group', array('title' => 'Main Image Settings'))
         ));
 
         $this->addSubForm($image, 'image');

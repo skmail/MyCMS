@@ -6,16 +6,25 @@ class App_Items_Shared_PagesPlugins extends App_Widgets_Shared_PagesPluginsAbstr
 
     public function buildPages()
     {
+
+        $MC =& MC_Core_Instance::getInstance();
+
         $itemsQueries = new App_Items_Shared_Libraries_Queries();
 
-        $langs = new App_Language_Shared_Lang();
+        $categories = array();
 
-        $categories = $itemsQueries->categoryQuery(array('lang_id'=>$langs->currentLang()));
+        $folders = $itemsQueries->getFolderByLangId($MC->model->lang->currentLang('lang_id'));
 
-        foreach($categories as $cat)
+        foreach ($folders as $folder)
         {
-            $this->setPage('category',$cat['cat_id'],$cat['cat_name']);
+            $categories = $itemsQueries->categoriesTreeBySequence(0,2,array('folder_id'=>$folder['folder_id']));
+            foreach($categories as $cat)
+            {
+                //$categories[$cat['cat_id']] = $cat['cat_name'];
+                $this->setPage('category',$cat['cat_id'],$cat['cat_name']);
+            }
         }
+
     }
 
 

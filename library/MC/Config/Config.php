@@ -43,34 +43,26 @@ class MC_Config_Config extends Zend_Config
     public static function loadFromDirectory($path,$env)
     {
         self::$_env = $env;
-        if(!is_dir($path))
-        {
+        if(!is_dir($path)){
             throw new MC_Exception("Directory path not exists", 500);
         }
-
         $configDir = new MC_File_Iterator_Directory($path);
-
         $configsArray = array();
-
         foreach($configDir as $configFile)
         {
-            if($configFile->isDot())
-            {
+            if($configFile->isDot()){
                 continue;
             }
-
             $configType = strtolower(pathinfo($configFile, PATHINFO_EXTENSION));
-
             switch($configType)
             {
                 case 'ini':
                 case 'php':
                     $config = self::_loadConfig(rtrim($path,'/').'/'.$configFile);
                     $configsArray = self::mergeArrays($configsArray,$config);
-                    break;
+                break;
             }
         }
-
         return $configsArray;
     }
 

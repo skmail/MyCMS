@@ -53,7 +53,7 @@ class MC_Controller_Plugin_Translate extends Zend_Controller_Plugin_Abstract
 
                 $languageClass = new MC_Translate_Language();
                 $languageVars = $languageClass->current('*',array('short_lang'=>$language));
-        
+
                 Zend_Registry::set('language',$languageVars);
                 
                 $translate = new Zend_Translate('array', $translationFile, $locale);

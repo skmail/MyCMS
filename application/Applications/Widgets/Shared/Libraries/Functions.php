@@ -61,7 +61,7 @@ class App_Widgets_Shared_Libraries_Functions{
         $applicationsList = array();
         $applicationsNames = array();
 
-        $applications = new App_Widgets_Admin_Forms_Plugin();
+        $applications = new App_Widgets_Admin_Forms_Widget();
 
         $apps = $applications->applicationsPlugins();
 
@@ -94,7 +94,7 @@ class App_Widgets_Shared_Libraries_Functions{
 
         $db = Zend_Registry::get('db');
 
-        $applicationsQuery = $db->select()->from('Applications')->where('plugins = ? ', 1);
+        $applicationsQuery = $db->select()->from('Applications')->where('widgets = ? ', 1);
 
         $applicationsRow = $db->fetchAll($applicationsQuery);
 

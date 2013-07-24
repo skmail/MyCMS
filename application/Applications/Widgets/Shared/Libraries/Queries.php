@@ -73,33 +73,33 @@ class App_Widgets_Shared_Libraries_Queries
     public function widget($args = array())
     {
 
-        $pluginQuery = $this->MC->db->select()->from('plugins')
-                ->join('plugins_lang', 'plugins.plugin_id = plugins_lang.plugin_id');
-        $pluginQuery->join('plugins_groups', 'plugins_groups.group_id =  plugins.group_id');
-        $pluginQuery->join('grid', 'plugins_groups.grid_id =  grid.grid_id');
+        $pluginQuery = $this->MC->db->select()->from('widgets')
+                ->join('widgets_lang', 'widgets.widget_id = widgets_lang.widget_id');
+        $pluginQuery->join('widgets_groups', 'widgets_groups.group_id =  widgets.group_id');
+        $pluginQuery->join('grid', 'widgets_groups.grid_id =  grid.grid_id');
 
-        if (isset($args['plugin_id']))
+        if (isset($args['widget_id']))
         {
-            $pluginQuery->where("plugins.plugin_id = ? ", $args['plugin_id']);
+            $pluginQuery->where("widgets.widget_id = ? ", $args['widget_id']);
         }
 
         if ($args['group_id'] != 0)
         {
-            $pluginQuery->where("plugins.group_id = ? ", $args['group_id']);
+            $pluginQuery->where("widgets.group_id = ? ", $args['group_id']);
         }
 
         if (isset($args['lang_id']))
         {
-            $pluginQuery->where('plugins_lang.lang_id = ? ', $args['lang_id']);
+            $pluginQuery->where('widgets_lang.lang_id = ? ', $args['lang_id']);
         }
 
-        if (!isset($args['plugin_id']))
+        if (!isset($args['widget_id']))
         {
-            $pluginQuery->order(array('plugins.plugin_order ASC'));
+            $pluginQuery->order(array('widgets.widget_order ASC'));
         }
 
 
-        if (isset($args['plugin_id']) && !isset($args['lang_id']) )
+        if (isset($args['widget_id']) && !isset($args['lang_id']) )
         {
 
             $pluginRow = $this->MC->db->fetchAll($pluginQuery);
@@ -120,7 +120,7 @@ class App_Widgets_Shared_Libraries_Queries
 
             $pluginRow['group_params'] = Zend_Json::decode($pluginRow['group_params']);
 
-            $pluginRow['plugin_params'] = Zend_Json::decode($pluginRow['plugin_params']);
+            $pluginRow['widget_params'] = Zend_Json::decode($pluginRow['widget_params']);
 
 
             $pluginRow['plugin_lang'] = $pluginLangRow;
@@ -128,7 +128,7 @@ class App_Widgets_Shared_Libraries_Queries
             return $pluginRow;
         }
 
-        if (!isset($args['plugin_id']) && isset($args['lang_id']))
+        if (!isset($args['widget_id']) && isset($args['lang_id']))
         {
             return $this->MC->db->fetchAll($pluginQuery);
         }
@@ -139,28 +139,28 @@ class App_Widgets_Shared_Libraries_Queries
     {
 
 
-        $groupQuery = $this->MC->db->select()->from('plugins_groups');
+        $groupQuery = $this->MC->db->select()->from('widgets_groups');
 
-        $groupQuery->join('plugins_groups_lang', 'plugins_groups.group_id = plugins_groups_lang.group_id');
-        $groupQuery->join('grid', 'plugins_groups.grid_id = grid.grid_id');
+        $groupQuery->join('widgets_groups_lang', 'widgets_groups.group_id = widgets_groups_lang.group_id');
+        $groupQuery->join('grid', 'widgets_groups.grid_id = grid.grid_id');
 
         if (isset($options['group_id']))
         {
-            $groupQuery->where('plugins_groups.group_id = ? ', $options['group_id']);
+            $groupQuery->where('widgets_groups.group_id = ? ', $options['group_id']);
         }
 
         if (isset($options['lang_id']))
         {
-            $groupQuery->where('plugins_groups_lang.lang_id = ? ', $options['lang_id']);
+            $groupQuery->where('widgets_groups_lang.lang_id = ? ', $options['lang_id']);
         }
         if (isset($options['grid_id']))
         {
-            $groupQuery->where('plugins_groups.grid_id = ? ', $options['grid_id']);
+            $groupQuery->where('widgets_groups.grid_id = ? ', $options['grid_id']);
         }
 
         if (!isset($options['group_id']))
         {
-            $groupQuery->order(array('plugins_groups.group_order ASC'));
+            $groupQuery->order(array('widgets_groups.group_order ASC'));
         }
 
         if(isset($options['group_id']) && isset($options['lang_id']))
@@ -227,7 +227,7 @@ class App_Widgets_Shared_Libraries_Queries
         }
 
 
-        $groups = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins_groups')->where('grid_id = ? ', $gridId));
+        $groups = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets_groups')->where('grid_id = ? ', $gridId));
 
         foreach ($groups as $group)
         {
@@ -241,29 +241,29 @@ class App_Widgets_Shared_Libraries_Queries
 
 
 
-        $groupRow = $this->MC->db->fetchRow($this->MC->db->select()->from('plugins_groups')->where('group_id = ? ', $groupId));
+        $groupRow = $this->MC->db->fetchRow($this->MC->db->select()->from('widgets_groups')->where('group_id = ? ', $groupId));
 
         $groupRow = @array_merge($groupRow, $options);
 
         unset($groupRow['group_id']);
 
-        $this->MC->db->insert('plugins_groups', $groupRow);
+        $this->MC->db->insert('widgets_groups', $groupRow);
         $newGroupId = $this->MC->db->lastInsertId();
 
-        $groupLangs = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins_groups_lang')->where('group_id = ? ', $groupId));
+        $groupLangs = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets_groups_lang')->where('group_id = ? ', $groupId));
 
         foreach ($groupLangs as $groupLang)
         {
             $groupLang['group_id'] = $newGroupId;
-            $this->MC->db->insert('plugins_groups_lang', $groupLang);
+            $this->MC->db->insert('widgets_groups_lang', $groupLang);
         }
 
 
-        $plugins = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins')->where('group_id = ? ', $groupId));
+        $plugins = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets')->where('group_id = ? ', $groupId));
 
         foreach ($plugins as $plugin)
         {
-            $this->duplicatePlugin($plugin['plugin_id'], array('group_id' => $newGroupId));
+            $this->duplicatePlugin($plugin['widget_id'], array('group_id' => $newGroupId));
         }
 
     }
@@ -271,21 +271,21 @@ class App_Widgets_Shared_Libraries_Queries
     public function duplicatePlugin($pluginId, $options = array())
     {
 
-        $pluginRow = $this->MC->db->fetchRow($this->MC->db->select()->from('plugins')->where('plugin_id = ?', $pluginId));
+        $pluginRow = $this->MC->db->fetchRow($this->MC->db->select()->from('widgets')->where('widget_id = ?', $pluginId));
 
         $pluginRow = array_merge($pluginRow, $options);
 
-        unset($pluginRow['plugin_id']);
+        unset($pluginRow['widget_id']);
 
-        $this->MC->db->insert('plugins', $pluginRow);
+        $this->MC->db->insert('widgets', $pluginRow);
         $newPluginId = $this->MC->db->lastInsertId();
 
-        $pluginLangs = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins_lang')->where('plugin_id = ? ', $pluginId));
+        $pluginLangs = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets_lang')->where('widget_id = ? ', $pluginId));
 
         foreach ($pluginLangs as $pluginLang)
         {
-            $pluginLang['plugin_id'] = $newPluginId;
-            $this->MC->db->insert('plugins_lang', $pluginLang);
+            $pluginLang['widget_id'] = $newPluginId;
+            $this->MC->db->insert('widgets_lang', $pluginLang);
         }
 
     }
@@ -296,7 +296,7 @@ class App_Widgets_Shared_Libraries_Queries
 
         $this->MC->db->delete('grid', $where);
 
-        $groups = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins_groups')->where('grid_id = ? ', $gridId));
+        $groups = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets_groups')->where('grid_id = ? ', $gridId));
 
         foreach ($groups as $group)
         {
@@ -311,16 +311,16 @@ class App_Widgets_Shared_Libraries_Queries
 
         $where = $this->MC->db->quoteInto("group_id = ? ", $groupId);
 
-        $groupRow = $this->MC->db->delete('plugins_groups', $where);
+        $groupRow = $this->MC->db->delete('widgets_groups', $where);
 
-        $groupRow = $this->MC->db->delete('plugins_groups_lang', $where);
+        $groupRow = $this->MC->db->delete('widgets_groups_lang', $where);
 
 
-        $plugins = $this->MC->db->fetchAll($this->MC->db->select()->from('plugins')->where('group_id = ? ', $groupId));
+        $plugins = $this->MC->db->fetchAll($this->MC->db->select()->from('widgets')->where('group_id = ? ', $groupId));
 
         foreach ($plugins as $plugin)
         {
-            $this->deletePlugin($plugin['plugin_id']);
+            $this->deletePlugin($plugin['widget_id']);
         }
 
     }
@@ -331,11 +331,11 @@ class App_Widgets_Shared_Libraries_Queries
      */
     public function widgetSource($widgetSourceId = NULL)
     {
-        $query = $this->MC->db->select()->from('plugins_resources');
+        $query = $this->MC->db->select()->from('widgets_sources');
 
         if(NULL != $widgetSourceId || 0 != $widgetSourceId)
         {
-            $query->where("plugin_resource_id = ? ",$widgetSourceId );
+            $query->where("widget_source_id = ? ",$widgetSourceId );
 
             $widgetRow = $this->MC->db->fetchRow($query);
             $widgetRow['widgetForm'] = 'Plugins_'.ucfirst($widgetRow['plugin_resource_name']).'_Form';
@@ -348,9 +348,9 @@ class App_Widgets_Shared_Libraries_Queries
 
     public function deletePlugin($pluginId = NULL)
     {
-        $where = $this->MC->db->quoteInto("plugin_id = ? ", $pluginId);
-        $this->MC->db->delete('plugins', $where);
-        $this->MC->db->delete('plugins_lang', $where);
+        $where = $this->MC->db->quoteInto("widget_id = ? ", $pluginId);
+        $this->MC->db->delete('widgets', $where);
+        $this->MC->db->delete('widgets_lang', $where);
 
     }
 }

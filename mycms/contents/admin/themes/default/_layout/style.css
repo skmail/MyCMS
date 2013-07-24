@@ -25,6 +25,10 @@ ul{
 {
     text-align: left;
 }
+ul.errors
+{
+    color:red;
+}
 body,a{
     font-family: "Open Sans";
     text-decoration: none;
@@ -219,12 +223,10 @@ background: #f2f2f2;
 {
     box-shadow: inset 1px 2px 5px #2980b9;
 }
-
-
-
-
-
-
+.btn2
+{
+   background: #045072;
+}
 /**
     Form Elements
 */
@@ -622,4 +624,8 @@ label.form-label
 .icon-25x25.operations
 {
     background-image:  url(images/icons/25x25/operations.png);
+}
+.icon-25x25.screen
+{
+    background-image:  url(images/icons/25x25/screen.png);
 }

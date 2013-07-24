@@ -1,21 +1,15 @@
-
 <?php
-
-if (!$this->app['fields'])
-{
-    echo $this->appendMessage($this->translate('There is no fields in this category'), 'error');
-}
-else
-{
+if (!$this->app['fields']){
+    echo $this->appendMessage($this->translate('no_fields_for_this_folder'), 'error');
+}else{
 ?>
-
-
+<form method="post" action="<?php echo $this->app['url'];?>window/deleteField">
 <div class="panel clearfix">
             <div class="content no-pad clearfix">
                 <table class="table" width="100%">
                     <thead>
                         <tr>
-                        <th width="1"><input type="checkbox" class="check_all" rel="cats"></th>
+                        <th width="1"><input type="checkbox" class="check_all" rel="fields"></th>
                         <th ><?php echo $this->translate('field_name'); ?></th>
                         
                         </tr>
@@ -26,7 +20,7 @@ else
 
                             ?>
                             <tr>
-                            <td><input type="checkbox" class="fields" name="field[]" value="<?php echo $field['field_id']; ?>"></td>
+                            <td><input type="checkbox" class="fields" name="field_id[]" value="<?php echo $field['field_id']; ?>"></td>
                             <td><a href='<?php echo $this->app['url']; ?>window/field/field_id/<?php echo $field['field_id']; ?>/do/edit' class="name">
                                 <?php echo ($field['field_label'] == "")?$field['field_name']:$field['field_label']; ?>
                                 </a></td>
@@ -37,8 +31,10 @@ else
 
                 </table>
                 <div class="margin-top-5px">
-                    <input type="submit" data-modal-type="confirm"  data-modal-msg="Do you want delete this field?" value="<?php echo $this->translate('delete'); ?>" name="deleteCats" class="btn btn-navbar delete">
+                    <input type="hidden" name="folder_id" value="<?php echo $this->app['folder']['folder_id'];?>" >
+                    <input type="submit" data-modal-type="confirm"  data-modal-msg="<?php echo $this->translate('do_you_want_delete_field');?>" value="<?php echo $this->translate('deletes'); ?>" name="deleteCats" class="btn">
                 </div>
             </div>
         </div>
+</form>
     <?php } ?>    

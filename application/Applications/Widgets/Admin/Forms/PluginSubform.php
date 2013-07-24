@@ -13,9 +13,9 @@ class App_Widgets_Admin_Forms_Widgetsubform extends MC_Admin_Form_BaseForm {
         
         
         $groups = $db->select()
-                     ->from('plugins_groups')
-                     ->join('plugins_groups_lang', 'plugins_groups.group_id = plugins_groups_lang.group_id')
-                     ->where('plugins_groups.group_status = ?', 1);
+                     ->from('widgets_groups')
+                     ->join('widgets_groups_lang', 'widgets_groups.group_id = widgets_groups_lang.group_id')
+                     ->where('widgets_groups.group_status = ?', 1);
 
         foreach ($db->fetchAll($groups) as $k => $v) {
             $groupsList->addMultiOption($v['group_id'], $v['group_name']);
@@ -23,7 +23,7 @@ class App_Widgets_Admin_Forms_Widgetsubform extends MC_Admin_Form_BaseForm {
 
         $plugin->addElement($groupsList);
 
-        $pluginStatus = $this->createElement('select', 'plugin_status',array(
+        $pluginStatus = $this->createElement('select', 'widget_status',array(
                                             'decorators'=>MC_Admin_Form_Form::$elementDecorators))
                                ->setLabel('Plugin Status')
                                ->setRequired(TRUE);

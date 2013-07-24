@@ -20,12 +20,12 @@
 
                         <tbody class="tableSortable" rel="<?php echo $this->app['url']; ?>window/saveWidgetOrder">
                             <?php foreach ($this->app['widgets'] as $c => $widget){?>
-                                <tr id="order_<?php echo $widget['plugin_id']; ?>">
+                                <tr id="order_<?php echo $widget['widget_id']; ?>">
                                     <td width="1"><div class='sort-handle'></div></td>
-                                    <td width="1"><input type="checkbox" class="widget" name="widget_id[]" value="<?php echo $widget['plugin_id']; ?>"></td>
+                                    <td width="1"><input type="checkbox" class="widget" name="widget_id[]" value="<?php echo $widget['widget_id']; ?>"></td>
                                     <td width="1"><?php echo $c + 1; ?></td>
-                                    <td><a href='<?php echo $this->app['url'] . 'window/widget/do/edit/widgetId/' . $widget['plugin_id']; ?>' class="group_name"><?php echo $widget['plugin_name']; ?></a></td>
-                                    <td align="center"><?php echo $widget['plugin_status']; ?></td>
+                                    <td><a href='<?php echo $this->app['url'] . 'window/widget/do/edit/widgetId/' . $widget['widget_id']; ?>' class="group_name"><?php echo $widget['widget_name']; ?></a></td>
+                                    <td align="center"><?php echo $widget['widget_status']; ?></td>
                                 </tr>    
                             <?php } ?>    
                         </tbody>

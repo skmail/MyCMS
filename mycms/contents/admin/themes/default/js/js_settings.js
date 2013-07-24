@@ -332,7 +332,7 @@ $(function(){
         $('.info_box').find('.info_box_content').stop(true,false).fadeOut(300);
     });
     
-    $('.showin-list').closest('label').css('margin-left','165px');
+    //$('.showin-list').closest('label').css('margin-left','165px');
     
     $('.showHiddenElements').live('click',function(){
        

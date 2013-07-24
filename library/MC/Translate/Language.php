@@ -16,17 +16,13 @@ class MC_Translate_Language
     public function current($field = '*',$options = array())
     {
 
-        if(Zend_Registry::isRegistered('language') && $currentLanguage = Zend_Registry::get('language') )
-        {
-            if($currentLanguage == $options['short_lang'])
-            {
-                if($field == '*')
-                {
-                    return $currentLanguage;
-                }
-                return $currentLanguage[$field];
+        if(Zend_Registry::isRegistered('language') && $currentLanguage = Zend_Registry::get('language') ){
+            if($field == '*'){
+                return $currentLanguage;
             }
+            return $currentLanguage[$field];
         }
+
 
         $query = $this->MC->db->select()->from('language');
 
@@ -34,10 +30,14 @@ class MC_Translate_Language
         {
             $query->where('short_lang = ?',$options['short_lang']);
         }
-
+        else
         if(isset($options['lang_default']))
         {
             $query->where('lang_default = ?',$options['lang_default']);
+        }
+        else
+        {
+            $query->where('lang_default = ?',1);
         }
 
         $query->where('lang_status = ?',1);
@@ -53,10 +53,7 @@ class MC_Translate_Language
 
             return $row[$field];
         }
-        else
-        {
-            return $this->setLanguage(array('lang_default'=>1));
-        }
+        return false;
     }
 
     /**

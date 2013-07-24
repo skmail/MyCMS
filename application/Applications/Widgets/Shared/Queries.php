@@ -26,24 +26,24 @@ class App_Widgets_Shared_Queries
         }
 
 
-        $groupQuery = $this->db->select()->from('plugins_groups')
-                ->join('plugins_groups_lang', 'plugins_groups.group_id = plugins_groups_lang.group_id')
-                ->join('grid', 'plugins_groups.grid_id = grid.grid_id')
-                ->where('plugins_groups.group_status = ?', 1);
+        $groupQuery = $this->db->select()->from('widgets_groups')
+                ->join('widgets_groups_lang', 'widgets_groups.group_id = widgets_groups_lang.group_id')
+                ->join('grid', 'widgets_groups.grid_id = grid.grid_id')
+                ->where('widgets_groups.group_status = ?', 1);
 
         if (isset($options['groupId']))
         {
-            $groupQuery->where('plugins_groups.group_id = ? ', intval($options['groupId']));
+            $groupQuery->where('widgets_groups.group_id = ? ', intval($options['groupId']));
         }
 
         if (isset($options['gridId']))
         {
-            $groupQuery->where('plugins_groups.grid_id = ? ', intval($options['gridId']));
+            $groupQuery->where('widgets_groups.grid_id = ? ', intval($options['gridId']));
         }
 
         if ($options['onlyLang'] == true)
         {
-            $groupQuery->where('plugins_groups_lang.lang_id = ? ',   MC_Core_Loader::appClass('Language','Lang',NULL,'Shared')->currentLang());
+            $groupQuery->where('widgets_groups_lang.lang_id = ? ',   MC_Core_Loader::appClass('Language','Lang',NULL,'Shared')->currentLang());
         }
 
 

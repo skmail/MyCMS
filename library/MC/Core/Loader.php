@@ -63,10 +63,12 @@ class MC_Core_Loader
 
         return $class;
     }
-    public function appLibrary($libraryName,$libraryNamespace = '')
+    public function appLibrary($libraryName,$libraryNamespace = '',$appPath = '')
     {
 
-        $appPath = MC_Core_Instance::$appPath;
+        if($appPath === ""){
+            $appPath = MC_Core_Instance::$appPath;
+        }
 
         $applicationLibrariesPath = 'App_'.ucfirst($appPath) . '_Shared_Libraries_';
 

@@ -32,7 +32,7 @@ class MC_Models_Html_Form
     
     public function submit($name,$value = '',$attr = array())
     {
-        $this->output("<input type='submit' name='".$name,"' value='". $value ."' " . $this->attr($attr) . " />" );
+        $this->output("<input type='submit' name='".$name."' value='". $value ."' " . $this->attr($attr) . " />" );
     }
     public function output($tag)
     {

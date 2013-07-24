@@ -21,7 +21,7 @@
         <div class="arrow"></div>
         <ul class="menu-content">
             <?php foreach ($this->app['widgetsSources'] as $widget){ ?>
-                    <li><a href="<?php echo $this->app['url']; ?>window/widget/do/add/widgetSourceId/<?php echo $widget['plugin_resource_id']; ?>/groupId/<?php echo $this->app['group_id'];?>" class="ajaxOpen"><?php echo $widget['plugin_resource_name']; ?></a></li>
+                    <li><a href="<?php echo $this->app['url']; ?>window/widget/do/add/widgetSourceId/<?php echo $widget['widget_source_id']; ?>/groupId/<?php echo $this->app['group_id'];?>" class="ajaxOpen"><?php echo $widget['plugin_resource_name']; ?></a></li>
             <?php } ?>
         </ul>
     </div>

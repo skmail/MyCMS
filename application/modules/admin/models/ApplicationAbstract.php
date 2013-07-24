@@ -33,8 +33,7 @@ class Admin_Model_ApplicationAbstract
         $this->_Zend = Zend_Controller_Front::getInstance();
 
         $this->app_id = $application['app_id'];
-
-        $this->application['lang_id'] = 1;
+        $language = new MC_Translate_Language();
 
         $this->application['nav'] = new Admin_Model_System_Breadcrumb(array('url' => $application['url']));
 
@@ -42,7 +41,9 @@ class Admin_Model_ApplicationAbstract
 
         $this->application['currentPage'] = (empty($window))?"index":$window;
 
-        $this->application = array_merge($this->application, $application);
+        $this->application = array_merge($application,$this->application);
+        $this->application['lang_id'] = $language->current('lang_id') ;
+
 
         $this->MC->application = $this->application;
     }

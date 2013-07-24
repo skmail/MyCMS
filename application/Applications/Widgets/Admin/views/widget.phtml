@@ -1,8 +1,35 @@
-
-
+<style>
+    .show-in .form-label
+    {
+        display: block;
+        float: none;
+        width: 100%;
+    }
+    select[multiple=multiple]
+    {
+        width: 50%;
+        height: 200px;
+    }
+    select[multiple=multiple] optgroup,select[multiple=multiple] option
+    {
+        padding: 5px;
+    }
+    select[multiple=multiple] option
+    {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .show-in input[type=checkbox]
+    {
+        margin:5px  10px 5px 0;
+    }
+    .show-in .form-element{
+        margin: 0;
+        padding: 0;
+    }
+</style>
 <div class="panel clearfix">
     <div class="content no-pad clearfix"> 
         <?php echo $this->app['widgetForm']; ?>
-
     </div>
 </div>

@@ -46,7 +46,7 @@ class App_Widgets_Admin_Forms_WidgetsShowinSubform extends MC_Admin_Form_BaseFor
 
         $db = Zend_Registry::get('db');
         
-        $applicationsQuery = $db->select()->from('Applications')->where('plugins = ? ', 1);
+        $applicationsQuery = $db->select()->from('Applications')->where('widgets = ? ', 1);
 
         $applicationsRow = $db->fetchAll($applicationsQuery);
 

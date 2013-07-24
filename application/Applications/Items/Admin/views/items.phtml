@@ -3,7 +3,7 @@ if (sizeof($this->app['itemsList']) == 0) {
     echo $this->appendMessage($this->translate('There is no items for this category'), 'error');
 } else {
     ?>
-    <form method="post" action="admin/ajax/window/id/appWindow_<?php echo $this->app['app_id']; ?>/window/deleteItem">
+    <form method="post" action="<?php echo $this->app['url']; ?>window/deleteItem">
         <div class="panel clearfix">
             <div class="content no-pad clearfix">
                 <table class="table" width="100%">
@@ -28,15 +28,17 @@ if (sizeof($this->app['itemsList']) == 0) {
                                 <td><?php echo date('Y-m-d h:i', $item['publish_date']); ?></td>
                                 <td><?php echo $item['item_status']; ?></td>
                                 <td>
-                                    <a href='<?php echo $this->app['url'] . 'window/saveItem/do/deleteItem'; ?>/itemid/<?php echo $item['item_id']; ?>' class="disState icon-25x25 delete" title="<?php echo $this->translate('delete');?>">
+                                    <a href='<?php echo $this->app['url'] . 'window/deleteItem'; ?>/itemid/<?php echo $item['item_id']; ?>/catId/<?php echo $this->app['catInfo']['cat_id'];?>' class="disState icon-25x25 delete" title="<?php echo $this->translate('delete');?>" data-modal-type="confirm" data-modal-msg="<?php echo $this->translate('do_you_want_delete_item');?>">
 
                                     </a></td>
                             </tr>    
                         <?php } ?>    
                     </tbody>
                 </table>
+
                 <div class="margin-top-5px">
-                    <input type="submit" value="<?php echo $this->translate('delete');?>" name="deleteItems" class="btn btn-navbar">
+                    <input type="hidden" name="cat_id" value="<?php echo $this->app['catInfo']['cat_id'];?>">
+                    <input type="submit" value="<?php echo $this->translate('delete');?>" name="deleteItems" class="btn btn-navbar" data-modal-type="confirm" data-modal-msg="<?php echo $this->translate('do_you_want_delete_items');?>">
                 </div>
             </div>
         </div>

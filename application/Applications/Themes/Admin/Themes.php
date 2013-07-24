@@ -15,7 +15,7 @@ class App_Themes_Admin_Themes extends Admin_Model_ApplicationAbstract
         
         $this->_query = new App_Themes_Admin_Queries();
 
-        $this->setNav($this->translate('Themes'));
+        $this->setNav($this->translate('Themes'),'window/index');
 
         $this->assign('menubar',$this->menu);
     }

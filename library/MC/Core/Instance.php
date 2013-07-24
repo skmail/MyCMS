@@ -20,8 +20,7 @@ class MC_Core_Instance {
      */
     public static function    getInstance()
     {
-        if(self::$instance === null)
-        {
+        if(self::$instance === null){
             self::$instance = new self();
             self::$instance->_load();
         }
@@ -34,7 +33,9 @@ class MC_Core_Instance {
      */
     public static  function setAppPath($appPath)
     {
-        self::$appPath = $appPath;
+        if(NULL == self::$appPath){
+            self::$appPath = $appPath;
+        }
     }
 
      /**

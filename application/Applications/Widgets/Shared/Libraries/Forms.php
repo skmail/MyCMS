@@ -44,23 +44,18 @@ class App_Widgets_Shared_Libraries_Forms{
 
     public function widgetForm($pluginResource)
     {
+
         $pluginForm = $pluginResource['plugin_resource_name'];
-
-        $subForm = 'Plugins_' . ucfirst($pluginForm) . '_Form' ;
-
+        $widgetForm = 'Plugins_' . ucfirst($pluginForm) . '_Form' ;
         $applicationParams = array_merge($this->MC->application,$pluginResource);
-
-
         $attr = array('app' => $applicationParams);
 
-        $subForm = new $subForm($attr);
+        $widgetForm = new $widgetForm($attr);
 
         $form =
                 new App_Widgets_Admin_Forms_Widget(
-                        array('action' => $this->MC->application['url'] . 'window/saveWidget', 'app'    => $applicationParams));
-
-        $form->addSubForm($subForm, 'params', 4);
-
+                        array('action' => $this->MC->application['url'] . 'window/saveWidget', 'app'    => $applicationParams,'widget_params'=>$widgetForm));
+        //$form->addSubForm($subForm, 'params', 4);
         $form->populate($pluginResource);
 
         return $form;

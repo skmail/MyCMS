@@ -8,7 +8,7 @@ class Plugins_HtmlContent_Form extends MC_Admin_Form_SubForm {
 
         $db = Zend_Registry::get('db');
 
-        $outerTemplates = $this->createElement('select', 'outer_template', 
+        $outerTemplates = $this->createElement('select', 'outer_template',
                                                 array('decorators' => MC_Admin_Form_Form::$elementDecorators))
                                                 ->setLabel('Outer Template')
                                                 ->setRequired(TRUE);
@@ -21,20 +21,20 @@ class Plugins_HtmlContent_Form extends MC_Admin_Form_SubForm {
         }
 
         $this->addElement($outerTemplates)->isArray(true);
-        
+
 
         $this->addElement('checkbox','disable_htm_editor',array('label'=>'disable_htm_editor','class'=>'disable_htm_editor'));
 
         $plugin_Content = new MC_Admin_Form_SubForm();
-        
+
         $langs = MC_Core_Loader::appClass('Language','Lang',NULL,'Shared');
-        
+
         $langsList = $langs->LangsList();
 
         $currentLang = $langs->currentLang();
 
         $plugin_Content->addPrefixPath('MC_Admin_Form', 'MC/Admin/Form');
-        
+
         foreach ($langsList as $langV) {
 
             $pluginLang = new MC_Admin_Form_SubForm();

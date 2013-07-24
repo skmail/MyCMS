@@ -284,39 +284,30 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $widgetSourceId = intval((isset($options['widgetSourceId']))?$options['widgetSourceId']:$request->getParam('widgetSourceId'));
             $groupId = intval((isset($options['groupId']))?$options['groupId']:$request->getParam('groupId'));
 
-            if ($groupId == 0)
-            {
+            if ($groupId == 0){
                 return $this->setError();
             }
-
-            if ($widgetSourceId == 0)
-            {
+            if ($widgetSourceId == 0){
                 return $this->setError();
             }
-
-            $widgetSource = $this->MC->Queries->widgetSource(array('plugin_resource_id'=>$widgetSourceId));
-
-            if (!$widgetSource)
-            {
+            $widgetSource = $this->MC->Queries->widgetSource(array('widget_source_id'=>$widgetSourceId));
+            if (!$widgetSource){
                 return $this->setError();
             }
 
             $groupQuery = $this->MC->Queries->groupQuery(array('group_id'=>$groupId,'lang_id'=>$this->application['lang_id']));
 
-            if (!$groupQuery)
-            {
+            if (!$groupQuery){
                 return $this->setError();
             }
 
             $gridQuery = $this->MC->Queries->gridQuery(array('grid_id'=>$groupQuery['grid_id'],'lang_id'=>$this->application['lang_id']));
 
-            if (!$gridQuery)
-            {
+            if (!$gridQuery){
                 return $this->setError();
             }
 
             $widgetSource['group_id'] = $groupId;
-
             $this->setNav($gridQuery['grid_name'],'window/groups/gridid/' . $gridQuery['grid_id']);
             $this->setNav($groupQuery['group_name'],'window/widgets/groupid/' . $groupQuery['group_id']);
             $this->setNav($this->translate('add_plugin'));
@@ -324,42 +315,25 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
             $groupQuery = array_merge($groupQuery,$gridQuery);
             $widgetSource = array_merge($widgetSource,$groupQuery);
-
-            unset($widgetSource['plugin_name']);
+            unset($widgetSource['widget_name']);
         }
-
-        if ($do == 'edit')
-        {
+        if ($do == 'edit'){
             $widgetId = intval((isset($options['widgetId']))?$options['widgetId']:$request->getParam('widgetId'));
-
-            $widgetRow = $this->MC->Queries->widget(array('plugin_id'=>$widgetId));
-
-            $params = $widgetRow['plugin_params'];
-
+            $widgetRow = $this->MC->Queries->widget(array('widget_id'=>$widgetId));
+            $params = $widgetRow['widget_params'];
             foreach($widgetRow['plugin_lang'] as $lang_id=>$widgetRowParams){
                 $params['lang_params'][$lang_id] = json_decode($widgetRowParams['lang_params'],true);
             }
-
             $widgetRow['application'] = $this->getApplicationShowIn($widgetId);
-
-            $widgetSource = $this->MC->Queries->widgetSource($widgetRow['plugin_resource_id']);
-
-
+            $widgetSource = $this->MC->Queries->widgetSource($widgetRow['widget_source_id']);
             $widgetSource = array_merge($widgetSource, $widgetRow);
-
-            $widgetSource['params'] = $params;
-
+            $widgetSource['widget_params'] = $params;
             $groupQuery = $this->MC->Queries->groupQuery(array('group_id'=>$widgetSource['group_id'],'lang_id'=>$this->application['lang_id']));
-
             $gridQuery = $this->MC->Queries->gridQuery(array('grid_id'=>$groupQuery['grid_id'],'lang_id'=>$this->application['lang_id']));
-
             $this->setNav($gridQuery['grid_name'],'window/groups/gridid/' . $gridQuery['grid_id']);
-
             $this->setNav($groupQuery['group_name'],'window/widgets/groupid/' . $groupQuery['group_id']);
-
             $this->setNav($this->translate('edit_widget'));
-            $this->setNav($widgetSource['plugin_name']);
-
+            $this->setNav($widgetSource['widget_name']);
         }
 
         $widgetSource['do'] = $do;
@@ -374,157 +348,122 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
      */
     public function saveWidget()
     {
-
-
         $data = $this->_Zend->getRequest()->getPost();
-
         $do = $data['do'];
-
         // get plugin resource settings
-        $widgetSource = $this->MC->Queries->widgetSource($data['plugin']['plugin_resource_id']);
-
+        $widgetSource = $this->MC->Queries->widgetSource($data['plugin']['widget_source_id']);
         $groupQuery = $this->MC->Queries->groupQuery(array('group_id'=>$data['plugin']['group_id'],'lang_id'=>$this->application['lang_id']));
-
         $widgetSource = array_merge($widgetSource,$groupQuery);
 
         $widgetForm = $this->MC->Forms->widgetForm($widgetSource);
-        
-        //Validation form process
-        if ($widgetForm->isValid($data))
-        {
-            $widgetFormObj = new $widgetSource['widgetForm']();
 
+        //Validation form process
+        if ($widgetForm->isValid($data)){
+
+            $widgetFormObj = new $widgetSource['widgetForm']();
             //Plugin params my will shape to another format
-            if (method_exists($widgetFormObj, 'process'))
+            if(!isset($data['widget_params']) || !is_array($data['widget_params']))
             {
-                $data['params'] = $widgetFormObj->process($data['params']);
+                $data['widget_params'] = array();
+            }
+            if (method_exists($widgetFormObj, 'process')){
+                $data['widget_params'] = $widgetFormObj->process($data['widget_params']);
             }
 
-            if (isset($data['params']['lang_params']))
-            {
-                $data['lang_params'] = $data['params']['lang_params'];
-                unset($data['params']['lang_params']);
+            if (isset($data['widget_params']['lang_params'])){
+                $data['lang_params'] = $data['widget_params']['lang_params'];
+                unset($data['widget_params']['lang_params']);
             }
 
 
             $widget = array();
-            $widget['plugin_resource_id'] = $data['plugin']['plugin_resource_id'];
+            $widget['widget_source_id'] = $data['plugin']['widget_source_id'];
             $widget['group_id'] = $data['plugin']['group_id'];
-            $widget['plugin_status'] = $data['plugin']['plugin_status'];
-            $widget['plugin_params'] = MC_Json::encode($data['params']);
+            $widget['widget_status'] = $data['plugin']['widget_status'];
+            $widget['widget_params'] = MC_Json::encode($data['widget_params']);
 
             $widgetLang = array();
             foreach($data['plugin_lang'] as $lang_id => $widgetLangValue)
             {
-                if(!empty($widgetLangValue['plugin_name']))
-                {
+                if(!empty($widgetLangValue['widget_name'])){
                     $widgetLang[$lang_id] = array();
-                    if(isset($data['lang_params'][$lang_id]))
-                    {
+                    if(isset($data['lang_params'][$lang_id])){
                         $widgetLang[$lang_id]['lang_params'] = MC_Json::encode($data['lang_params'][$lang_id]);
                     }
-                    $widgetLang[$lang_id]['plugin_name'] = $widgetLangValue['plugin_name'];
+                    $widgetLang[$lang_id]['widget_name'] = $widgetLangValue['widget_name'];
                 }
             }
-
             //Add plugin Process
-            if ($do == 'add')
-            {
-
+            if ($do == 'add'){
                 //Add plugin Settings
-                $this->MC->db->insert('plugins', $widget);
-
+                $this->MC->db->insert('widgets', $widget);
                 $widgetId = $this->MC->db->lastInsertId();
-
                 //Passing Success Message
                 $this->application['message']['text'] = $this->translate('widget_added_success') ;
-
                 $this->application['message']['type'] = 'success';
-
                 //set the url to replace in address bar
                 $this->application['replaceUrl'] = $this->MC->Functions->widgetUrl($widgetId);
                 $do = 'edit';
-            }else if ($do == 'edit')
-            {
-                $widgetId = intval($data['plugin']['plugin_id']);
-
-                $whereWidget = $this->MC->db->quoteInto('plugin_id = ? ', $widgetId);
-
+            }else if ($do == 'edit'){
+                $widgetId = intval($data['plugin']['widget_id']);
+                $whereWidget = $this->MC->db->quoteInto('widget_id = ? ', $widgetId);
                 //Update plugin settings
-                $this->MC->db->update('plugins', $widget, $whereWidget);
-
+                $this->MC->db->update('widgets', $widget, $whereWidget);
                 //Delete plugin language
-                $this->MC->db->delete('plugins_lang', $whereWidget);
-
+                $this->MC->db->delete('widgets_lang', $whereWidget);
                 //Delete Application From Languages
-                $this->MC->db->delete('plugins_applications', $whereWidget);
-
+                $this->MC->db->delete('widgets_applications', $whereWidget);
                 //Passing Success Message
                 $this->setMessage($this->translate('widget_saved_success'),'success');
             }
 
             //Set the application segments  that will contain the plugin
-
             //implode the application pages will Contain plugin and save it
-
-            if (isset($data['application']))
-            {
-                if (is_array($data['application']))
-                {
-                    $this->MC->db->delete('plugins_applications',$this->MC->db->quoteInto('plugin_id = ? ', $widgetId));
-
+            if (isset($data['application'])){
+                if (is_array($data['application'])){
+                    $this->MC->db->delete('widgets_applications',$this->MC->db->quoteInto('widget_id = ? ', $widgetId));
                     foreach ($data['application'] as $appId => $pages)
                     {
                         foreach($pages as $pageKey=>$pagesList)
                         {
-                            $applicationData['plugin_id'] = $widgetId;
-
+                            $applicationData['widget_id'] = $widgetId;
                             $applicationData['application_id'] = $appId;
-
                             $applicationData['page_key'] = $pageKey;
-
                             $applicationData['page_value'] = implode(',',$pagesList);
-
-                            $this->MC->db->insert('plugins_applications', $applicationData);
+                            $this->MC->db->insert('widgets_applications', $applicationData);
                         }
                     }
                 }
             }
+
             //Save plugin language settings
             foreach ($widgetLang as $langId => $widgetLangVal)
             {
-                $widgetLangVal['plugin_id'] = $widgetId;
+                $widgetLangVal['widget_id'] = $widgetId;
                 $widgetLangVal['lang_id'] = $langId;
-                $this->MC->db->insert('plugins_lang', $widgetLangVal);
+                $this->MC->db->insert('widgets_lang', $widgetLangVal);
             }
             $options = array('widgetId'=>$widgetId,'do'=>'edit');
-
-
-        }
-        else
-        {
-
-            if($do == 'edit')
-            {
-                $options['widgetId'] = $data['plugin_id'];
+        }else{
+            if($do == 'edit'){
+                $options['widgetId'] = $data['plugin']['widget_id'];
             }else{
-                $options['widgetSourceId'] = $data['plugin']['plugin_resource_id'];
+                $options['widgetSourceId'] = $data['plugin']['widget_source_id'];
                 $options['groupId'] = $data['plugin']['group_id'];
             }
             $options['widgetForm'] = $widgetForm;
             //Validation Errors
-            $this->setMessage($this->translate('error_in_widget_sve'),'error');
+
+            $this->setMessage($this->translate('error_in_widget_save'),'error');
             $options['do'] = $do;
+
         }
 
-
-        $this->application = array_merge($this->application,$this->widget($options));
-
+        $this->merge($this->widget($options));
         $this->application['window'] = 'widget.phtml';
 
         return $this->application;
     }
-
 
     public function saveGroup()
     {
@@ -579,7 +518,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
             if ($do == 'add')
             {
-                $this->MC->db->insert('plugins_groups', $group);
+                $this->MC->db->insert('widgets_groups', $group);
 
                 $groupId = $this->MC->db->lastInsertId();
 
@@ -598,9 +537,9 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
                 $groupWhere = $this->MC->db->quoteInto('group_id = ? ', $groupId);
 
-                $this->MC->db->update('plugins_groups', $group, $groupWhere);
+                $this->MC->db->update('widgets_groups', $group, $groupWhere);
 
-                $this->MC->db->delete('plugins_groups_lang', $groupWhere);
+                $this->MC->db->delete('widgets_groups_lang', $groupWhere);
 
                 $this->application['message']['text'] = 'Group data saved Succefull';
 
@@ -621,7 +560,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
                 $groupLang['group_id'] = $groupId;
 
-                $this->MC->db->insert('plugins_groups_lang', $groupLang);
+                $this->MC->db->insert('widgets_groups_lang', $groupLang);
             }
 
             $groupQuery = $this->MC->Queries->groupQuery(array('group_id'=>$groupId));
@@ -669,7 +608,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             return;
         }
 
-        $query = $this->MC->db->select()->from('plugins_applications')->where('plugin_id = ?', $pluginId);
+        $query = $this->MC->db->select()->from('widgets_applications')->where('widget_id = ?', $pluginId);
 
         $rows = $this->MC->db->fetchAll($query);
 
@@ -717,7 +656,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
         $order = new MC_Admin_Model_Order();
 
-        $options['table'] = 'plugins_groups';
+        $options['table'] = 'widgets_groups';
 
         $options['primary'] = 'group_id';
 
@@ -743,11 +682,11 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
 
         $order = new MC_Admin_Model_Order();
 
-        $options['table'] = 'plugins';
+        $options['table'] = 'widgets';
 
-        $options['primary'] = 'plugin_id';
+        $options['primary'] = 'widget_id';
 
-        $options['field'] = 'plugin_order';
+        $options['field'] = 'widget_order';
 
         if ($order->save($options) == false)
         {
@@ -763,8 +702,6 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
         return $this->application;
 
     }
-
-
 
 
     public function deleteGrid()
@@ -861,7 +798,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
     {
         
         
-        $plugin_id = $this->_Zend->getRequest()->getPost('plugin_id');
+        $widget_id = $this->_Zend->getRequest()->getPost('widget_id');
         
         $group_id = $this->_Zend->getRequest()->getParam('group_id');
         if(empty($group_id) || !is_numeric($group_id))
@@ -869,10 +806,10 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             return;
         }
         
-        if(is_array($plugin_id) && count($plugin_id) > 0)
+        if(is_array($widget_id) && count($widget_id) > 0)
         {
             
-            foreach($plugin_id as $id)
+            foreach($widget_id as $id)
             {
                 if(is_numeric($id))
                 {
@@ -883,7 +820,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $this->application['message']['text'] = Zend_Registry::get('Zend_Translate')->translate('plugins_delete_success');
             $this->application['message']['type'] = 'success';
         
-        }else if(is_numeric($plugin_id))
+        }else if(is_numeric($widget_id))
         {
             $this->MC->Queries->deletePlugin($id);
             //Passing Success Message
@@ -897,8 +834,8 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $this->application['message']['type'] = 'error';
         }
         
-        $this->application = array_merge($this->application,$this->Plugins(array('group_id'=>$group_id)));
-        $this->application['window'] = 'plugins';
+        $this->application = array_merge($this->application,$this->widgets(array('group_id'=>$group_id)));
+        $this->application['window'] = 'widgets';
         return $this->application;
     }
  

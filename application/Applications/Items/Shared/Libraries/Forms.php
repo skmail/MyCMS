@@ -10,10 +10,8 @@ class App_Items_Shared_Libraries_Forms
 
     public function itemForm($itemQuery = array())
     {
-
         if(intval($itemQuery['folder_id']) != 0)
         {
-
             $query = new $this->MC->Queries($this->application);
             $fields['fields'] = $query->listFields($itemQuery['folder_id'], array('multi_lang'          => 0));
             $fields['lang_fields'] = $query->listFields($itemQuery['folder_id'], array('multi_lang' => 1), false, 'item_lang');
@@ -28,15 +26,10 @@ class App_Items_Shared_Libraries_Forms
 
     public function categoryForm($categoryQuery = NULL)
     {
-        if ($categoryQuery === NULL)
+        if(null == $categoryQuery)
         {
-            $categoryQuery['do'] = 'add';
+            $categoryQuery = array();
         }
-        else
-        {
-            $categoryQuery['do'] = 'edit';
-        }
-
         $categoryForm = new App_Items_Admin_Forms_Category(array(
                     'action' => $this->MC->application['url'] . 'window/saveCat',
                     'data'   => $categoryQuery

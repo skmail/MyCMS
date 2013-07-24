@@ -53,7 +53,8 @@ class App_Items_Admin_Forms_Category extends MC_Admin_Form_BaseForm
         $cats = $MC->db->select()
                 ->from('items_categories')
                 ->join('items_categories_lang', 'items_categories.cat_id = items_categories_lang.cat_id')
-                ->where('cat_status = ?', 1);
+                ->where('cat_status = ?', 1)
+                ->where('folder_id = ?',$data['folder_id']);
 
         $catsList->addMultiOption(0, 'Main Category');
 
@@ -93,16 +94,10 @@ class App_Items_Admin_Forms_Category extends MC_Admin_Form_BaseForm
         $category->addElement($catStatus);
 
 
-
-
-
-
-
-
         $this->addSubForm($category, 'category');
 
-
         $this->addElement('hidden', 'cat_id');
+        $this->addElement('hidden', 'folder_id');
         $this->addElement('hidden', 'do');
         $this->addElement('submit', 'go', array('value' => 'Save'));
 

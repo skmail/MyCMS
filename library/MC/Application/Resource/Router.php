@@ -19,24 +19,30 @@ class MC_Application_Resource_Router extends Zend_Application_Resource_Router
         $options = $this->getOptions();
 
         if (!isset($options['locale']['enabled']) ||
-                !$options['locale']['enabled'])
-        {
+                !$options['locale']['enabled']){
             return parent::getRouter();
         }
 
         $bootstrap = $this->getBootstrap();
 
-        if (!$this->_front)
-        {
+
+
+
+        if (!$this->_front){
             $bootstrap->bootstrap('FrontController');
             $this->_front = $bootstrap->getContainer()->frontcontroller;
         }
 
-        if (!$this->_locale)
-        {
+        try{
+            $this->_locale = new Zend_Locale();
+
+        } catch (Zend_Locale_Exception $e) {
             $bootstrap->bootstrap('Locale');
             $this->_locale = $bootstrap->getContainer()->locale;
+            die();
         }
+
+
 
         $defaultLocale = array_keys($this->_locale->getDefault());
         $defaultLocale = $defaultLocale[0];

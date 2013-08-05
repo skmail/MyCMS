@@ -1,11 +1,3 @@
-<?php
-
-$permissions = MC_Core_Loader::appClass('Users', 'Permissions', NULL, 'shared'); //new Custom_App_Users_Permissions();
-
-if ($permissions->isAllow($this, 'index', 'view'))
-{
-
-    ?>
     <li>
     <?php $url = Admin_Model_System_Application::appUrl($this->app_prefix); ?>
 
@@ -36,5 +28,5 @@ if ($permissions->isAllow($this, 'index', 'view'))
             </ul>
     <?php } ?>
     </li>
-<?php } ?>
+
 

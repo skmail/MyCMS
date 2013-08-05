@@ -44,6 +44,7 @@ class Admin_Model_ApplicationAbstract
         $this->application = array_merge($application,$this->application);
         $this->application['lang_id'] = $language->current('lang_id') ;
 
+        $this->MC->settings = $this->_settings();
 
         $this->MC->application = $this->application;
     }
@@ -150,26 +151,37 @@ class Admin_Model_ApplicationAbstract
         $this->application['message']['text'] = $messageText;
         $this->application['message']['type'] = $messageType;
         $this->application['message']['heading'] = $messagHeading;
-
     }
+
     public function setError($messageText = '')
     {
-        if($messageText == '')
-        {
-            $this->translate('an error ocurred');
+        if($messageText == ''){
+            $messageText = $this->translate('an_error_ocurred');
         }
-
-        $this->application['fatal_error'] = $messageText;
+        $this->application['error'] = $messageText;
     }
-
-
     public function setNav($label,$url = '')
     {
         $this->application['nav']->append($label,$url);
     }
-
     public function replaceUrl($url)
     {
         $this->application['replaceUrl'] = $url;
+    }
+    public function setLayout($layoutName)
+    {
+        $this->application['layout'] = $layoutName;
+    }
+
+    protected  function _settings()
+    {
+        $query = $this->MC->db->select()->from('Applications')->where('app_id = ?',$this->application['app_id']);
+        $app = $this->MC->db->fetchRow($query);
+
+        if($app['settings'] != ""){
+            $settings = MC_Json::decode($app['settings']);
+            return $settings;
+        }
+        return array();
     }
 }

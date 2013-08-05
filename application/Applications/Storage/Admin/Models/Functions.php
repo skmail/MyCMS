@@ -24,9 +24,9 @@ class App_Storage_Admin_Models_Functions
         
         
             
-        $destination = 'contents/userdata/' . $query['folder']  . '/'.$query['source_folder'].'/';
+        $destination = 'mycms/contents/userdata/' . $query['folder']  . '/'.$query['source_folder'].'/';
             
-        $destinationCrop = 'contents/userdata/'.$query['folder'];
+        $destinationCrop = 'mycms/contents/userdata/'.$query['folder'];
          
 
         if ($return == 'destCrop')

@@ -1,11 +1,8 @@
-
-
-<?php if($this->app['sidebar'] != ""){?>
-<div class="content-controlls clear" style="display:block;">
+<div class="content-controlls clear" style="<?php if($this->app['sidebar'] == false){?>display:none;<?php } ?>">
     <?php echo $this->app['sidebar']; ?>
     <div class="clear"></div>
 </div>       
-<?php } ?>
+
 <?php 
     if($this->app['message']['text'] != "" && $this->app['message']['type'] != "")
     {

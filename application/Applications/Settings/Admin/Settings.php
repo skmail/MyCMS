@@ -15,7 +15,6 @@ class App_Settings_Admin_Settings extends Admin_Model_ApplicationAbstract
         parent::__construct($application);
         $this->setNav('Settings',$this->application['url'].'/appPrefix/settings');
         $this->_forms = new App_Settings_Admin_Forms($application);
-
     }
 
     public function index()
@@ -60,6 +59,7 @@ class App_Settings_Admin_Settings extends Admin_Model_ApplicationAbstract
             return;
         }
 
+
         $formInstanceString = 'App_%s_Admin_Forms_%s';
 
         $formInstanceString = sprintf($formInstanceString, $app, 'Settings');
@@ -68,7 +68,9 @@ class App_Settings_Admin_Settings extends Admin_Model_ApplicationAbstract
 
         if(class_exists($formInstanceString)){
             $formInstance = new $formInstanceString();
+
             $this->application['settingsForm'] = $this->_forms->settings($row, $formInstance);
+
         }else
         {
             $this->application['message']['text'] = 'settings_form_not_exists';

@@ -12,67 +12,44 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
     public function __construct($application = array())
     {
         parent::__construct($application);
-       
-        $this->_form = new App_Users_Admin_Forms($application);
-
-        $this->_query = new App_Users_Admin_Queries($application);
-
-        $this->_sharedQuery = new App_Users_Shared_Queries($application);
-        
-        $this->Functions = new App_Users_Admin_Functions($application);
-
-        $this->_api = new App_Users_Shared_Api();
-
-        $this->menu = $this->Functions->sideMenu();
-        
-        $this->application['nav']->append(Zend_Registry::get('Zend_Translate')->translate('Users'));
-
+        $this->MC->load->appLibrary('Queries');
+        $this->MC->load->appLibrary('Functions');
+        $this->MC->load->appLibrary('Forms');
+        $this->MC->load->appLibrary('Api');
+        $this->application['nav']->append($this->translate('users'),'window/index');
     }
 
     public function index()
     {
-        $this->application['usergroupsList'] = $this->_query->usergroupList();
-
-
-        $this->application['sidebar'] = 'indexSidebar';
-
-        return $this->application;
-
-    }
-
-    public function usergroup()
-    {
-        $do = $this->_Zend->getRequest()->getParam('do');
-        
-        if ($do != "edit" && $do != "add")
-        {
-            return;
+        $usergroupsList = $this->MC->Queries->usergroupList($this->application['lang_id']);
+        if(!$usergroupsList){
+            $usergroupsList = array();
         }
-        if ($do == "edit")
-        {
-            $ugid = $this->_Zend->getRequest()->getParam('ugid');
-        
-            $ugid = intval($ugid);
-            
-            $usergroupQuery = $this->_query->usergroupQuery($ugid, true, false);
-            
-            if (!$usergroupQuery)
-            {
+        $this->assign('usergroupsList',$usergroupsList);
+        $this->setSidebar('indexSidebar');
+        return $this->application;
+    }
+    
+
+    public function usergroup($options = array())
+    {
+        $do =  (isset($options['do']))?$options['do']:$this->MC->Zend->getRequest()->getParam('do');
+        if ($do != "edit" && $do != "add"){
+            return $this->setError();
+        }
+        if ($do == "edit"){
+            $ugid = (isset($options['usergroupId']))?$options['usergroupId']:intval($this->_Zend->getRequest()->getParam('ugid'));
+            $usergroupQuery = $this->MC->Queries->usergroupQuery($ugid, true, false);
+            if (!$usergroupQuery){
                 return;
             }
-          
             $this->application['nav']->append(Zend_Registry::get('Zend_Translate')->translate('Edit usergroup') . " : " . $usergroupQuery['usergroup_lang'][$this->application['lang_id']]['usergroup_name']);
-        }
-        else
-        {
+        }else{
             $this->application['nav']->append(Zend_Registry::get('Zend_Translate')->translate('Add new users group'));
         }
-
         $usergroupQuery['usergroup_id'] = $usergroupQuery[0]['usergroup_id'];
-
         $usergroupQuery['do'] = $do;
-      
-        $this->application['usergroupForm'] = $this->_form->usergroupForm($usergroupQuery);
+        $this->application['usergroupForm'] = (isset($options['usergroupForm']))?$options['usergroupForm']:$this->MC->Forms->usergroupForm($usergroupQuery);
         
         return $this->application;
 
@@ -80,304 +57,226 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
 
     public function saveUsergroup()
     {
-        
-        $request = $this->_Zend->getRequest();
-        
-        $do = $request->getPost('do');
-
-        if ($do != 'add' && $do != 'edit' && $do != 'delete')
-        {
-            return;
+        $data = $this->MC->Zend->getRequest()->getPost();
+        $do = $data['do'];
+        if ($do != 'add' && $do != 'edit'){
+            return $this->setError();
         }
 
+        $usergroupForm = $this->MC->Forms->usergroupForm();
 
-        $this->application['window'] = 'usergroup.phtml';
-        
-        $this->application['usergroupForm'] = $this->_form->usergroupForm();
-
-        if ($this->application['usergroupForm']->isValid($request->getPost()))
-        {
-
-            $usergroup_lang = $request->getPost('usergroup_lang');
-          
-            $usergroup_lang = $usergroup_lang['usergroup_lang'];
-            
-            if ($do == 'add')
-            {
-
-                $this->db->insert('usergroups', array('usergroup_id' => ''));
-            
+        if ($usergroupForm->isValid($data)){
+            $usergroupLang = $data['usergroup_lang'];
+            if ($do == 'add'){
+                $this->db->insert('usergroups',array('usergroup_id'=>''));
                 $usergroupId = $this->db->lastInsertId();
+                $this->setMessage($this->translate('usergroup_added_succes_need_to_set_permissions_to_this_usergroup'),'success');
+                $this->replaceUrl($this->MC->Functions->permissionsUrl(array('ugid' => $usergroupId)));
+                $this->setView('permissions');
+                $this->merge($this->permissions(array('usergroup_id' => $usergroupId)));
+            }elseif ($do == 'edit'){
+                $usergroupId = $data['usergroup_id'];
+                $this->setMessage($this->translate('usergroup_saved_success'),'success');
 
-                foreach ($usergroup_lang as $lang_id => $usergroupLang)
-                {
-
-                    if (empty($usergroupLang['usergroup_name']))
-                    {
-                        continue;
-                    }
-                    
-                    $usergroupLang['lang_id'] = $lang_id;
-                  
-                    $usergroupLang['usergroup_id'] = $usergroupId;
-
-                    $this->db->insert('usergroups_lang', $usergroupLang);
-                }
-                
-                $this->application['message']['text'] = 'Usergroup Added Succesfully, You Need to set permissions for Usergroup';
-               
-                $this->application['message']['type'] = 'success';
-
-                $this->application['replaceUrl'] = $this->Functions->permissionsUrl(array('ugid'                           => $usergroupId));
-                
-                $this->application['window'] = 'permissions.phtml';
-                
-                $this->application = array_merge($this->application, $this->permissions(array('usergroup_id' => $usergroupId)));
             }
-            if ($do == 'edit')
+            foreach ($usergroupLang as $langId => $usergroup)
             {
-                
-                $usergroupId = $request->getPost('usergroup_id');
-               
-                foreach ($usergroup_lang as $lang_id => $usergroupLang)
-                {
-                    if (empty($usergroupLang['usergroup_name']))
-                    {
-                        continue;
-                    }
-
-
-                    $checkExists = $this->_query->usergroupQuery($usergroupId, true, true, array('lang_id' => $lang_id));
-
-                    $usergroupLang['lang_id'] = $lang_id;
-                    
-                    $usergroupLang['usergroup_id'] = $usergroupId;
-
-                    if ($checkExists)
-                    {
-
+                $usergroup['lang_id'] = $langId;
+                $usergroup['usergroup_id'] = $usergroupId;
+                if (empty($usergroup['usergroup_name'])){
+                    continue;
+                }
+                if($do == 'add'){
+                    $this->db->insert('usergroups_lang', $usergroup);
+                }else{
+                    $checkExists = $this->MC->Queries->getUsergroupByLang($usergroupId,$langId);
+                    if ($checkExists){
                         $where = $this->db->quoteInto('usergroups_lang.usergroup_id = ? ', $usergroupId);
-                    
-                        $where .= $this->db->quoteInto(' AND usergroups_lang.lang_id = ? ', $lang_id);
-
-                        $this->db->update('usergroups_lang', $usergroupLang, $where);
-                    }
-                    else
-                    {
-                        $this->db->insert('usergroups_lang', $usergroupLang);
+                        $where .= $this->db->quoteInto(' AND usergroups_lang.lang_id = ? ', $langId);
+                        $this->db->update('usergroups_lang', $usergroup, $where);
+                    }else{
+                        $this->db->insert('usergroups_lang', $usergroup);
                     }
                 }
+            }
 
-                $usergroupQuery = $this->_query->usergroupQuery($usergroupId, true, false);
-
-                $this->application['usergroupForm'] = $this->_form->usergroupForm($usergroupQuery);
-                
-                $this->application['message']['text'] = 'Usergroup Saved Successfuly';
-                
-                $this->application['message']['type'] = 'success';
+            if($do == 'edit'){
+                $this->setView('usergroup');
+                $this->merge($this->usergroup(array('do'=>'edit','usergroupId'=>$usergroupId)));
             }
         }
         else
         {
-            $this->application['message']['text'] = 'Some Fields empty';
-         
-            $this->application['message']['type'] = 'error';
+            $options = array();
+            if ($do == 'edit'){
+                $options['usergroupId'] = $data['usergroup_lang'];
+                $options['do'] = 'edit';
+            }else{
+                $options['do'] = 'add';
+            }
+            $options['usergroupForm'] = $usergroupForm;
+            $this->setMessage($this->translate('fields_empty'),'error');
+            $this->merge($this->usergroup($options));
+            $this->setView('usergroup');
         }
-        
         return $this->application;
-
     }
 
     public function users()
     {
-        $ugid = $this->_Zend->getRequest()->getParam('ugid');
-       
-        $ugid = intval($ugid);
+        $usergroupId = $this->_Zend->getRequest()->getParam('usergroupId');
+
+        $usergroupId = intval($usergroupId);
         
-        if ($ugid == 0)
+        if ($usergroupId == 0)
         {
             return;
         }
-        $this->setSidebar('usersSidebar');
 
-        $this->application['users'] = $this->_query->userQuery(array('usergroup_id' => $ugid));
+        $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId, $this->application['lang_id']);
+        if(!$usergroup){
+            $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId);
+        }
+        if(!$usergroup){
+            return $this->setError($this->translate('not_found_usergroup'));
+        }
+
+
+        $this->application['users'] = $this->MC->Queries->getUsersByUsergroupId($usergroupId);
         $this->assign('usergroup_id',$ugid);
 
-        $this->application['nav']->append($this->application['users'][0]['usergroup_name']);
-
+        $this->application['nav']->append($usergroup['usergroup_name']);
+        $this->setSidebar('usersSidebar');
         return $this->application;
-
     }
 
-    public function user()
+    public function user($options = array())
     {
         $request = $this->_Zend->getRequest();
-
-        $do = $request->getParam('do');
-
-        if ($do != 'add' && $do != "edit")
-        {
-            return;
+        $do = (isset($options['do']))?$options['do']:$request->getParam('do');
+        if ($do != 'add' && $do != "edit"){
+            return $this->setError();
         }
 
-        if ($do == 'edit')
-        {
-            $userid = $request->getParam('uid');
-
-            if (intval($userid) == 0)
-            {
+        if ($do == 'edit'){
+            $userid = (isset($options['userId']))?$options['userId']:$request->getParam('userId');
+            if (intval($userid) == 0){
                 return;
             }
+            $user = $this->MC->Queries->userQuery(array('user_id' => $userid));
 
-            $user = $this->_query->userQuery(array('user_id' => $userid));
-
-            $this->application['nav']->append($user['usergroup_name'], 'window/users/ugid/' . $user['usergroup_id']);
-            
+            $usergroup = $this->MC->Queries->getUsergroupByLang($user['usergroup_id'], $this->application['lang_id']);
+            if(!$usergroup)
+            {
+                $usergroup = $this->MC->Queries->getUsergroupByLang($user['usergroup_id']);
+            }
+            if(!$usergroup)
+            {
+                return $this->setError($this->translate('not_found_usergroup'));
+            }
+            $this->setNav($usergroup['usergroup_name'],'window/users/usergroupId/' . $usergroup['usergroup_id']);
             $this->application['nav']->append($user['username']);
-
             $user['do'] = 'edit';
-            
         }else
         {
-            $usergroupId = intval($request->getParam('ugid'));
-            if ($usergroupId == 0)
-            {
-                return;
+            $usergroupId = (isset($options['usergroupId']))?$options['usergroupId']:intval($request->getParam('usergroupId'));
+            if ($usergroupId == 0){
+                return $this->setError();
             }
-            
-            $usergroupQuery = $this->_query->usergroupQuery($usergroupId, true, true);
-            
             $user = array();
-            
             $user['usergroup_id'] = $usergroupId;
-            
             $user['do'] = 'add';
-
-            $this->application['nav']->append($usergroupQuery['usergroup_name'], 'window/users/ugid/' . $usergroupQuery['usergroup_id']);
-            
-            $this->application['nav']->append('Add New User');
+            $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId, $this->application['lang_id']);
+            if(!$usergroup)
+            {
+                $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId);
+            }
+            if(!$usergroup)
+            {
+                return $this->setError($this->translate('not_found_usergroup'));
+            }
+            $this->setNav($usergroup['usergroup_name'],'window/users/ugid/' . $usergroup['usergroup_id']);
+            $this->setNav($this->translate('add_user'));
         }
 
-        $this->application['userForm'] = $this->_form->userForm($user);
-       
-        return $this->application;
 
+        $this->assign('userForm',(isset($options['userForm']))?$options['userForm']:$this->MC->Forms->userForm($user));
+        return $this->application;
     }
 
     public function permissions($options = array())
     {
-
-        $userid = (isset($options['userid'])) ? $options['userid'] : intval($this->_Zend->getRequest()->getParam('uid'));
-        
-        $usergroup_id = (isset($options['usergroup_id'])) ? $options['usergroup_id'] : intval($this->_Zend->getRequest()->getParam('ugid'));
-        
+        $userId = (isset($options['userid'])) ? $options['userid'] : intval($this->_Zend->getRequest()->getParam('uid'));
+        $usergroupId = (isset($options['usergroup_id'])) ? $options['usergroup_id'] : intval($this->_Zend->getRequest()->getParam('ugid'));
         $permsQuery = $this->db->select()->from('permissions');
-        
+
         $this->application['permsLabels'] = array(1=>'yes',0=>'no',2=>'inherit');
 
-        if ($userid != 0)
-        {
-            $this->application['permissionFor'] = 'user';
-        
-            $this->application['item'] = $this->_query->userQuery(array('user_id' => $userid));
-            
-            $this->application['nav']->append($this->application['item'][0]['usergroup_name'], 'window/users/ugid/' . $this->application['item'][0]['usergroup_id']);
-            
-            $this->application['nav']->append("User Permission : " . $this->application['item'][0]['username']);
-            
-            $permsQuery->where('user_id = ? ', $userid);
-        }
-        else if ($usergroup_id != 0)
-        {
-            $this->application['permissionFor'] = 'usergroup';
+        if ($userId != 0){
+            $this->assign('permissionFor','user');
+            $this->assign('item',$this->MC->Queries->userQuery(array('user_id' => $userId)));
+            $this->setNav($this->application['item'][0]['usergroup_name'],'window/users/ugid/' . $this->application['item'][0]['usergroup_id']);
+            $this->setNav("User Permission : " . $this->application['item'][0]['username']);
+            $permsQuery->where('user_id = ? ', $userId);
+        }else if ($usergroupId != 0){
+            $this->assign('permissionFor','usergroup');
+            $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId,$this->application['lang_id']);
+            if($usergroup == false){
+                $usergroup = $this->MC->Queries->getUsergroupByLang($usergroupId);
+            }
 
-            $this->application['item'] = $this->_query->usergroupQuery($usergroup_id);
-
-            $this->application['nav']->append("Usergroup Permissions : " . $this->application['item']['usergroup_name'], 'window/users/ugid/' . $this->application['item']['usergroup_id']);
-
-            $permsQuery->where('usergroup_id = ? ', $usergroup_id);
-        }else
-        {
-            return;
+            $this->assign('item',$usergroup);
+            $this->setNav("Usergroup Permissions : " . $usergroup['usergroup_name'],'window/users/ugid/' . $usergroup['usergroup_id']);
+            $permsQuery->where('usergroup_id = ? ', $usergroupId);
+        }else{
+            return $this->setError();
         }
 
-        if (!count($this->application['item']))
-        {
-            return;
+        if (!count($this->application['item'])){
+            return $this->setError();
         }
-
-        $this->application['sidebar'] = 'permissionsSidebar';
 
         $permissions = new App_Users_Admin_Permissions();
-
         $permsRow = $this->db->fetchRow($permsQuery);
-        
-        
-        $this->application['super_admin'] = $permsRow['super_admin'];
-        $this->application['perms'] = Zend_Json::decode($permsRow['perms']);
-       
-        $this->application['applications'] = Admin_Model_System_Application::getApp(array('listAll' => true));
 
+        $this->assign('super_admin',$permsRow['super_admin']);
+        $this->assign('perms',MC_Json::decode($permsRow['perms']));
+        $this->assign('applications',Admin_Model_System_Application::getApp(array('listAll' => true)));
+        $this->setSidebar('permissionsSidebar');
         $applications = array();
-
         foreach ($this->application['applications'] as $app)
         {
-            
-            $this->application['default_permissions'][$app['app_id']] = $permissions->defaultPerms();
-            
-            $applications[$app['app_id']] = array();
-            
-            $applications[$app['app_id']]['app_name'] = $app['app_name'];
-            
-            $applications[$app['app_id']]['app_prefix'] = $app['app_prefix'];
-            
-            $applications[$app['app_id']]['app_id'] = $app['app_id'];
-
+            $this->application['default_permissions'][$app['app_prefix']] = $permissions->defaultPerms();
+            $applications[$app['app_prefix']] = array();
+            $applications[$app['app_prefix']]['app_name'] = $app['app_name'];
+            $applications[$app['app_prefix']]['app_prefix'] = $app['app_prefix'];
+            $applications[$app['app_prefix']]['app_id'] = $app['app_id'];
             $appClass = 'App_' . ucfirst($app['app_prefix']) . '_Admin_' . ucfirst($app['app_prefix']);
-
             $reflectionClass = new ReflectionClass($appClass);
-
             $methods =  $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC); //get_class_methods($appClass);
-
-
             foreach ($methods as $method)
             {
-
-                if($method->class == $appClass)
-                {
-                    $applications[$app['app_id']]['methods'][] = $method->name;
+                if($method->class == $appClass){
+                    $applications[$app['app_prefix']]['methods'][] = $method->name;
                 }
             }
-
             $appPermClass = 'App_' . ucfirst($app['app_prefix']) . '_Admin_Permissions';
-
-            if (class_exists($appPermClass))
-            {
+            if (class_exists($appPermClass)){
                 $appPermClass = new $appPermClass();
-
-                if ($appPermClass instanceof MC_Models_Permissions_Abstract)
-                {
-                    
-                    if(method_exists($appPermClass, 'getTables'))
-                    {
-                        if($getTables = $appPermClass->getTables())
-                        {
-                            $applications[$app['app_id']]['tables'] = $getTables;
+                if ($appPermClass instanceof MC_Models_Permissions_Abstract){
+                    if(method_exists($appPermClass, 'getTables')){
+                        if($getTables = $appPermClass->getTables()){
+                            $applications[$app['app_prefix']]['tables'] = $getTables;
                         }
-                        
                     }
-                    if(method_exists($appPermClass, 'perms'))
-                    {   
-                        $this->application['default_permissions'][$app['app_id']] = array_merge($permissions->defaultPerms(),$appPermClass->perms());
+                    if(method_exists($appPermClass, 'perms')){
+                        $this->application['default_permissions'][$app['app_prefix']] = array_merge($permissions->defaultPerms(),$appPermClass->perms());
                     }
                 }
             }
         }
-      
-        $this->application['applications'] = $applications;
-        
+        $this->assign('applications',$applications);
         return $this->application;
-
     }
 
     public function savePerm()
@@ -467,36 +366,52 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
 
     public function saveUser()
     {
-
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-
-        $form = $this->_form->userForm();
-
-        $data = $request->getPost();
-
-        if($data['do'] != "add" && $data['do'] != "edit")
-        {
-            return ;
+        $data = $this->MC->Zend->getRequest()->getPost();
+        if($data['do'] != "add" && $data['do'] != "edit"){
+            return $this->setError();
         }
 
-        if ($form->isValid($data))
-        {
-
-            if($data['do'] == 'add')
-            {
-
+        $form = $this->MC->Forms->userForm($data);
+        $do = $data['do'];
+        $options = array();
+        if ($form->isValid($data)){
+            $user = array();
+            $crypyPassword = new MC_Crypt_Password();
+            $user['username'] = $data['user']['username'];
+            $user['email'] = $data['user']['email'];
+            $user['usergroup_id'] = $data['usergroup_id'];
+            if($data['do'] == 'add'){
+                $date = new MC_date();
+                $user['create_date'] = $date->getTimestamp();
+                $user['password'] = $crypyPassword->create($data['user']['password']);
+                $this->MC->db->insert('users',$user);
+                $userId = $this->MC->db->lastInsertId();
+                $this->setMessage('user_added_success','success');
+                $this->replaceUrl($this->MC->Functions->userUrl($userId));
+            }elseif($data['do'] == 'edit'){
+                $userId = $data['user_id'];
+                if($data['user']['password'] != ""){
+                    $user['password'] = $crypyPassword->create($data['user']['password']);
+                }
+                $where = $this->MC->db->quoteInto('user_id = ? ',$userId);
+                $this->MC->db->update('users',$user,$where);
+                $this->setMessage('user_saved_success','success');
             }
-            if($data['do'] == 'edit')
-            {
-
+            $options['do'] = 'edit';
+            $options['userId'] = $userId;
+        }else{
+            $options['userForm'] = $form;
+            if($do == 'add'){
+                $options['usergroupId'] = $data['usergroup_id'];
+            }else{
+                $options['user_id'] = $data['user_id'];
             }
-
+            $options['userForm'] = $form;
+            $this->setMessage('empty_fields','error');
         }
+        $this->merge($this->user($options));
 
-        $this->application['userForm'] = $form;
-
-        $this->application['window'] = 'user.phtml';
-
+        $this->setView('user');
         return $this->application;
 
     }
@@ -513,7 +428,7 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
 
         foreach($pages as $k=>$page)
         {
-            $pages[$k]['url'] = $this->Functions->userPageUrl(array('user_page_id'=>$page['user_page_id']));
+            $pages[$k]['url'] = $this->MC->Functions->userPageUrl(array('user_page_id'=>$page['user_page_id']));
         }
 
         $this->setNav($this->translate('pages'));
@@ -548,7 +463,7 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
         }
 
         $userPageQuery['do'] = $do;
-        $pageForm = (empty($options['pageForm']))?$this->_form->userPage($userPageQuery):$options['pageForm'];
+        $pageForm = (empty($options['pageForm']))?$this->MC->Forms->userPage($userPageQuery):$options['pageForm'];
         $this->assign('pageForm',$pageForm);
         return $this->application;
     }
@@ -557,7 +472,7 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
     public function saveUserPage()
     {
         $data  = $this->_Zend->getRequest()->getPost();
-        $userPageForm = $this->_form->userPage();
+        $userPageForm = $this->MC->Forms->userPage();
 
         $options = array();
 
@@ -575,7 +490,7 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
                 $dataArray['user_page_lang'][$langId]['user_page_name'] = $userPageLang['user_page_name'];
             }
 
-            if($this->_api->isValidSaveUserPage($this->_api->saveUserPage($dataArray)))
+            if($this->Api->isValidSaveUserPage($this->Api->saveUserPage($dataArray)))
             {
                 if($data['do'] == 'add')
                 {
@@ -586,8 +501,8 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
                     $this->setMessage('user_page_updated','success');
                 }
 
-                $userPageId = $this->_api->userPageId();
-                $this->replaceUrl($this->Functions->userPageUrl(array('user_page_id'=>$userPageId)));
+                $userPageId = $this->Api->userPageId();
+                $this->replaceUrl($this->MC->Functions->userPageUrl(array('user_page_id'=>$userPageId)));
                 $options['user_page_id'] = $userPageId;
                 $options['do'] = 'edit';
             }
@@ -607,4 +522,61 @@ class App_Users_Admin_Users extends Admin_Model_ApplicationAbstract
         $this->setView('page');
         return $this->application;
     }
+
+    public function login($loginParams = array())
+    {
+        $this->assign('loginForm',(isset($loginParams['loginForm']))?$loginParams['loginForm']:$this->MC->Forms->login());
+        $this->setLayout('login');
+        return $this->application;
+    }
+
+    public function submitLogin()
+    {
+        $request = $this->MC->Zend->getRequest();
+
+        $form = $this->MC->Forms->login();
+
+        if (!$form->isValid($request->getPost()))
+        {
+            $this->merge($this->login(array('loginForm'=>$form)));
+            $this->setView('login');
+            return $this->application;
+        }
+
+        $params = $form->getValues();
+        $adapter = $this->getAuthAdapter(array_shift($params));
+        $auth = Zend_Auth::getInstance();
+        $result = $auth->authenticate($adapter);
+        if (!$result->isValid())
+        {
+            $form->setDescription("Invalid Creditnitial Provided");
+            $this->merge($this->login(array('loginForm'=>$form)));
+            $this->setView('login');
+            return $this->application;
+        }
+        else
+        {
+            $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+            $redirector->gotoSimple('index','index');
+        }
+    }
+
+   public function logout()
+   {
+       Zend_Auth::getInstance()->clearIdentity();
+       $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+       $redirector->gotoSimple('index','index');
+   }
+    protected  function getAuthAdapter(array $params)
+    {
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+        $cryptPassword = new MC_Crypt_Password();
+        $authAdapter->setTableName('users')
+            ->setIdentityColumn('username')->
+            setCredentialColumn('password')->setCredentialTreatment('MD5(?)');//setCredentialTreatment($cryptPassword->create($params['password']));
+        return $authAdapter->setIdentity($params['username'])->setCredential($params['password']);
+    }
+
+
 }

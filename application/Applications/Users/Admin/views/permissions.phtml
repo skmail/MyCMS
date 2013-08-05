@@ -1,64 +1,64 @@
 <form method="post" action="<?php echo $this->app['url'];?>window/savePerm">
-    <style>
-        .permsTable{
-            display: none;
-        }
-        .permsTable label{
-            font-size:12px;
-            display: inline;
-        }
-        
-        .permsTable label input[type=radio]{
-            margin:0 5px;
-        }
+<style>
+    .permsTable{
+        display: none;
+    }
+    .permsTable label{
+        font-size:12px;
+        display: inline;
+    }
 
-        .slideDown{
-            cursor: pointer;
-        }
-        table .select_all,.perm{
-            margin-top:8px;
-        }
-        .perm_label_0{
-            color:red;
-        }
-        .perm_label_1{
-            color:green;
-        }.perm_label_2{
-             color:orange;
-         }
-    </style>
-    
-    <script>
-        $(function(){
-            
-            $('.slideDown').die().live('click',function(){
-                
-                rel = $(this).attr('rel');
-                
-                if(!$('.'+rel).is(':visible')){
-                    $('.slideDown').removeClass('active_heading_1');
-                    $(this).addClass('active_heading_1');
-                    $('.'+rel).slideDown('fast');
-                }
-                else{
-                    
-                    $('.'+rel).slideUp('fast');
-                    $(this).removeClass('active_heading_1');
-                }
-            });
-        
-            $('.fullControll').live('click',function(){
-                $('.permsTable').slideDown();
-            });
+    .permsTable label input[type=radio]{
+        margin:0 5px;
+    }
 
-            $('.select_all').live('change',function(){
-                $('.'+$(this).attr('rel') + '  option[value='+$(this).val()+']').attr('selected',true);
-            });
+    .slideDown{
+        cursor: pointer;
+    }
+    table .select_all,.perm{
+        margin-top:8px;
+    }
+    .perm_label_0{
+        color:red;
+    }
+    .perm_label_1{
+        color:green;
+    }.perm_label_2{
+         color:orange;
+     }
+</style>
+
+<script>
+    $(function(){
+
+        $('.slideDown').die().live('click',function(){
+
+            rel = $(this).attr('rel');
+
+            if(!$('.'+rel).is(':visible')){
+                $('.slideDown').removeClass('active_heading_1');
+                $(this).addClass('active_heading_1');
+                $('.'+rel).slideDown('fast');
+            }
+            else{
+
+                $('.'+rel).slideUp('fast');
+                $(this).removeClass('active_heading_1');
+            }
         });
-    </script>
 
-<div class="row-fluid">
-<div class="span2">
+        $('.fullControll').live('click',function(){
+            $('.permsTable').slideDown();
+        });
+
+        $('.select_all').live('change',function(){
+            $('.'+$(this).attr('rel') + '  option[value='+$(this).val()+']').attr('selected',true);
+        });
+    });
+</script>
+
+
+<div class="one-fifth float_1">
     <div class="box">
         <div class="box_head">
             <?php echo $this->translate('additional_permissions');?>
@@ -72,7 +72,7 @@
         </div>
     </div>
 </div>
-<div class="span10">
+<div class="four-fifths  float_2">
 <?php foreach ($this->app['applications'] as $app) { ?>
     <div class="panel clearfix headings_panel">
         <div class="content no-pad clearfix">
@@ -85,7 +85,7 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                    <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                         <th>
                             <?php echo $perm;?>
                         </th>
@@ -93,12 +93,12 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                    <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                         <th>
-                            <select class="select_all perm input-mini" rel="perm_<?php echo $app['app_prefix'];?>_<?php echo $perm;?>"  name="perm[<?php echo $app['app_id'];?>][methods][<?php echo $method;?>][<?php echo $perm;?>]">
+                            <select class="select_all perm input-mini" rel="perm_<?php echo $app['app_prefix'];?>_<?php echo $perm;?>"  name="perm[<?php echo $app['app_prefix'];?>][methods][<?php echo $method;?>][<?php echo $perm;?>]">
                                 <?php foreach($this->app['permsLabels'] as $key=>$methodsList){?>
                                     <?php if($this->app['permissionFor'] != 'usergroup' || $key != 2 ){?>
-                                        <option value="<?php echo $key;?>" class='<?php echo 'perm_label_'.$key;?>' <?php if($this->app['perms'][$app['app_id']]['methods'][$method][$perm] == $key){echo "selected='selected'";}?>>
+                                        <option value="<?php echo $key;?>" class='<?php echo 'perm_label_'.$key;?>' <?php if($this->app['perms'][$app['app_prefix']]['methods'][$method][$perm] == $key){echo "selected='selected'";}?>>
                                             <?php echo $this->translate('perm_label_'.$key);?>
                                         </option>
                                     <?php } ?>
@@ -123,16 +123,16 @@
                                 $method = strtolower($method);
                              ?>
                         </td>
-                        <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                        <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                             <td>
                                 <?php if(count($methodsList) == 0 || in_array($method, $methodsList)){?>
                                     <select
-                                        name="perm[<?php echo $app['app_id'];?>][methods][<?php echo $method;?>][<?php echo $perm;?>]"
+                                        name="perm[<?php echo $app['app_prefix'];?>][methods][<?php echo $method;?>][<?php echo $perm;?>]"
                                         class="input-mini perm perm_<?php echo $app['app_prefix'];?>_<?php echo $perm;?>">
                                     <?php foreach($this->app['permsLabels'] as $key=>$label){?>
                                         <?php if($this->app['permissionFor'] != 'usergroup'  || $key != 2 ){?>
                                         <option  value="<?php echo $key;?>" class="<?php echo 'perm_label_'.$key;?>"
-                                            <?php if($this->app['perms'][$app['app_id']]['methods'][$method][$perm] == $key){echo "selected='selected'";}?>>
+                                            <?php if($this->app['perms'][$app['app_prefix']]['methods'][$method][$perm] == $key){echo "selected='selected'";}?>>
                                             <?php echo $this->translate('perm_label_'.$key);?>
                                         </option>
                                         <?php } ?>
@@ -152,7 +152,7 @@
                 <thead>
                 <tr>
                     <th><?php echo $tableName;?></th>
-                    <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                    <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                         <th>
                             <?php echo $perm;?>
                         </th>
@@ -161,7 +161,7 @@
 
                 <tr>
                     <th><?php echo $tableName;?></th>
-                    <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                    <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                         <th>
                             <select name="perm_<?php echo $app['app_prefix'];?>_tables_<?php echo $perm;?>" class="input-mini select_all perm" rel="perm_<?php echo $app['app_prefix'];?>_tables_<?php echo $perm;?>">
                             <?php foreach($this->app['permsLabels'] as $key=>$methodsList){?>
@@ -184,13 +184,13 @@
                         <td width="200" align="right">
                             <?php echo $data[$table['label']] . $data[$table['key']];?>
                         </td>
-                        <?php foreach($this->app['default_permissions'][$app['app_id']] as $perm=>$methodsList){?>
+                        <?php foreach($this->app['default_permissions'][$app['app_prefix']] as $perm=>$methodsList){?>
                         <td>
                             <?php if(count($methodsList) == 0 || in_array($method, $methodsList)){?>
-                                <select  class="input-mini perm perm_<?php echo $app['app_prefix'];?>_tables_<?php echo $perm;?>" name="perm[<?php echo $app['app_id'];?>][tables][<?php echo $tableName;?>][<?php echo $data[$table['key']];?>][<?php echo $perm;?>]">
+                                <select  class="input-mini perm perm_<?php echo $app['app_prefix'];?>_tables_<?php echo $perm;?>" name="perm[<?php echo $app['app_prefix'];?>][tables][<?php echo $tableName;?>][<?php echo $data[$table['key']];?>][<?php echo $perm;?>]">
                                 <?php foreach($this->app['permsLabels'] as $key=>$label){?>
                                     <?php if($this->app['permissionFor'] != 'user' && $key != 2 ){?>
-                                        <option value="<?php echo $key;?>" <?php if($this->app['perms'][$app['app_id']]['tables'][$tableName][$data[$table['key']]][$perm] == 2){echo "selected='selected'";}?>   >
+                                        <option value="<?php echo $key;?>" <?php if($this->app['perms'][$app['app_prefix']]['tables'][$tableName][$data[$table['key']]][$perm] == 2){echo "selected='selected'";}?>   >
                                             <?php echo $this->translate('perm_label_'.$key);?>
                                         </option>
                                     <?php } ?>
@@ -215,7 +215,7 @@
 
 <?php } ?>
 </div>
-</div>
+
 
     <div class="clear"></div>
     <?php if($this->app['permissionFor'] == 'user'){?>

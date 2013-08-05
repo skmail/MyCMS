@@ -4,64 +4,11 @@ class Frontend_Model_Core_Start {
 
     public function run()
     {
-        $this->CC =& MC_Core_Instance::getInstance();
-
-        $templateCategory = $this->CC->Zend->getRequest()->getParam('folder');
-        $template = $this->CC->Zend->getRequest()->getParam('template');
-
-        $this->CC->hook->call('session_start');
-
-        if($templateCategory == "")
-        {
-            $template = $this->CC->Template->fetchTemplate('','',false);
-        }
-        else
-        {
-            if(empty($template))
-            {
-                $template = $this->CC->Template->fetchTemplate($templateCategory,'',false,true);
-            }
-            else
-            {
-                $template = $this->CC->Template->fetchTemplate($templateCategory,$template);
-            }
-        }
-
-        if($template)
-        {
-            $this->CC->hook->call('pre_parse_main_template',$template);
-            $this->CC->Template->parse($template);
-            $this->CC->hook->call('post_parse_main_template',$template);
-        }else
-        {
-            throw new MC_Core_Exception('Not Found Page');
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /* Old system */
-
-        die();
-        $this->db = Zend_Registry::get('db');
-
-        $appPrefix = $this->_Zend->getRequest()->getParam('app');
-
+        $this->MC =& MC_Core_Instance::getInstance();
+        $appPrefix = $this->MC->Zend->getRequest()->getParam('app');
         $this->loadApp($appPrefix);
-
         if(is_array($this->data)){
-            $theme = new Frontend_Model_Templates_Theme();
-            $theme->theme()->plugins = new Frontend_Model_Plugins_Plugin($this->data);
-            $theme->loadLayout();
+            $this->MC->hook->call('frontend_start',$this->data);
         }else{
             echo $this->data;
         }
@@ -71,7 +18,7 @@ class Frontend_Model_Core_Start {
     {
         $appPrefix = ucfirst($appPrefix);
 
-        $appQuery = $this->db->select()
+        $appQuery = $this->MC->db->select()
             ->from('Applications')
             ->where('app_status = ? ', 0);
 
@@ -84,7 +31,7 @@ class Frontend_Model_Core_Start {
             $appQuery->where('app_default = ?', 1);
         }
 
-        $appRow = $this->db->fetchRow($appQuery);
+        $appRow = $this->MC->db->fetchRow($appQuery);
 
         if ($appRow)
         {

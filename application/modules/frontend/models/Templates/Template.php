@@ -202,7 +202,6 @@ class Frontend_Model_Templates_Template extends Frontend_Model_Frontend
                 $template = str_replace($fullVarTag,$value,$template);
             }
         }
-
         return $template;
     }
 

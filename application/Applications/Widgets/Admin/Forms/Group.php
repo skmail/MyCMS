@@ -30,10 +30,10 @@ class App_Widgets_Admin_Forms_Group extends MC_Admin_Form_BaseForm {
                 ->setLabel('outer_template')
                 ->setRequired(TRUE);
 
-        $templates = $MC->db->select()->from('templates');
+        $templates = $MC->db->select()->from('templates')->join('templates_categories','templates_categories.cat_id=templates.cat_id')->where('parent_template = ?',0);
 
-        foreach ($MC->db->fetchAll($templates) as $k => $v) {
-            $outerTemplates->addMultiOption($v['template_id'], $v['template_name']);
+        foreach ($MC->db->fetchAll($templates) as $v) {
+            $outerTemplates->addMultiOption($v['template_id'], $v['cat_name'].'/'.$v['template_name']);
         }
 
         $groupParams->addElement($outerTemplates);
@@ -42,19 +42,19 @@ class App_Widgets_Admin_Forms_Group extends MC_Admin_Form_BaseForm {
                 ->setLabel('inner_tempalate')
                 ->setRequired(TRUE);
 
-        $templates = $MC->db->select()->from('templates');
+        $templates = $MC->db->select()->from('templates')->join('templates_categories','templates_categories.cat_id=templates.cat_id')->where('parent_template = ?',0);
 
-        foreach ($MC->db->fetchAll($templates) as $k => $v) {
-            $innerTemplate->addMultiOption($v['template_id'], $v['template_name']);
+        foreach ($MC->db->fetchAll($templates) as  $v) {
+            $innerTemplate->addMultiOption($v['template_id'], $v['cat_name'].'/'.$v['template_name']);
         }
 
         $groupParams->addElement($innerTemplate);
 
-        $grid = new MC_Models_Grid_Grid();
+        $MC->load->appLibrary('Grids','Grids');
 
         $gridClass = $groupParams->createElement('select', "grid_class", array('label' => 'grid_type', 'required' => 'true','class'=>'ltr', 'decorators' => MC_Admin_Form_Form::$elementDecorators));
 
-        foreach ($grid->getGrids() as $grid) {
+        foreach ($MC->Grids->getGrids($MC->settings['grid_name']) as $grid) {
             $gridClass->addMultiOption($grid->class, $grid->class . " (" . $grid->size . ")");
         }
 

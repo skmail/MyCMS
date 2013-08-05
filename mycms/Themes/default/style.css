@@ -1,12 +1,3 @@
-@font-face {
-    font-family: 'Carrois Gothic SC';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Carrois Gothic SC'), local('CarroisGothicSC-Regular'), url(http://themes.googleusercontent.com/static/fonts/carroisgothicsc/v1/bVp4nhwFIXU-r3LqUR8DSJDLFmdXetBaxVj2IReX7o0.woff) format('woff');
-}
-
-
-
 .clear{
     clear:both;
 }
@@ -17,9 +8,8 @@ body{
 }
 
 body,a,input{
-    font-family: 'Carrois Gothic SC';
+    font-family: 'Open Sans';
     font-size: 14px;
-
 }
 
 a{
@@ -31,158 +21,139 @@ a{
     margin-bottom:10px;
     margin-top: 10px;
 }
+.wrapper{
+    max-width: 960px;
+    margin: auto;
+    min-width:320px
+}
+.content-wrapper{
+    border-radius:10px;
+    border:1px solid #efefef;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #efefef 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#efefef 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%,#efefef 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%,#efefef 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#efefef 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
 
+}
 .header {
-    height: 130px;
-    border-bottom: 4px solid #e7e7e7;
-    margin-bottom: 10px;
+    padding: 15px 0;
 }
 .header .logo{
     float: left;
-    margin-top: 30px;
 }
 .header .logo a{
     color: #c38aff;
     font-size: 64px;
-}
-
-.topMenu{
-    float:right;
-    background: #c38aff;
-    padding: 5px 10px;
-}
-
-.topMenu ul li
-{
-    float:left;
-    position: relative;
-}
-.topMenu ul li.sep
-{
-    padding:0 10px;
-    color: #dcbbff;
-}
-.topMenu ul li a
-{
     display: block;
+    width: 125px;
+    height: 35px;
+    background: url(images/logo.png) no-repeat;
+    background-size: cover;
+}
+.side-menu{
+    float:left;
+}
+.side-menu li {
+    float: left;
+    margin: 4%;
+    width: 42%;
+}
+.side-menu li a {
+    display: block;
+    height: 42px;
+    background-repeat: no-repeat;
+    padding-left: 45px;
+    background-position: left top;
+    color:#727171;
+}
+.side-menu li a h1{
+    float:left;
+    margin-top: 2px;
+}
+.side-menu li a p
+{
+    clear: both;
+    color: #3B97D3;
+    float: left;
+    font-family: tahoma;
+    font-size: 11px;
+    margin-top: 4px;
+}
+.side-menu li.docs a{
+    background-image: url(images/docs.png);
+}
+.side-menu li.apps a{
+    background-image: url(images/apps.png);
+}
+.side-menu li.themes a{
+    background-image: url(images/themes.png);
+    background-position: left -3px;
+}
+.side-menu li.hooks a{
+    background-image: url(images/hooks.png);
+}
+.side-menu li.widgets a{
+    background-image: url(images/widgets.png);
+}
+.side-menu li.langs a{
+    background-image: url(images/langs.png);
+}
+
+
+
+/*
+    Buttons
+*/
+
+.btn.blue{
+    box-shadow: 2px 2px 5px #3086C4 inset;
+    background: #3c97d3;
+    border:0;
+    cursor: pointer;
+}
+.btn.blue:hover{
+    box-shadow:2px -2px 5px #3086C4 inset
+}
+.btn.blue.download-btn{
+    padding: 10px 15px;
+
+}
+
+.download-box{
+    float:right;
+    margin-right: 40px;
+    margin-top: 15px;
+}
+
+
+.btn.blue.download-btn h1{
+    font-size: 16px;
     color:#fff;
-    padding: 0 5px;
-    line-height: 10px;
+}
+.btn.blue.download-btn p{
+    font-size: 11px;
+    color:#e4e4e4;
+    font-family: tahoma;
 }
 
-.loginBox
-{
-    background: #c38aff;
-    position: absolute;
-    padding:10px;
-    width: 234px;
-    top: 34px;
-    right:-88px;
-    display: none;
+.try-it-now {
+    float: left;
+    font-size: 31px;
+    margin-right: 14px;
+    margin-top: 9px;
 }
 
-.loginBox .arrow{
-    background: url(images/loginBoxArrow.png) no-repeat;
-    height: 15px;
-    margin-top: -12px;
-    position: absolute;
-    right: 90px;
-    top: 0;
-    width: 28px;
+#gridRow_1{
+    background-image: url(images/separtor-1.png);
+    background-position:  bottom;
+    background-repeat: repeat-x;
 }
 
-.loginBox .input
-{
-    margin-bottom: 5px;
-}
-.loginBox .input label{
-    display: inline-block;
-    width: 65px;
-    color: #fff;
-}
-
-
-.loginBox .input input[type=text],.loginBox .input input[type=password]
-{
-    border:1px solid #ad63fc;
-    padding: 5px;
-}
-
-.loginBox .submit input[type=submit]{
-    background: #a053f1;
-    border: 0;
-    color: #fff;
-    padding: 5px 10px;
-    float:right;
-    cursor: pointer;
-}
-.loginBox .submit input[type=submit]:hover{
-    background: #963cf4;
-}
-.remember_me
-{
-    float:left;
-    color: #fff;
-    margin-top: 5px;
-}
-
-.dailyDeals{
-    width: 760px !important;
-}
-
-
-.search-newsletter-adv{
-    width: 160px !important;
-}
-.search_form .search-input{
-    margin-bottom: 10px;
-}
-
-.search_form .search-input input[type=text]
-{
-    width: 148px;
-    padding: 5px;
-    border:1px solid #cfcfcf;
-}
-
-.search_form .search-button{
-    display: none;
-}
-
-.maillist{
-    margin-bottom: 10px;
-}
-#maillist .inputLargeCont input[type=text]
-{
-    margin-bottom: 5px;
-    width: 148px;
-    padding: 5px;
-    border:1px solid #9f44ff;
-}
-
-#maillist .inputLargeCont input[type=submit]{
-    background: #a053f1;
-    border: 0;
-    color: #fff;
-    padding: 5px 10px;
-    float:right;
-    cursor: pointer;
-}
-#maillist .inputLargeCont input[type=submit]:hover{
-    background: #963cf4;
-}
-
-
-
-.discount_50 .item
-{
-    float:left;
-    margin: 0 13px 10px 0;
-}
-.discount_50 .item .img img
-{
-    border: 1px solid #dcdcdc;
-}
-.discount_50 .item:nth-child(4),.discount_50 .item:nth-child(8),.discount_50 .item:last-child{
-    margin-right: 0;
+.blue-title-widget .title{
+    color:#3b97d3;
+    font-size: 22px;
 }

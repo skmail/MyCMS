@@ -45,8 +45,8 @@ class App_Widgets_Shared_Libraries_Forms{
     public function widgetForm($pluginResource)
     {
 
-        $pluginForm = $pluginResource['plugin_resource_name'];
-        $widgetForm = 'Plugins_' . ucfirst($pluginForm) . '_Form' ;
+        $pluginForm = $pluginResource['widget_source_name'];
+        $widgetForm = 'Widgets_' . ucfirst($pluginForm) . '_Form' ;
         $applicationParams = array_merge($this->MC->application,$pluginResource);
         $attr = array('app' => $applicationParams);
 

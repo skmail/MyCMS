@@ -41,26 +41,18 @@ class MC_App_Themes_Themes
         if ($theme_id != 0)
         {
             $themeQuery->where("theme_id = ? ", $theme_id);
-           
         }
         else
         {
             $themeQuery->where(" theme_default = ? ", 1);
         }
-
         $themeRow = $db->fetchRow($themeQuery);
-
         if (!$themeRow)
         {
             $themeQuery = $db->select()->from('themes');
-
             $themeQuery->where(" theme_default = ? ", 1);
-
             $themeRow = $db->fetchRow($themeQuery);
         }
-
-
-
         return $themeRow;
 
     }

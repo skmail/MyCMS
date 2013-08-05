@@ -75,45 +75,34 @@ function printPage(response){
 
     $('.breadcrumb').remove();
 
-    if(response.app.nav){
-        $(response.app.nav).insertAfter('#top-navigation');
+    if('undefined' !==  response.nav){
+        $(response.nav).insertAfter('#top-navigation');
     }
 
     //Print the top bar
-    if(response.sidebar){
+
+    if('undefined' !== response.sidebar &&  response.sidebar != false ){
+        $('.main-content .content-controlls').show();
         if($(innerWrapper).find('.content-controlls').length == 0 ){
           $('<div class="content-controlls clear" style="display:block;">'+response.sidebar+'<div class="clear"></div></div>').insertBefore('#content-side .body');
-        
         }else{
             $('.main-content .content-controlls').html(response.sidebar);
             $('.main-content .content-controlls').append("<div class='clear'></div>");
         }
     }else{
-        $('.main-content .content-controlls').remove();
+        $('.main-content .content-controlls').hide();
     }
-    
-    
-        
-        
-    //Print page Body content
 
-    if(response.window){
-       
-        if($(innerWrapper).find('.body').length == 0 )
-            $(innerWrapper).append('<div class="body">'+response.window+'</div>');
-        else
-            $('#content-side .body').html(response.window);
-        
+    //Print page Body content
+    if('undefined' !== response.body){
+        $('#content-side .body').html(response.body);
         $(innerWrapper).find('.body').append("<div class='clear'></div>");
-    }
-    else
-    {
+    }else{
         $('.main-content .body').empty();
-    }   
+    }
     
-    if(typeof response.app.refresh != "undefined"){
-   
-        if(typeof response.app.refresh.sidebar != "undefined"){
+    if("undefined" !== typeof response.refresh){
+        if("undefined" !== typeof response.refresh.sidebar){
             $.ajax({
                 'type':'post',
                 'url':'admin/ajax/sidebar',
@@ -128,11 +117,10 @@ function printPage(response){
         }
                     
     }
-    if(typeof response.app.message != "undefined"){
-        
-        messageText = (typeof response.app.message.text === "undefined") ? false : response.app.message.text;
-        messageType = (typeof response.app.message.type === "undefined") ? false : response.app.message.type;
-        messageHeading = (typeof response.app.message.heading === "undefined") ?false: response.app.message.heading;
+    if("undefined" !== typeof response.message){
+        messageText = (typeof response.message.text === "undefined") ? false : response.message.text;
+        messageType = (typeof response.message.type === "undefined") ? false : response.message.type;
+        messageHeading = (typeof response.message.heading === "undefined") ?false: response.message.heading;
     
         if($('.main-content .messages-container').length > 0)
             $('.main-content .messages-container').remove();

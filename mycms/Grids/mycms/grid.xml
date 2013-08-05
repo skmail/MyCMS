@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <resources>
+        <resource>
+            <type>css</type>
+            <href>mycms/Grids/mycms/style.css</href>
+        </resource>
+    </resources>
+    <grids>
+        <grid>
+            <class>whole</class>
+        </grid>
+        <grid>
+            <class>half</class>
+        </grid>
+        <grid>
+            <class>one-third</class>
+        </grid>
+        <grid>
+            <class>two-thirds</class>
+        </grid>
+        <grid>
+            <class>one-quarter</class>
+        </grid>
+        <grid>
+            <class>two-quarters</class>
+        </grid>
+        <grid>
+            <class>three-quarters</class>
+        </grid>
+        <grid>
+            <class>one-fifth</class>
+        </grid>
+        <grid>
+            <class>two-fifths</class>
+        </grid>
+        <grid>
+            <class>three-fifths</class>
+        </grid>
+        <grid>
+            <class>four-fifths</class>
+        </grid>
+        <grid>
+            <class>one-sixth</class>
+        </grid>
+        <grid>
+            <class>two-sixths</class>
+        </grid>
+        <grid>
+            <class>three-sixths</class>
+        </grid>
+        <grid>
+            <class>four-sixths</class>
+        </grid>
+        <grid>
+            <class>five-sixths</class>
+        </grid>
+        <grid>
+            <class>one-seventh</class>
+        </grid>
+        <grid>
+            <class>two-sevenths</class>
+        </grid>
+        <grid>
+            <class>three-sevenths</class>
+        </grid>
+        <grid>
+            <class>four-sevenths</class>
+        </grid>
+        <grid>
+            <class>five-sevenths</class>
+        </grid>
+        <grid>
+            <class>six-sevenths</class>
+        </grid>
+        <grid>
+            <class>one-eighth</class>
+        </grid>
+        <grid>
+            <class>two-eighths</class>
+        </grid>
+        <grid>
+            <class>three-eighths</class>
+        </grid>
+        <grid>
+            <class>four-eighths</class>
+        </grid>
+
+        <grid>
+            <class>five-eighths</class>
+        </grid>
+
+        <grid>
+            <class>six-eighths</class>
+        </grid>
+
+        <grid>
+            <class>seven-eighths</class>
+        </grid>
+
+        <grid>
+            <class>one-eighth</class>
+        </grid>
+
+        <grid>
+            <class>one-ninth</class>
+        </grid>
+
+        <grid>
+            <class>one-ninths</class>
+        </grid>
+
+
+        <grid>
+            <class>two-ninths</class>
+        </grid>
+
+        <grid>
+            <class>three-ninths</class>
+        </grid>
+
+        <grid>
+            <class>four-ninths</class>
+        </grid>
+
+        <grid>
+            <class>five-ninths</class>
+        </grid>
+
+        <grid>
+            <class>six-ninths</class>
+        </grid>
+
+        <grid>
+            <class>seven-ninths</class>
+        </grid>
+
+        <grid>
+            <class>eight-ninths</class>
+        </grid>
+
+        <grid>
+            <class>one-tenth</class>
+        </grid>
+
+        <grid>
+            <class>two-tenths</class>
+        </grid>
+
+        <grid>
+            <class>three-tenths</class>
+        </grid>
+
+        <grid>
+            <class>four-tenths</class>
+        </grid>
+
+        <grid>
+            <class>five-tenths</class>
+        </grid>
+
+        <grid>
+            <class>six-tenths</class>
+        </grid>
+
+        <grid>
+            <class>seven-tenths</class>
+        </grid>
+
+        <grid>
+            <class>eight-tenths</class>
+        </grid>
+
+        <grid>
+            <class>nine-tenths</class>
+        </grid>
+    </grids>
+</root>

@@ -1,10 +1,7 @@
 <?php
 class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
 {
-
-
     public $plugin = array();
-
     /**
      * @param array $application
      */
@@ -25,6 +22,7 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
      */
     public function index()
     {
+
         $folders = $this->MC->Queries->getFolderByLangId($this->application['lang_id']);
         $this->assign('folders',$folders);
         $this->setSidebar('indexSidebar');
@@ -138,13 +136,14 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
             }
         }
 
+
+
         $this->setNav($itemQuery['cat_name'],'window/items/cat_id/' . $itemQuery['cat_id']);
         $this->setNav($nav);
         $itemQuery['do'] = $do;
         $this->assign('itemForm',(isset($options['itemForm'])) ? $options['itemForm'] : $this->MC->Forms->itemForm($itemQuery));
         return $this->application;
     }
-
 
     #-------------------------------
     #  Category page edit/add
@@ -228,6 +227,7 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
             return $this->setError();
         }
 
+
         $itemForm = $this->MC->Forms->itemForm($request->getPost());
 
         if ($itemForm->isValid($request->getPost())){
@@ -261,6 +261,7 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
                 }
             }
 
+
             //-------------------------------------------
             //  Prepare item fields
             //-------------------------------------------
@@ -274,6 +275,7 @@ class App_Items_Admin_Items extends Admin_Model_ApplicationAbstract
             $data['item_langs'] = $itemLang;
             $data['fields'] = $itemFields;
             $data['fields_lang'] = $langFields;
+
 
             if($result = $itemApi->validSave($itemApi->saveItem($data))){
 

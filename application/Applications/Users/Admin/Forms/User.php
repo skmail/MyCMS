@@ -4,7 +4,8 @@ class App_Users_Admin_Forms_User extends MC_Admin_Form_BaseForm {
 
     public function init() {
 
-        
+        $user = $this->getAttrib('user');
+        $this->removeAttrib('user');
         $userForm = new MC_Admin_Form_SubForm();
         
         $username = $userForm->createElement('text', 'username', array('label' => 'username', 'required' => true));
@@ -27,24 +28,30 @@ class App_Users_Admin_Forms_User extends MC_Admin_Form_BaseForm {
 
 
         $password = new Zend_Form_Element_Password('password');
-        $password->setLabel('Password');
-        
+        $password->setLabel('password');
+
         $password->setDecorators(MC_Admin_Form_Form::$elementDecorators);
         
         
         $confirmPassword = new Zend_Form_Element_Password('confirm_password');
-        $confirmPassword->setLabel('Confirm password')
-                ->addValidator(new Zend_Validate_Identical('password'));
-        
+        $passwordMatch = new Zend_Validate_Identical('password');
+        $confirmPassword->setLabel('confirm_password')
+                ->addValidator($passwordMatch->setMessage('password_dosent_matched'));
+
+        if($user['do'] == 'add')
+        {
+            $password->setRequired();
+            $confirmPassword->setRequired();
+        }
         $confirmPassword->setDecorators(MC_Admin_Form_Form::$elementDecorators);
 
         $userForm->addElement($password);
         $userForm->addElement($confirmPassword);
-        
-        
+
         $this->addSubForm($userForm, 'user');
-        
+
         $this->addElement('hidden', 'user_id');
+        $this->addElement('hidden', 'usergroup_id');
 
         $this->addElement('hidden', 'do');
 

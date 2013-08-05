@@ -5,9 +5,9 @@
     <div class="menu-container dropdown-menu menu1" role="menu" aria-labelledby="drop3">
         <div class="arrow"></div>
         <ul class="menu-content">
-            <li><a href="#">Visit Website</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="admin/login/logout" class="disAjax">Logout</a></li>
+            <?php foreach($this->layout()->userMenu as $menuItem){?>
+                <li><a href="<?php echo $menuItem['url'];?>" <?php echo $menuItem['attribs'];?>><?php echo $menuItem['label'];?></a></li>
+            <?php }?>
         </ul>
     </div>
 </div>

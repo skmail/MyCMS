@@ -12,29 +12,28 @@ class App_Widgets_Admin_Forms_Widget extends MC_Admin_Form_BaseForm {
         $widget = new MC_Admin_Form_SubForm();
 
         $showInForm = new MC_Admin_Form_SubForm();
-
         $apps = $MC->Functions->applicationsPlugins();
+        if($apps){
+            foreach ($apps as $appId => $app) {
+                $appForm = new MC_Admin_Form_SubForm();
+                foreach ($app as $pageKey => $pages) {
+                    $pageForm = new MC_Admin_Form_SubForm();
+                    $pagesList = $pageForm->createElement('MultiCheckbox', "'" . $pageKey . "'",
+                        array(
+                            'label' => $appId,
+                            'isArray' => true,
+                            'decorators' => MC_Admin_Form_Form::$elementDecorators,
+                            'class'=>'showin-list'
+                        ));
+                    foreach($pages as $pageId=>$pageLabel)
+                    {
 
-        foreach ($apps as $appId => $app) {
-            $appForm = new MC_Admin_Form_SubForm();
-            foreach ($app as $pageKey => $pages) {
-                $pageForm = new MC_Admin_Form_SubForm();
-
-                $pagesList = $pageForm->createElement('MultiCheckbox', "'" . $pageKey . "'",
-                    array(
-                        'label' => $appId,
-                        'isArray' => true,
-                        'decorators' => MC_Admin_Form_Form::$elementDecorators,
-                        'class'=>'showin-list'
-                    ));
-                foreach($pages as $pageId=>$pageLabel)
-                {
-
-                    $pagesList->addMultiOption($pageId, $pageLabel);
+                        $pagesList->addMultiOption($pageId, $pageLabel);
+                    }
+                    $appForm->addElement($pagesList);
                 }
-                $appForm->addElement($pagesList);
+                $showInForm->addSubForm($appForm,$appId);
             }
-            $showInForm->addSubForm($appForm,$appId);
         }
         $showInForm->setDecorators(array(
             'FormElements',
@@ -84,7 +83,7 @@ class App_Widgets_Admin_Forms_Widget extends MC_Admin_Form_BaseForm {
         ));
         $leftForm->setDecorators(array(
             'FormElements',
-            array('HtmlTag', array('tag' => 'div','class'=>'float_2 four-fifth')),
+            array('HtmlTag', array('tag' => 'div','class'=>'float_2 four-fifths')),
         ));
         $rightForm->setElementsBelongTo('');
         $leftForm->setElementsBelongTo('');

@@ -148,7 +148,7 @@ class App_Items_Shared_Api {
                         $fieldClass = 'App_Items_Shared_FieldsTypes_'.$fieldData['field_type'].'_Field';
                         $field_value = $fieldClass::setFieldValue($field_value);
                         if(count($fieldClass::$_fieldErrors) == 0){
-                            $this->updateField($itemId,$field_id,$field_value,$lang_id);
+                            $this->updateField($itemId,$field_id,$field_value,$lang_id,true);
                         }else{
                             $this->_errors = array_merge($this->_errors,$fieldClass::$_fieldErrors);
                         }
@@ -178,7 +178,7 @@ class App_Items_Shared_Api {
         }
     }
 
-    public function updateField($item_id,$fieldId,$fieldValue, $lang_id = false)
+    public function updateField($item_id,$fieldId,$fieldValue, $lang_id = false,$x = false)
     {
         $dataArray = array();
         $dataArray['item_id'] = $item_id;
@@ -190,6 +190,9 @@ class App_Items_Shared_Api {
             $table_name = 'items_fields_data';
         }
         $dataArray['field_'.$fieldId] = $fieldValue;
+
+
+
         $where.= $this->db->quoteInto(" item_id = ?", $item_id);
         if ($this->db->fetchRow($this->db->select()->from($table_name)->where($where))){
                 $this->db->update($table_name, $dataArray, $where);

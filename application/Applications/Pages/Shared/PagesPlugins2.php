@@ -8,12 +8,11 @@ class App_Pages_Shared_PagesPlugins extends App_Widgets_Shared_PagesPluginsAbstr
     {
         $page = new App_Pages_Admin_Pages();
         $langs = new App_Language_Shared_Lang();
-
-        $pages = $page->pageQuery(array('lang_id'=>$langs->currentLang()));
-
-        foreach($pages as $page)
-        {
-            $this->setPage('page',$page['page_id'],$page['page_name']);
+        if($pages = $page->pageQuery(array('lang_id'=>$langs->currentLang())) !== false){
+            foreach($pages as $page)
+            {
+                $this->setPage('page',$page['page_id'],$page['page_name']);
+            }
         }
     }
 

@@ -22,7 +22,7 @@ $(document).ready(function() {
         fileTemplate:uploaderTemplate,
         button: $("#fubUploadButton"),
         request: {
-            endpoint: "admin/ajax/window/appPrefix/storage/window/saveFile/uploadType/byForm",
+            endpoint: "/admin/storage/window/saveFile/uploadType/byForm",
             params:{
                 'group_id':1 //$('#storage_group_id').val()
             }

@@ -22,6 +22,7 @@ class App_Widgets_Admin_Forms_WidgetLang extends MC_Admin_Form_SubForm
                 'required'   => $required,
                 'label'      => 'widget_name',
                 'maxLength'  => '255',
+                'class'      => 'large-input',
                 'decorators' => MC_Admin_Form_Form::$elementDecorators
             ));
             $options['id'] = 'plugin_lang' . $langV['lang_id'];

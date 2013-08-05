@@ -9,6 +9,10 @@ defined('APPLICATION_PATH')
 defined('LIBRARY_PATH')
     || define('LIBRARY_PATH', realpath(dirname(__FILE__) . '/library'));
 
+defined('PUBLIC_PATH')
+    || define('PUBLIC_PATH', realpath(dirname(__FILE__) . '/mycms'));
+
+
 // Define application environment
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));

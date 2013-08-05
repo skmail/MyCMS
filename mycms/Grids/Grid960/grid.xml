@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <resources>
+        <resource>
+            <type>js</type>
+            <src>/mycms/</src>
+        </resource>
+        <resource>
+            <type>css</type>
+            <href>mycms/contents/assets/grids/960g/960_12_col.css</href>
+        </resource>
+    </resources>
+    <grids>
+        <grid>
+            <size>60px</size>
+            <class>grid_1</class>
+        </grid>
+        <grid>
+            <size>140px</size>
+            <class>grid_2</class>
+        </grid>
+        <grid>
+            <size>220px</size>
+            <class>grid_3</class>
+        </grid>
+        <grid>
+            <size>300px</size>
+            <class>grid_4</class>
+        </grid>
+        <grid>
+            <size>380px</size>
+            <class>grid_5</class>
+        </grid>
+        <grid>
+            <size>460px</size>
+            <class>grid_6</class>
+        </grid>
+        <grid>
+            <size>540px</size>
+            <class>grid_7</class>
+        </grid>
+        <grid>
+            <size>620px</size>
+            <class>grid_8</class>
+        </grid>
+        <grid>
+            <size>700px</size>
+            <class>grid_9</class>
+        </grid>
+        <grid>
+            <size>780px</size>
+            <class>grid_10</class>
+        </grid>
+        <grid>
+            <size>860px</size>
+            <class>grid_11</class>
+        </grid>
+        <grid>
+            <size>940px</size>
+            <class>grid_12</class>
+        </grid>
+        <grid>
+            <size>Free grid (Without size)</size>
+            <class>grid_free</class>
+        </grid>
+    </grids>
+
+
+</root>

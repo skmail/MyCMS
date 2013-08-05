@@ -4,123 +4,65 @@ class App_Users_Shared_Permissions
 {
 
     protected $userid;
-
     protected $usergroup;
 
     public function __construct()
     {
-
         $this->usergroup = 1;
-
         $this->userid = 1;
-
         $this->db = Zend_Registry::get('db');
-
     }
 
-    public function isAllow($app, $method, $do = '')
+    public function isAllow($appPrefix, $method, $do = '')
     {
-        
-        
-        
-        if(is_object($app))
-        {
-        
-            $appObj = $app;
-            
-            $app = array();
-            
-            foreach($appObj as $appKey=>$appVal)
-            {
-                $app[$appKey] = $appVal;
-            }
-            
-        }
-
-        
-        $appPermClass = 'Admin_Model_Applications_' . ucfirst($app['app_prefix']) . '_Permissions';
-
-        
+        $appPermClass = 'Admin_Model_Applications_' . ucfirst($appPrefix) . '_Permissions';
         $usergroupOptions['usergroup'] = $this->usergroup;
-        
         $usergroupRow = $this->getPerms($usergroupOptions);
-        
-        if (!empty($usergroupRow['perms']))
-        {
-            if($usergroupRow['super_admin'] == 1)
-            {
+        if (!empty($usergroupRow['perms'])){
+            if($usergroupRow['super_admin'] == 1){
                 return true;
             }
-            $usergroup = Zend_Json_Decoder::decode($usergroupRow['perms']);
+            $usergroup = MC_Json::decode($usergroupRow['perms']);
         }
-
         $method = strtolower($method);
-
         $userOptions['user_id'] = $this->userid;
-        
         $userRow = $this->getPerms($userOptions);
-        
-        if (!empty($userRow['perms']))
-        {
-            if($userRow['super_admin'] == 1)
-            {
+        if (!empty($userRow['perms'])){
+            if($userRow['super_admin'] == 1){
                 return true;
             }
-            $user = Zend_Json_Decoder::decode($userRow['perms']);
+            $user = MC_Json::decode($userRow['perms']);
         }
-
-
-        $usergroupPerm = $usergroup[$app['app_id']]['methods'][$method];
-       
-        
-        $userPerm = $user[$app['app_id']]['methods'][$method];
-
-        if (!$this->_getPermAuth($usergroup[$app['app_id']]['methods']['__construct'], $user[$app['app_id']]['methods']['index'], 'view') || !$this->_getPermAuth($usergroup[$app['app_id']]['methods'][$method], $user[$app['app_id']]['methods'][$method], $do))
-        {
+        $usergroupPerm = $usergroup[$appPrefix]['methods'][$method];
+        $userPerm = $user[$appPrefix]['methods'][$method];
+        if (!$this->_getPermAuth($usergroup[$appPrefix]['methods']['__construct'], $user[$appPrefix]['methods']['index'], 'view') ||
+            !$this->_getPermAuth($usergroup[$appPrefix]['methods'][$method], $user[$appPrefix]['methods'][$method], $do)){
             return false;
-        }
-        else
-        {
+        }else{
             $allowed = $this->_getPermAuth($usergroupPerm, $userPerm);
         }
 
-        if (class_exists($appPermClass))
-        {
+        if (class_exists($appPermClass)){
             $appPermClass = new $appPermClass();
-           
-            if ($appPermClass instanceof MC_Models_Permissions_Abstract)
-            {
+            if ($appPermClass instanceof MC_Models_Permissions_Abstract){
                 $tablesPerms = $appPermClass->checkPerms($method);
-
-                if ($tablesPerms != false && is_array($tablesPerms) && count($tablesPerms) > 0)
-                {
-                    foreach ($tablesPerms as $tableName => $tableVals)
-                    {
-
-                        if (empty($tableVals['key']))
-                        {
+                if ($tablesPerms != false && is_array($tablesPerms) && count($tablesPerms) > 0){
+                    foreach ($tablesPerms as $tableName => $tableVals){
+                        if (empty($tableVals['key'])){
                             continue;
                         }
-
-                        $usergroupPerm = $usergroup[$app['app_id']]['tables'][$tableName][$tableVals['key']];
-                        
-                        $userPerm = $user[$app['app_id']]['tables'][$tableName][$tableVals['key']];
-                        
-                        if ($this->_getPermAuth($usergroupPerm, $userPerm))
-                        {
+                        $usergroupPerm = $usergroup[$appPrefix]['tables'][$tableName][$tableVals['key']];
+                        $userPerm = $user[$appPrefix]['tables'][$tableName][$tableVals['key']];
+                        if ($this->_getPermAuth($usergroupPerm, $userPerm)){
                             $allowed = true;
-                        }
-                        else
-                        {
+                        }else{
                             return false;
                         }
                     }
                 }
             }
         }
-
         return $allowed;
-
     }
 
     protected function _getPermAuth($usergroupPerm, $userPerm, $do = '')

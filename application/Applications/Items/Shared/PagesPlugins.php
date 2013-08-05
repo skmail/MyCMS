@@ -12,19 +12,17 @@ class App_Items_Shared_PagesPlugins extends App_Widgets_Shared_PagesPluginsAbstr
         $itemsQueries = new App_Items_Shared_Libraries_Queries();
 
         $categories = array();
-
-        $folders = $itemsQueries->getFolderByLangId($MC->model->lang->currentLang('lang_id'));
-
-        foreach ($folders as $folder)
-        {
-            $categories = $itemsQueries->categoriesTreeBySequence(0,2,array('folder_id'=>$folder['folder_id']));
-            foreach($categories as $cat)
+        if($folders = $itemsQueries->getFolderByLangId($MC->model->lang->currentLang('lang_id')) !== false && is_array($folders)){
+            foreach ($folders as $folder)
             {
-                //$categories[$cat['cat_id']] = $cat['cat_name'];
-                $this->setPage('category',$cat['cat_id'],$cat['cat_name']);
+                $categories = $itemsQueries->categoriesTreeBySequence(0,2,array('folder_id'=>$folder['folder_id']));
+                foreach($categories as $cat)
+                {
+                    //$categories[$cat['cat_id']] = $cat['cat_name'];
+                    $this->setPage('category',$cat['cat_id'],$cat['cat_name']);
+                }
             }
         }
-
     }
 
 

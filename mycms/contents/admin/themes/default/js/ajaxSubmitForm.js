@@ -54,8 +54,8 @@ function submitForm(form)
             }else{
                 deleteLoading();
                 printPage(response);
-                if(typeof response.app.replaceUrl != 'undefined'){
-                    history.pushState(null,"",response.app.replaceUrl);
+                if('undefined' !== typeof response.replaceUrl){
+                    history.pushState(null,"",response.replaceUrl);
                 }
             }
             removeEditor();

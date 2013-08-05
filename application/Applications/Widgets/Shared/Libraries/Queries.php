@@ -166,12 +166,19 @@ class App_Widgets_Shared_Libraries_Queries
         if(isset($options['group_id']) && isset($options['lang_id']))
         {
             $groupRow = $this->MC->db->fetchRow($groupQuery);
+            if(!$groupRow){
+                return false;
+            }
+
             $groupRow['group_params'] = Zend_Json::decode($groupRow['group_params']);
             $groupRow['grid_params'] = Zend_Json::decode($groupRow['grid_params']);
         }
         else if(!isset($options['group_id']) && isset($options['lang_id']))
         {
             $groupRows = $this->MC->db->fetchAll($groupQuery);
+            if(!$groupRows){
+                return false;
+            }
             foreach($groupRows as $key=>$row)
             {
                 $groupRows[$key]['group_params'] = Zend_Json::decode($row['group_params']);
@@ -185,9 +192,11 @@ class App_Widgets_Shared_Libraries_Queries
 
             $groupRow = $this->MC->db->fetchAll($groupQuery);
 
+
+            if(!is_array($groupRow) || !$groupRow){
+                return false;
+            }
             $groupLang = array();
-
-
             foreach ($groupRow as $group)
             {
                 $groupLang[$group['lang_id']] = $group;
@@ -338,7 +347,7 @@ class App_Widgets_Shared_Libraries_Queries
             $query->where("widget_source_id = ? ",$widgetSourceId );
 
             $widgetRow = $this->MC->db->fetchRow($query);
-            $widgetRow['widgetForm'] = 'Plugins_'.ucfirst($widgetRow['plugin_resource_name']).'_Form';
+            $widgetRow['widgetForm'] = 'Widgets_'.ucfirst($widgetRow['widget_source_name']).'_Form';
 
             return $widgetRow;
         }

@@ -26,7 +26,7 @@
                 {
                     $content = self::_buildFileContent($phrasesRows);
                 
-                    self::saveFile('Languages/'.$row['short_lang'].'.php',$content);
+                    self::saveFile('mycms/Languages/'.$row['short_lang'].'.php',$content);
                 }
                 
             }

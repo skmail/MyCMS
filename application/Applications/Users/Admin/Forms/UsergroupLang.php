@@ -2,81 +2,51 @@
 
 class App_Users_Admin_Forms_UsergroupLang extends MC_Admin_Form_SubForm
 {
-
     public function init()
     {
-
-        $langs = MC_Core_Loader::appClass('Language', 'Lang', NULL, 'Shared');
-
-
-
-
-
+        $MC =& MC_Core_Instance::getInstance();
         $this->addPrefixPath('MC_Admin_Form', 'MC/Admin/Form');
 
-
-
-        foreach ($langs->langsList() as $langV)
+        foreach ($MC->model->lang->langsList() as $lang)
         {
-
             $usergroup_lang = new MC_Admin_Form_SubForm();
 
-            if ($langV['lang_default'] ==  $langs->currentLang())
-            {
+            if ($lang['lang_id'] ==  $MC->model->lang->currentLang('lang_id')){
                 $required = true;
-            }
-            else
-            {
+            }else{
                 $required = false;
             }
-
-
             $usergroup_name = $usergroup_lang->addElement('text', 'usergroup_name', array(
-                'label'     => 'Usergroup name',
+                'label'     => 'usergroup_name',
                 'required'  => $required,
                 'maxLength' => '255',
-                'class'     => 'input-xlarge'));
+                'class'     => 'large-input'));
+            $options['id'] = 'usergroup_lang_' . $lang['lang_id'];
 
-            $options['id'] = 'cat_lang_' . $langV['lang_id'];
-            if ($langV['lang_default'] ==  $langs->currentLang())
+            if ($lang['lang_id'] ==  $MC->model->lang->currentLang('lang_id')){
                 $options['active'] = 'active';
-            else
+
+            }else{
                 $options['active'] = '';
-
-
-            $usergroup_name->setDecorators(array('FormElements',
-                array('HtmlTag', array('tag' => 'div'))
-                , array('Tab_Content', array('placement' => 'prepend', 'options'   => $options))
-            ));
-
-
-
-            $usergroup_name->setElementsBelongTo('usergroup_lang[' . $langV['lang_id'] . ']');
-
-
-
-
-            $this->addSubForm($usergroup_name, 'usergroup_name_' . $langV['lang_id']);
+            }
+            $usergroup_name->setDecorators($this->tabContentDeco($options));
+            $usergroup_name->setElementsBelongTo('usergroup_lang[' . $lang['lang_id'] . ']');
+            
+            $this->addSubForm($usergroup_name, 'usergroup_name_' . $lang['lang_id']);
         }
-
         $tabNav = array();
-
-        foreach ($langs->langsList()  as $v)
+        foreach ($MC->model->lang->langsList()  as $v)
         {
-
             $tabNav[$v['lang_id']]['label'] = $v['lang_name'];
-            $tabNav[$v['lang_id']]['href'] = 'cat_lang_' . $v['lang_id'];
-            if ($v['lang_default'] == 1)
+            $tabNav[$v['lang_id']]['href'] = 'usergroup_lang_' . $v['lang_id'];
+            if ($v['lang_id'] == $MC->model->lang->currentLang('lang_id')){
                 $tabNav[$v['lang_id']]['active'] = 'active';
-            else
+            }
+            else{
                 $tabNav[$v['lang_id']]['active'] = '';
+            }
         }
-
-        $this->setDecorators(array('FormElements',
-            array('HtmlTag', array('tag' => 'div'))
-            , array('Tab_Tab', array('placement' => 'prepend', 'nav'       => $tabNav))
-        ));
-
+        $this->setDecorators($this->tabDeco($tabNav));
     }
 
 }

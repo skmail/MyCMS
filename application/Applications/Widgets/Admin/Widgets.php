@@ -194,6 +194,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
         {
             return $this->setError();
         }
+
         if ($do == 'edit')
         {
             $groupId = isset($options['groupid'])?$options['groupid']:$this->_Zend->getRequest()->getParam('groupid');
@@ -202,6 +203,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             {
                 return $this->setError();
             }
+
             $groupQuery['do'] = 'edit';
             $gridQuery = $this->MC->Queries->gridQuery(array('grid_id'=>$groupQuery['grid_id'],'lang_id'=>$this->application['lang_id']));
             $this->setNav($gridQuery['grid_name'], 'window/groups/gridid/' . $gridQuery['grid_id']);
@@ -311,7 +313,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $this->setNav($gridQuery['grid_name'],'window/groups/gridid/' . $gridQuery['grid_id']);
             $this->setNav($groupQuery['group_name'],'window/widgets/groupid/' . $groupQuery['group_id']);
             $this->setNav($this->translate('add_plugin'));
-            $this->setNav($widgetSource['plugin_resource_name']);
+            $this->setNav($widgetSource['widget_source_name']);
 
             $groupQuery = array_merge($groupQuery,$gridQuery);
             $widgetSource = array_merge($widgetSource,$groupQuery);
@@ -321,9 +323,11 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $widgetId = intval((isset($options['widgetId']))?$options['widgetId']:$request->getParam('widgetId'));
             $widgetRow = $this->MC->Queries->widget(array('widget_id'=>$widgetId));
             $params = $widgetRow['widget_params'];
+
             foreach($widgetRow['plugin_lang'] as $lang_id=>$widgetRowParams){
                 $params['lang_params'][$lang_id] = json_decode($widgetRowParams['lang_params'],true);
             }
+
             $widgetRow['application'] = $this->getApplicationShowIn($widgetId);
             $widgetSource = $this->MC->Queries->widgetSource($widgetRow['widget_source_id']);
             $widgetSource = array_merge($widgetSource, $widgetRow);
@@ -361,6 +365,7 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
         if ($widgetForm->isValid($data)){
 
             $widgetFormObj = new $widgetSource['widgetForm']();
+
             //Plugin params my will shape to another format
             if(!isset($data['widget_params']) || !is_array($data['widget_params']))
             {
@@ -458,7 +463,6 @@ class App_Widgets_Admin_Widgets extends Admin_Model_ApplicationAbstract
             $options['do'] = $do;
 
         }
-
         $this->merge($this->widget($options));
         $this->application['window'] = 'widget.phtml';
 

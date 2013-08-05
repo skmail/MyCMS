@@ -22,7 +22,7 @@ if (sizeof($this->app['users']) == 0) {
                             <tr>
                                 <td><?php echo ++$user_k; ?></td>
                                 <td><input type="checkbox" class="users" name="user[]" value="<?php echo $user['user_id']; ?>"></td>
-                                <td><a href='<?php echo $this->app['url'] . 'window/user/do/edit'; ?>/uid/<?php echo $user['user_id']; ?>' class="openItem"><?php echo $user['username']; ?></a></td>
+                                <td><a href='<?php echo $this->app['url'] . 'window/user/do/edit'; ?>/userId/<?php echo $user['user_id']; ?>' class="openItem"><?php echo $user['username']; ?></a></td>
                                 <td>
                                     <a href='<?php echo $this->app['url'] . 'window/saveUser/do/delete'; ?>/uid/<?php echo $user['user_id']; ?>' class="disState" title="<?php echo $this->translate('delete');?>">
                                     <img src="contents/admin/themes/default/_layout/images/delete.png" alt="<?php echo $this->translate('delete');?>"/>

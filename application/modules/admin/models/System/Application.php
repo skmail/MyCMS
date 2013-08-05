@@ -1,91 +1,67 @@
 <?php
-
 class Admin_Model_System_Application
 {
-
     protected $defaultView = 'index';
+
     public function __construct()
     {
         $applicationVars = array();
-
         $this->MC =& MC_Core_Instance::getInstance();
-
-
+        $this->MC->hook->call('session_start',$this);
         $applicationVars['appPrefix'] = $this->MC->Zend->getRequest()->getParam('appPrefix');
         $applicationVars['window'] = $this->MC->Zend->getRequest()->getParam('window');
-
         $this->application = $applicationVars;
     }
 
     public function start()
     {
-
-        if (!empty($this->application['appPrefix']))
-        {
+        if (!empty($this->application['appPrefix'])){
             $applicationQuery = $this->getApp(array("where" => array('app_prefix' => $this->application['appPrefix'])));
-        }
-        else
-        {
+        }else{
             $applicationQuery = $this->getApp(array("where" => array('app_default' => 1)));
         }
-
-        if ($applicationQuery)
-        {
-            $options = array_merge($this->application, $applicationQuery);
-            $options['window'] = (empty($options['window'])) ? $this->defaultView : $options['window'];
-            $options['windowUri'] = $options['windowUri'] . '/window/' . $options['window'];
+        if ($applicationQuery){
+            $applicationData = array_merge($this->application, $applicationQuery);
+            $applicationData['window'] = (empty($applicationData['window'])) ? $this->defaultView : $applicationData['window'];
+            $applicationData['windowUri'] = $applicationData['windowUri'] . '/window/' . $applicationData['window'];
             $this->MC->load->model('language','lang');
-            $options['lang_id'] = $this->MC->model->lang->currentLang('lang_id');
-            $options['url'] = $this->appUrl($options['app_prefix']) . '/';
-            $options['viewPath'] = APPLICATION_PATH . '/Applications' . $options['app_prefix'] . '/Admin/views/';
-            $this->_callApp($options);
-            $this->render();
-        }else
-        {
-
+            $applicationData['lang_id'] = $this->MC->model->lang->currentLang('lang_id');
+            $applicationData['url'] = $this->appUrl($applicationData['app_prefix']) . '/';
+            $applicationData['viewPath'] = APPLICATION_PATH . '/Applications' . $applicationData['app_prefix'] . '/Admin/views/';
+            $applicationData = $this->_callApp($applicationData);
+            $this->render($applicationData);
+        }else{
             throw new MC_Core_Exception(sprintf("Can't find %s application",$this->application['appPrefix']));
         }
-
     }
 
-    protected function _callApp($options)
+    protected function _callApp($applicationData)
     {
-
-
-        $application = MC_Core_Loader::appClass($options['app_prefix'], $options['app_prefix'], $options, 'Admin');
-        if ($application)
-        {
-            if (method_exists($application, $options['window']))
-            {
-
-                $permissions = MC_Core_Loader::appClass('Users', 'Permissions', $options, 'Shared');
-                if ($permissions->isAllow($options, $options['window']))
-                {
-                    $window = $application->$options['window']();
-
-                    $this->options = $window;
-                    return true;
-                }
-                else
-                {
+        $application = MC_Core_Loader::appClass($applicationData['app_prefix'], $applicationData['app_prefix'], $applicationData, 'Admin');
+        if ($application){
+            if (method_exists($application, $applicationData['window'])){
+                $permissions = MC_Core_Loader::appClass('Users', 'Permissions', $applicationData, 'Shared');
+                if ($permissions->isAllow($applicationData['app_prefix'], $applicationData['window'])){
+                    $window = $application->$applicationData['window']();
+                    if(is_object($window['nav'])){
+                        $window['nav'] = $window['nav']->render();
+                    }
+                    return $window;
+                }else{
                     $this->errors[] = 'No permission';
                     return false;
                 }
             }
         }
-
         $this->errors[] = 'Invalid Request';
         return false;
     }
 
     public function getApp($options = array())
     {
-        
         $appQuery = $this->MC->db->select()->from('Applications');
-        if (isset($options['where']))
-        {
-            if (count($options['where']) > 0)
-            {
+        if (isset($options['where'])){
+            if (count($options['where']) > 0){
                 foreach ($options['where'] as $field => $data)
                 {
                     $appQuery->where($field . ' = ?', $data);
@@ -95,8 +71,7 @@ class Admin_Model_System_Application
         $appQuery->where('app_status = ?', 0);
         $appQuery->order(array('app_id  ASC'));
 
-        if ($options['listAll'] === true)
-        {
+        if ($options['listAll'] === true){
             $applicationsList = array();
             $applications = $this->MC->db->fetchAll($appQuery);
 
@@ -104,9 +79,9 @@ class Admin_Model_System_Application
             {
                 $permissions = MC_Core_Loader::appClass('Users', 'Permissions', NULL, 'shared'); //new Custom_App_Users_Permissions();
 
-                if ($permissions->isAllow($this, 'index', 'view'))
+                if ($permissions->isAllow($app['app_prefix'], 'index', 'view'))
                 {
-                    $url = Admin_Model_System_Application::appUrl($ap['app_prefix']);
+                    $url = Admin_Model_System_Application::appUrl($app['app_prefix']);
                     $applicationsList[$app['app_id']] = $app;
                     $applicationsList[$app['app_id']]['url'] = $url;
                 }
@@ -148,183 +123,144 @@ class Admin_Model_System_Application
         return Zend_Controller_Front::getInstance()->getBaseUrl() . '/admin/' . $appPrefix . $window;
     }
 
-    protected function render()
-    {
-        if ($this->MC->Zend->getRequest()->isXmlHttpRequest())
-        {
-            $this->ajaxRequest();
-        }
-        else
-        {
-            $this->httpRequest();
-        }
-    }
-
-    protected function ajaxRequest()
-    {
-        if ($this->options['nav'])
-        {
-            $this->options['nav'] = $this->options['nav']->render();
-        }
-
-        $Viewer = $this->view();
-        $Viewer->assign('app', $this->options);
-
-        if (!empty($this->options['sidebar']))
-        {
-            $dataRender['sidebar'] = $Viewer->render($this->options['sidebar'] . '.phtml');
-        }
-        else
-        {
-            $dataRender['sidebar'] = false;
-        }
-
-        if (!$this->options['errors'] && $this->options['window'] != false)
-        {
-            $this->options['window'] = preg_replace('(.phtml$)', '', $this->options['window']);
-            $dataRender['window'] = $Viewer->render($this->options['window'] . '.phtml');
-        }
-        else
-        {
-            $dataRender['window'] = false;
-        }
-
-        if ($this->options['errors'])
-        {
-            $dataRender['window'] = $this->error($this->options);
-        }
-
-        $this->setMessage();
-        $dataRender['app'] = $this->options;
-        echo json_encode($dataRender);
-    }
-
-    protected function httpRequest()
+    protected function render($applicationData)
     {
 
-        $Viewer = $this->view();
-        $Viewer->assign('app', $this->options);
-
-        if (!$this->options['errors'] && $this->options['window'] != "")
-        {
-
-            $this->options['body'] = $Viewer->render($this->options['window'] . '.phtml');
-
-            if (isset($this->options['sidebar']))
-            {
-                $this->options['sidebar'] = $Viewer->render($this->options['sidebar'] . '.phtml');
+        $this->applicationData =& $applicationData;
+        if(false != $applicationData && !isset($applicationData['error']) && !isset($this->errors)){
+            $Viewer = $this->view(array('script'=>APPLICATION_PATH . '/Applications/' . ucfirst($applicationData['app_prefix']) . '/Admin/views'));
+            $Viewer->assign('app',$applicationData);
+            if (!empty($applicationData['sidebar'])){
+                $applicationData['sidebar'] = $Viewer->render($applicationData['sidebar'] . '.phtml');
+            }else{
+                $applicationData['sidebar'] = false;
             }
+            if (count($applicationData['errors']) == 0  && $this->applicationData['window'] !== false){
+                $applicationData['window'] = preg_replace('(.phtml$)', '', $applicationData['window']);
+                $applicationData['body'] = $Viewer->render($applicationData['window'] . '.phtml');
+            }else{
+                $applicationData['window'] = false;
+            }
+            $Viewer->assign('app',$applicationData);
+        }else{
+            $applicationData['body'] = $this->error();
         }
-        else
-        {
-            $this->options['body'] = $this->error($this->options);
+        if ($this->MC->Zend->getRequest()->isXmlHttpRequest()){
+            $this->ajaxRequest($applicationData);
+        }else{
+            $this->httpRequest($applicationData);
         }
+    }
 
-        $this->setMessage();
+    protected function ajaxRequest($applicationData)
+    {
+        echo json_encode($applicationData);
+    }
+
+    protected function httpRequest($applicationData)
+    {
+        $Viewer = $this->view();
+        $Viewer->assign('app',$applicationData);
         $this->layout();
-
         echo $this->layoutModel->render();
     }
 
     protected function view($option = array())
     {
-        if ($this->viewModel == NULL)
-        {
+        if ($this->viewModel == NULL){
             $this->viewModel = new Zend_View();
         }
-
         $view = $this->viewModel;
         $helperPath = APPLICATION_PATH . '/modules/admin/views/helpers';
         $view->addHelperPath($helperPath, 'Admin_View_Helper');
-        $view->addHelperPath(APPLICATION_PATH . '/Applications/'. ucfirst($this->options['appPrefix']).'/Admin/views/helpers', 'App_'. ucfirst($this->options['appPrefix']).'_Admin_View_Helper');
-
-        if (isset($option['script']))
-        {
-            $scriptPath = $option['script'];
+        $view->addHelperPath(APPLICATION_PATH . '/Applications/'. ucfirst($this->applicationData['appPrefix']).'/Admin/views/helpers', 'App_'. ucfirst($this->applicationData['appPrefix']).'_Admin_View_Helper');
+        if(isset($option['script'])){
+            $view->addScriptPath($option['script']);
         }
-        else
-        {
-            $scriptPath = APPLICATION_PATH . '/Applications/' . ucfirst($this->options['app_prefix']) . '/Admin/views';
-        }
-
-        $view->addScriptPath($scriptPath);
         return $view;
-
     }
-
     protected function layout()
     {
-
         if ($this->layoutModel == NULL)
         {
             $this->layoutModel = $x = new Zend_Layout();
         }
-
-
-        $path = APPLICATION_PATH . '/layouts/scripts/default';
-
-        $this->viewModel = NULL;
-
-        $view = $this->view(array('script' => $path));
-
-        $view->assign('app', $this->options);
-
-        $content = $view->render('window.phtml');
-
-        $this->layoutModel->assign('app', $this->options);
-
-        $this->layoutModel->assign('applications', $this->getSidebar());
+        if(isset($this->applicationData['layout'])){
+            $path = APPLICATION_PATH . '/Applications/'. ucfirst($this->applicationData['appPrefix']).'/Admin/layouts';
+            $this->layoutModel->setLayout($this->applicationData['layout']);
+        }else{
+            $path = APPLICATION_PATH . '/layouts/scripts/default';
+            $this->viewModel = NULL;
+            $view = $this->view(array('script' => $path));
+            $view->assign('app', $this->applicationData);
+            $content = $view->render('window.phtml');
+            $this->layoutModel->assign('userMenu', $this->getUserMenu());
+            $this->layoutModel->assign('applications', $this->getSidebar());
+            $this->layoutModel->setLayout('admin');
+        }
+        $this->layoutModel->assign('app', $this->applicationData);
 
         $this->layoutModel->setLayoutPath($path);
 
-        $this->layoutModel->setLayout('admin');
-
         $this->layoutModel->content = $content;
-
     }
 
     protected function error()
     {
-
         $view = $this->view(array('script' => APPLICATION_PATH . '/modules/admin/views/scripts/ajax/default'));
-
         return $view->render('404.phtml');
-
     }
 
     protected function setMessage()
     {
 
-        if (!is_array($this->options['message']['text']))
+        if (!is_array($this->applicationData['message']['text']))
         {
             return;
         }
 
-        if (count($this->options['message']['text']) == 0)
+        if (count($this->applicationData['message']['text']) == 0)
         {
             return;
         }
 
         $messageString = '<ul>';
 
-        foreach ($this->options['message']['text'] as $message)
+        foreach ($this->applicationData['message']['text'] as $message)
         {
             $messageString.="<li>" . $message . "</li>";
         }
 
         $messageString.='</ul>';
 
-        $this->options['message']['text'] = $messageString;
+        $this->applicationData['message']['text'] = $messageString;
 
     }
     public function getSidebar()
     {
         $sidebarItems = Admin_Model_System_Application::getApp(array('listAll'=>true));
-
         MC_Models_Hooks::call('build_sidebar_menu',$sidebarItems);
-
         return $sidebarItems;
-
     }
 
+    public function getUserMenu()
+    {
+        $array = array();
+        $array[] = array('label'=>'visit_site');
+        $this->MC->hook->call('admin_user_menu',$array);
+        foreach($array as $k=>$v)
+        {
+            if(isset($v['attribs']))
+            {
+                $attribs = array();
+                foreach($v['attribs'] as $attribName=>$attribVal)
+                {
+                    $attribs[] = $attribName."='".$attribVal."'";
+                }
+
+                $array[$k]['attribs'] = implode(' ',$attribs);
+            }
+        }
+        return $array;
+    }
 }

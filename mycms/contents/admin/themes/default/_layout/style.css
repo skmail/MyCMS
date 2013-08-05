@@ -625,6 +625,18 @@ label.form-label
 {
     background-image:  url(images/icons/25x25/operations.png);
 }
+.icon-25x25.lock
+{
+    background-image:  url(images/icons/25x25/lock.png);
+}
+.icon-25x25.user
+{
+    background-image:  url(images/icons/25x25/user.png);
+}
+.icon-25x25.add-user
+{
+    background-image:  url(images/icons/25x25/add-user.png);
+}
 .icon-25x25.screen
 {
     background-image:  url(images/icons/25x25/screen.png);

@@ -40,7 +40,7 @@ $(function(){
 	 
         if($(this).hasClass('disAjax')){
             if(typeof $(this).attr('target') === 'undefined')
-                target = ' _self';
+                target = '_self';
             else
                 target = $(this).attr('target');
 
@@ -103,7 +103,7 @@ function sendAjaxRequest(href,enableState)
 
                 if(el.hasClass('openPopup')){
                     if(dataJSON.window.length > 0)
-                        pageTitle = (typeof dataJSON.app.pageTitle === "undefined") ? "Popup" : dataJSON.app.pageTitle;
+                        pageTitle = (typeof dataJSON.app.pageTitle === "undefined") ? "Popup" : dataJSON.pageTitle;
                     appendPopup(dataJSON.window,pageTitle);
                     $('.loadingOverlay').remove();
                 }else if(el.closest('#popupContent').length > 0){
@@ -112,8 +112,8 @@ function sendAjaxRequest(href,enableState)
 
                     printPage(dataJSON);
 
-                    if(typeof dataJSON.app.message != "undefined" ){
-                        messageType = (typeof dataJSON.app.message.type === "undefined") ? false : dataJSON.app.message.type;
+                    if(typeof dataJSON.message != "undefined" ){
+                        messageType = (typeof dataJSON.message.type === "undefined") ? false : dataJSON.message.type;
 
                         if(messageType == 'error')
                         {
@@ -121,7 +121,7 @@ function sendAjaxRequest(href,enableState)
                         }
                     }
 
-                    if(typeof dataJSON.app.refresh != "undefined" ){
+                    if(typeof dataJSON.refresh != "undefined" ){
 
                     }
                 }

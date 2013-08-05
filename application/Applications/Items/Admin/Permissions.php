@@ -7,8 +7,8 @@ class App_Items_Admin_Permissions extends MC_Models_Permissions_Abstract
 
     public function setEntities()
     {
-        $queries = new App_Items_Shared_Libraries_Queries();
-        $this->addEntity('items_category', 'cat_id', 'cat_name', $queries->categoryQuery());
+        //$queries = new App_Items_Shared_Libraries_Queries();
+        //$this->addEntity('items_category', 'cat_id', 'cat_name', $queries->categoryQuery());
     }
 
     public function checkPerms($method)

@@ -5,7 +5,7 @@ class App_Storage_Admin_Models_UploadTypes_ByForm extends App_Storage_Admin_Mode
 
     public $fileInfo = array();
 
-    public $chunksFolder = 'contents/userdata/images/chunks';
+    public $chunksFolder = 'mycms/contents/userdata/images/chunks';
 
     public $chunksCleanupProbability = 0.001; // Once in 1000 requests on avg
 

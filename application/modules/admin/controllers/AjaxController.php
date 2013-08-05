@@ -15,15 +15,10 @@ class Admin_AjaxController extends MC_Admin_Controller_Action
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-
-
-
-
     }
 
     public function windowAction()
     {
-
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
         $initApplication = new Admin_Model_System_Application();
@@ -32,27 +27,15 @@ class Admin_AjaxController extends MC_Admin_Controller_Action
 
     private function view($option = array())
     {
-
         $view = $this->viewModel();
-        
-        
         $helperPath = APPLICATION_PATH . '/modules/admin/views/helpers';
-
- 
-        if (isset($option['script']))
-        {
+        if (isset($option['script'])){
             $scriptPath = $option['script'];
-            
-        }
-        else
-        {
+        }else{
             $scriptPath = APPLICATION_PATH . '/modules/admin/models/Applications/' . ucfirst($this->app['app_prefix']) . '/views';
         }
-        
         $view->addScriptPath($scriptPath);
-        
         return $view;
-
     }
     protected function viewModel()
     {

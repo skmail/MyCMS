@@ -29,13 +29,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'basePath'  => APPLICATION_PATH,
                 'namespace' => ''
             ));
-            $pluginsLoader->addResourceType('Plugins', 'Plugins', 'Plugins');
+            $pluginsLoader->addResourceType('Widgets', 'Widgets', 'Widgets');
 
             $hooksLoader = new Zend_Loader_Autoloader_Resource(array(
                 'basePath'  => APPLICATION_PATH,
                 'namespace' => ''
             ));
             $hooksLoader->addResourceType('Hooks', 'Hooks', 'Hooks');
+
+            $gridsLoader = new Zend_Loader_Autoloader_Resource(array(
+                'basePath'  => APPLICATION_PATH,
+                'namespace' => ''
+            ));
+            $gridsLoader->addResourceType('Grids', 'Grids', 'Grids');
+
 
         }
 

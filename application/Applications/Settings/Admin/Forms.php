@@ -13,7 +13,6 @@ class App_Settings_Admin_Forms
     public function settings($data = array(), $formInstance)
     {
 
-        
         $options = array();
         
         $options['action'] = $this->application['url'].'window/saveSettings';
